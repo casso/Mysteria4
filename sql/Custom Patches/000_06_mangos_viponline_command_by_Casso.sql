@@ -1,0 +1,1 @@
+REPLACE INTO `command` (`name`,`security`,`help`) VALUES ('viponline',2,'Syntax: .viponline Zobrazi online VIP hracov');

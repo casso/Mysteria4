@@ -1,0 +1,1 @@
+REPLACE INTO `command` (`name`,`security`,`help`) VALUES ('mc',1,'Syntax: .mc Teleportne ta do Mysteria Centra');

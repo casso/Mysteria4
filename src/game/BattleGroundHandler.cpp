@@ -80,19 +80,58 @@ void WorldSession::HandleBattlemasterJoinOpcode( WorldPacket & recv_data )
     uint32 bgTypeId_;
     uint32 instanceId;
     uint8 joinAsGroup;
-    bool isPremade = false;
-    Group * grp;
 
     recv_data >> guid;                                      // battlemaster guid
     recv_data >> bgTypeId_;                                 // battleground type id (DBC id)
     recv_data >> instanceId;                                // instance id, 0 if First Available selected
     recv_data >> joinAsGroup;                               // join as group
 
+    JoinIntoBattleground( guid, bgTypeId_, instanceId, joinAsGroup);
+}
+
+void WorldSession::JoinIntoBattleground( ObjectGuid guid, uint32 bgTypeId_, uint32 instanceId, uint8 joinAsGroup )
+{
+    Group * grp;
+    bool isPremade = false;
+
     if (!sBattlemasterListStore.LookupEntry(bgTypeId_))
     {
         sLog.outError("Battleground: invalid bgtype (%u) received. possible cheater? player guid %u",bgTypeId_,_player->GetGUIDLow());
         return;
     }
+
+    //////////////////////////////////////////////////////
+    ///////// Kazde dve hodiny iny battleground //////////
+    //////////////////////////////////////////////////////
+
+    time_t t = time(NULL);
+    tm* aTm = localtime(&t);
+    int openid = ( aTm->tm_hour / 2 /*hodiny*/ ) % 3;
+
+    // WSG + AV
+    if( openid == 0 && bgTypeId_ != BATTLEGROUND_WS && bgTypeId_ != BATTLEGROUND_AV )
+    {
+        ChatHandler(this).SendSysMessage("This hour is opened only Warsong Gulch and Alterac Valley.");
+
+        return;
+    }
+
+    // AB + AV
+    if( openid == 1 && bgTypeId_ != BATTLEGROUND_AB && bgTypeId_ != BATTLEGROUND_AV )
+    {
+        ChatHandler(this).SendSysMessage("This hour is opened only Arathi Basin and Alterac Valley.");
+
+        return;
+    }
+
+    // EOS + AV
+    if( openid == 2 && bgTypeId_ != BATTLEGROUND_EY && bgTypeId_ != BATTLEGROUND_AV )
+    {
+        ChatHandler(this).SendSysMessage("This hour is opened only Eye of the Storm and Alterac Valley.");
+
+        return;
+    }
+    //////////////////////////////////////////////////////
 
     BattleGroundTypeId bgTypeId = BattleGroundTypeId(bgTypeId_);
 

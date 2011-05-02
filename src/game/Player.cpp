@@ -20186,3 +20186,34 @@ bool Player::IsImmuneToSpellEffect(SpellEntry const* spellInfo, SpellEffectIndex
     }
     return Unit::IsImmuneToSpellEffect(spellInfo, index);
 }
+
+bool Player::TeleportToGuildHouse()
+{
+    // query na polohu GH
+    QueryResult *result = CharacterDatabase.PQuery("SELECT x, y, z, o, mapid FROM guildhouse_position WHERE guildid = %d",GetGuildId());
+
+    // je nejaky vysledok?
+    if(!result)
+        return false;
+
+    float x,y,z,o;
+    uint16 mapid;
+
+    // ziskanie jedneho riadku (a vlastne aj jedineho)
+    Field *fields = result->Fetch();
+
+    // ziskanie hodnot z db
+    x= fields[0].GetFloat();
+    y= fields[1].GetFloat();
+    z= fields[2].GetFloat();
+    o= fields[3].GetFloat();
+    mapid= fields[4].GetUInt16();
+
+    // teleport
+    TeleportTo(mapid,x,y,z,o);
+
+    // Uvolnenie pamate
+    delete result;
+
+    return true;
+}

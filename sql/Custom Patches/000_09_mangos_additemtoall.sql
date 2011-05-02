@@ -1,0 +1,1 @@
+REPLACE INTO `command` (`name`, `security`, `help`) VALUES ('additemtoall', '3', 'Syntax: .additemtoall #itemid/[#itemname]/#shift-click-item-link #itemcount') ;

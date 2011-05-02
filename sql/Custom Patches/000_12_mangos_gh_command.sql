@@ -1,0 +1,1 @@
+REPLACE INTO `command` (`name`,`security`,`help`) VALUES ('gh',1,'Syntax: .gh Teleportne ta do Guild House');

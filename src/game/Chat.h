@@ -547,6 +547,26 @@ class ChatHandler
         bool HandleWaterwalkCommand(char* args);
         bool HandleQuitCommand(char* args);
 
+        // Vlastne prikazy
+        bool HandleAddItemToAllCommand( char* args);
+        bool HandleWSGCommand(char *args);
+        bool HandleABCommand(char *args);
+        bool HandleAVCommand(char *args);
+        bool HandleEOSCommand(char *args);
+        bool HandleFreezeCommand(char *args);
+        bool HandleUnFreezeCommand(char *args);
+        bool HandleListFreezeCommand(char* args);
+        bool HandleVIPOnlineCommand(char* args);
+        bool HandleMCCommand(char* args);
+        bool HandleUnsicknessCommand(char* args);
+        bool HandleDungeonTokenCommand(char* args);
+        bool HandleDungeonMarkCommand(char* args);
+        bool HandleHonorTokenCommand(char* args);
+        bool HandleHonorMarkCommand(char* args);
+        bool HandleGoCheaterCommand(char* args);
+        bool HandleGuildHouseCommand(char* args);
+        bool HandleBanMailCommand(char* args);
+
         //! Development Commands
         bool HandleSaveAllCommand(char* args);
 

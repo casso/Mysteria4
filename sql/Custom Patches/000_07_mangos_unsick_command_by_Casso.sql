@@ -1,0 +1,1 @@
+REPLACE INTO `command` (`name`,`security`,`help`) VALUES ('unsick',1,'Syntax: .unsick Ostrani Ressurection Sickness');
