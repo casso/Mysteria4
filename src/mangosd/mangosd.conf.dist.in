@@ -1537,3 +1537,29 @@ SOAP.Port = 7878
 CharDelete.Method = 0
 CharDelete.MinLevel = 0
 CharDelete.KeepDays = 30
+
+###################################################################################################################
+# MOVEMENT ANTICHEAT
+#
+#    Anticheat.Movement.Enable
+#        Enable Movement Anticheat
+#        Default: 1 - on
+#                 0 - off
+#
+#    Anticheat.Movement.Kick
+#        Enable Kick cheater
+#        Default: 1 - on
+#                 0 - off
+#
+#    Anticheat.Movement.AlarmCount
+#        Count alarms after that player kicked (default 5)
+#
+#    Anticheat.Movement.AlarmTime
+#        maximum time between alarms for count it (default 5000)
+#
+###################################################################################################################
+
+Anticheat.Movement.Enable = 1
+Anticheat.Movement.Kick = 1
+Anticheat.Movement.AlarmCount = 5
+Anticheat.Movement.AlarmTime = 5000

@@ -490,6 +490,13 @@ void World::LoadConfigSettings(bool reload)
     setConfigPos(CONFIG_FLOAT_CREATURE_FAMILY_FLEE_ASSISTANCE_RADIUS, "CreatureFamilyFleeAssistanceRadius", 30.0f);
 
     ///- Read other configuration items from the config file
+
+    // movement anticheat
+    m_EnableMvAnticheat = sConfig.GetBoolDefault("Anticheat.Movement.Enable",true);     
+    m_AlarmKickMvAnticheat = sConfig.GetBoolDefault("Anticheat.Movement.Kick",false);
+    m_AlarmCountMvAnticheat = sConfig.GetIntDefault("Anticheat.Movement.AlarmCount", 5);
+    m_AlarmTimeMvAnticheat = sConfig.GetIntDefault("Anticheat.Movement.AlarmTime", 5000); 
+
     setConfigMinMax(CONFIG_UINT32_COMPRESSION, "Compression", 1, 1, 9);
     setConfig(CONFIG_BOOL_ADDON_CHANNEL, "AddonChannel", true);
     setConfig(CONFIG_BOOL_CLEAN_CHARACTER_DB, "CleanCharacterDB", true);

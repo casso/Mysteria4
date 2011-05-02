@@ -2015,7 +2015,7 @@ class MANGOS_DLL_SPEC Player : public Unit
             m_lastFallTime = time;
             m_lastFallZ = z;
         }
-        void HandleFall(MovementInfo const& movementInfo);
+        void HandleFall(MovementInfo & movementInfo);
 
         void BuildTeleportAckMsg(WorldPacket& data, float x, float y, float z, float ang) const;
 
@@ -2335,6 +2335,16 @@ class MANGOS_DLL_SPEC Player : public Unit
         float m_rest_bonus;
         RestType rest_type;
         ////////////////////Rest System/////////////////////
+
+        //movement anticheat
+        uint32 m_anti_lastmovetime;     //last movement time 
+        ObjectGuid m_anti_transportGUID;    //current transport GUID
+        float  m_anti_MovedLen;         //Length of traveled way
+        uint32 m_anti_NextLenCheck;
+        uint32 m_anti_beginfalltime;    //alternative falling begin time
+        uint32 m_anti_lastalarmtime;    //last time when alarm generated
+        uint32 m_anti_alarmcount;       //alarm counter
+        uint32 m_anti_TeleTime;
 
         // Transports
         Transport * m_transport;

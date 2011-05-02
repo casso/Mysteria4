@@ -510,6 +510,17 @@ Player::Player (WorldSession *session): Unit(), m_reputationMgr(this), m_mover(t
     rest_type=REST_TYPE_NO;
     ////////////////////Rest System/////////////////////
 
+    //movement anticheat
+    m_anti_lastmovetime = 0;   //last movement time 
+    m_anti_transportGUID = 0;  //current transport GUID
+    m_anti_NextLenCheck = 0;
+    m_anti_MovedLen = 0.0f;
+    m_anti_beginfalltime = 0;  //alternative falling begin time
+    m_anti_lastalarmtime = 0;    //last time when alarm generated
+    m_anti_alarmcount = 0;       //alarm counter
+    m_anti_TeleTime = 0;
+    /////////////////////////////////
+
     m_mailsUpdated = false;
     unReadMails = 0;
     m_nextMailDelivereTime = 0;
@@ -1869,6 +1880,8 @@ bool Player::TeleportTo(uint32 mapid, float x, float y, float z, float orientati
         else
             return false;
     }
+    m_anti_TeleTime=time(NULL);
+
     return true;
 }
 
@@ -19799,11 +19812,19 @@ uint8 Player::CanEquipUniqueItem( ItemPrototype const* itemProto, uint8 except_s
     return EQUIP_ERR_OK;
 }
 
-void Player::HandleFall(MovementInfo const& movementInfo)
+void Player::HandleFall(MovementInfo & movementInfo)
 {
     // calculate total z distance of the fall
     float z_diff = m_lastFallZ - movementInfo.GetPos()->z;
     DEBUG_LOG("zDiff = %f", z_diff);
+
+    //alternate falltime calculation in cheat case
+    if (m_anti_beginfalltime != 0) 
+    {
+        movementInfo.fallTime = movementInfo.time - m_anti_beginfalltime; // falltime, +500 microsecond for first packet when begin falling
+        m_anti_beginfalltime = 0;
+        //sLog.outBasic("%d",movementInfo.fallTime );
+    }
 
     //Players with low fall distance, Feather Fall or physical immunity (charges used) are ignored
     // 14.57 can be calculated by resolving damageperc formula below to 0

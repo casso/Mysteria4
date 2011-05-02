@@ -120,6 +120,8 @@ void WorldSession::SendDoFlight( uint32 mountDisplayId, uint32 path, uint32 path
 
     while(GetPlayer()->GetMotionMaster()->GetCurrentMovementGeneratorType()==FLIGHT_MOTION_TYPE)
         GetPlayer()->GetMotionMaster()->MovementExpired(false);
+    
+    GetPlayer()->GetMotionMaster()->Clear(true);
 
     if (mountDisplayId)
         GetPlayer()->Mount( mountDisplayId );
@@ -192,6 +194,9 @@ void WorldSession::HandleMoveSplineDoneOpcode(WorldPacket& recv_data)
     recv_data >> movementInfo;
     recv_data >> Unused<uint32>();                          // unk
 
+    //GetPlayer()->SetPosition(movementInfo.GetTransportPos()->x, movementInfo.GetTransportPos()->y, movementInfo.GetTransportPos()->z, movementInfo.GetTransportPos()->o);
+    GetPlayer()->m_movementInfo = movementInfo;
+    GetPlayer()->m_anti_lastmovetime = movementInfo.time;
 
     // in taxi flight packet received in 2 case:
     // 1) end taxi path in far (multi-node) flight

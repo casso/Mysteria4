@@ -549,6 +549,12 @@ class World
         static float GetVisibleUnitGreyDistance()           { return m_VisibleUnitGreyDistance;       }
         static float GetVisibleObjectGreyDistance()         { return m_VisibleObjectGreyDistance;     }
 
+        //movement anticheat enable flag
+        bool GetEnableMvAnticheat()     {return m_EnableMvAnticheat;}
+        bool GetAlarmKickMvAnticheat()  {return m_AlarmKickMvAnticheat;}
+        uint32 GetAlarmCountMvAnticheat() {return m_AlarmCountMvAnticheat;}
+        uint32 GetAlarmTimeMvAnticheat()  {return m_AlarmTimeMvAnticheat;}
+
         void ProcessCliCommands();
         void QueueCliCommand(CliCommandHolder* commandHolder) { cliCmdQueue.add(commandHolder); }
 
@@ -631,6 +637,12 @@ class World
         static float m_MaxVisibleDistanceInFlight;
         static float m_VisibleUnitGreyDistance;
         static float m_VisibleObjectGreyDistance;
+
+        //movement anticheat enable flag
+        bool m_EnableMvAnticheat;
+        bool m_AlarmKickMvAnticheat;
+        uint32 m_AlarmCountMvAnticheat;
+        uint32 m_AlarmTimeMvAnticheat;
 
         // CLI command holder to be thread safe
         ACE_Based::LockedQueue<CliCommandHolder*,ACE_Thread_Mutex> cliCmdQueue;
