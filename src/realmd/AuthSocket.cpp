@@ -178,7 +178,7 @@ AuthSocket::AuthSocket()
     g.SetDword(7);
     _authed = false;
 
-    _accountSecurityLevel = SEC_PLAYER;
+    _accountSecurityLevel = SECURITY_PLAYER;
 
     _build = 0;
     patch_ = ACE_INVALID_HANDLE;
@@ -491,7 +491,7 @@ bool AuthSocket::_HandleLogonChallenge()
                     }
 
                     uint8 secLevel = (*result)[4].GetUInt8();
-                    _accountSecurityLevel = secLevel <= SEC_ADMINISTRATOR ? AccountTypes(secLevel) : SEC_ADMINISTRATOR;
+                    _accountSecurityLevel = secLevel <= SECURITY_ADMINISTRATOR ? AccountTypes(secLevel) : SECURITY_ADMINISTRATOR;
 
                     _localizationName.resize(4);
                     for(int i = 0; i < 4; ++i)

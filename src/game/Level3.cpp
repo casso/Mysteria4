@@ -909,7 +909,7 @@ bool ChatHandler::HandleAccountSetGmLevelCommand(char* args)
     if (!ExtractInt32(&args, gm))
         return false;
 
-    if ( gm < SEC_PLAYER || gm > SEC_ADMINISTRATOR )
+    if ( gm < SECURITY_PLAYER || gm > SECURITY_ADMINISTRATOR )
     {
         SendSysMessage(LANG_BAD_VALUE);
         SetSentErrorMessage(true);
@@ -5451,19 +5451,25 @@ bool ChatHandler::HandleServerPLimitCommand(char *args)
 
         int val;
         if(     strncmp(param,"player",l) == 0 )
-            sWorld.SetPlayerLimit(-SEC_PLAYER);
+            sWorld.SetPlayerLimit(-SECURITY_PLAYER);
+        else if(strncmp(param,"vip",l) == 0 )
+            sWorld.SetPlayerLimit(-SECURITY_VIP);
         else if(strncmp(param,"moderator",l) == 0 )
-            sWorld.SetPlayerLimit(-SEC_MODERATOR);
+            sWorld.SetPlayerLimit(-SECURITY_MODERATOR);
+        else if(strncmp(param,"eventmaster",l) == 0 )
+            sWorld.SetPlayerLimit(-SECURITY_EVENTMASTER);
         else if(strncmp(param,"gamemaster",l) == 0 )
-            sWorld.SetPlayerLimit(-SEC_GAMEMASTER);
+            sWorld.SetPlayerLimit(-SECURITY_GAMEMASTER);
+        else if(strncmp(param,"developer",l) == 0 )
+            sWorld.SetPlayerLimit(-SECURITY_DEVELOPER);
         else if(strncmp(param,"administrator",l) == 0 )
-            sWorld.SetPlayerLimit(-SEC_ADMINISTRATOR);
+            sWorld.SetPlayerLimit(-SECURITY_ADMINISTRATOR);
         else if(strncmp(param,"reset",l) == 0 )
             sWorld.SetPlayerLimit( sConfig.GetIntDefault("PlayerLimit", DEFAULT_PLAYER_LIMIT) );
         else if(ExtractInt32(&param, val))
         {
-            if(val < -SEC_ADMINISTRATOR)
-                val = -SEC_ADMINISTRATOR;
+            if(val < -SECURITY_ADMINISTRATOR)
+                val = -SECURITY_ADMINISTRATOR;
 
             sWorld.SetPlayerLimit(val);
         }
@@ -5471,7 +5477,7 @@ bool ChatHandler::HandleServerPLimitCommand(char *args)
             return false;
 
         // kick all low security level players
-        if(sWorld.GetPlayerAmountLimit() > SEC_PLAYER)
+        if(sWorld.GetPlayerAmountLimit() > SECURITY_PLAYER)
             sWorld.KickAllLess(sWorld.GetPlayerSecurityLimit());
     }
 
@@ -5480,10 +5486,13 @@ bool ChatHandler::HandleServerPLimitCommand(char *args)
     char const* secName = "";
     switch(allowedAccountType)
     {
-        case SEC_PLAYER:        secName = "Player";        break;
-        case SEC_MODERATOR:     secName = "Moderator";     break;
-        case SEC_GAMEMASTER:    secName = "Gamemaster";    break;
-        case SEC_ADMINISTRATOR: secName = "Administrator"; break;
+        case SECURITY_PLAYER:        secName = "Player";        break;
+        case SECURITY_VIP:           secName = "VIP";           break;
+        case SECURITY_MODERATOR:     secName = "Moderator";     break;
+        case SECURITY_EVENTMASTER:   secName = "Eventmaster";   break;
+        case SECURITY_GAMEMASTER:    secName = "Gamemaster";    break;
+        case SECURITY_DEVELOPER:     secName = "Developer";     break;
+        case SECURITY_ADMINISTRATOR: secName = "Administrator"; break;
         default:                secName = "<unknown>";     break;
     }
 

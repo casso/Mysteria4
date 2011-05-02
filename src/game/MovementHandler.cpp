@@ -365,7 +365,7 @@ void WorldSession::HandleMovementOpcodes( WorldPacket & recv_data )
     // ---- anti-cheat features -->>>
     uint32 TimeSinceTele=time(NULL) - GetPlayer()->m_anti_TeleTime;
     if ((GetPlayer()->m_anti_transportGUID.IsEmpty()) && sWorld.GetEnableMvAnticheat() &&
-        GetPlayer()->GetSession()->GetSecurity() < SEC_MODERATOR && // Edit by casso
+        GetPlayer()->GetSession()->GetSecurity() < SECURITY_MODERATOR && // Edit by casso
         GetPlayer()->GetMotionMaster()->GetCurrentMovementGeneratorType()!=FLIGHT_MOTION_TYPE &&
         TimeSinceTele>15)
     {

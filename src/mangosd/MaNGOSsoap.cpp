@@ -110,7 +110,7 @@ int ns1__executeCommand(soap* soap, char* command, char** result)
         return 401;
     }
 
-    if(sAccountMgr.GetSecurity(accountId) < SEC_ADMINISTRATOR)
+    if(sAccountMgr.GetSecurity(accountId) < SECURITY_ADMINISTRATOR)
     {
         DEBUG_LOG("MaNGOSsoap: %s's gmlevel is too low", soap->userid);
         return 403;
@@ -125,7 +125,7 @@ int ns1__executeCommand(soap* soap, char* command, char** result)
     // commands are executed in the world thread. We have to wait for them to be completed
     {
         // CliCommandHolder will be deleted from world, accessing after queueing is NOT save
-        CliCommandHolder* cmd = new CliCommandHolder(accountId, SEC_CONSOLE, &connection, command, &SOAPCommand::print, &SOAPCommand::commandFinished);
+        CliCommandHolder* cmd = new CliCommandHolder(accountId, SECURITY_CONSOLE, &connection, command, &SOAPCommand::print, &SOAPCommand::commandFinished);
         sWorld.QueueCliCommand(cmd);
     }
 

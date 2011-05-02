@@ -2325,7 +2325,7 @@ bool ChatHandler::HandlePInfoCommand(char* args)
 
     std::string username = GetMangosString(LANG_ERROR);
     std::string last_ip = GetMangosString(LANG_ERROR);
-    AccountTypes security = SEC_PLAYER;
+    AccountTypes security = SECURITY_PLAYER;
     std::string last_login = GetMangosString(LANG_ERROR);
 
     QueryResult* result = LoginDatabase.PQuery("SELECT username,gmlevel,last_ip,last_login FROM account WHERE id = '%u'",accId);

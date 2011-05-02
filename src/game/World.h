@@ -440,7 +440,7 @@ class World
 
         /// Get the active session server limit (or security level limitations)
         uint32 GetPlayerAmountLimit() const { return m_playerLimit >= 0 ? m_playerLimit : 0; }
-        AccountTypes GetPlayerSecurityLimit() const { return m_playerLimit <= 0 ? AccountTypes(-m_playerLimit) : SEC_PLAYER; }
+        AccountTypes GetPlayerSecurityLimit() const { return m_playerLimit <= SECURITY_PLAYER ? AccountTypes(-m_playerLimit) : SECURITY_PLAYER; }
 
         /// Set the active session server limit (or security level limitation)
         void SetPlayerLimit(int32 limit, bool needUpdate = false);

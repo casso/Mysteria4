@@ -43,7 +43,7 @@ stage(NONE)
     ///- Get the config parameters
     bSecure = sConfig.GetBoolDefault( "RA.Secure", true );
     bStricted = sConfig.GetBoolDefault( "RA.Stricted", false );
-    iMinLevel = AccountTypes(sConfig.GetIntDefault( "RA.MinLevel", SEC_ADMINISTRATOR ));
+    iMinLevel = AccountTypes(sConfig.GetIntDefault( "RA.MinLevel", SECURITY_ADMINISTRATOR ));
     reference_counting_policy ().value (ACE_Event_Handler::Reference_Counting_Policy::ENABLED);
 }
 
@@ -220,8 +220,8 @@ int RASocket::handle_input(ACE_HANDLE)
                 }
 
                 ///- allow by remotely connected admin use console level commands dependent from config setting
-                if (accAccessLevel >= SEC_ADMINISTRATOR && !bStricted)
-                    accAccessLevel = SEC_CONSOLE;
+                if (accAccessLevel >= SECURITY_ADMINISTRATOR && !bStricted)
+                    accAccessLevel = SECURITY_CONSOLE;
 
                 stage=LG;
                 sendf(sObjectMgr.GetMangosStringForDBCLocale(LANG_RA_PASS));

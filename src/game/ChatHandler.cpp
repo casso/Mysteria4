@@ -43,7 +43,7 @@ bool WorldSession::processChatmessageFurtherAfterSecurityChecks(std::string& msg
         if(sWorld.getConfig(CONFIG_BOOL_CHAT_FAKE_MESSAGE_PREVENTING))
             stripLineInvisibleChars(msg);
 
-        if (sWorld.getConfig(CONFIG_UINT32_CHAT_STRICT_LINK_CHECKING_SEVERITY) && GetSecurity() < SEC_MODERATOR
+        if (sWorld.getConfig(CONFIG_UINT32_CHAT_STRICT_LINK_CHECKING_SEVERITY) && GetSecurity() < SECURITY_MODERATOR
                 && !ChatHandler(this).isValidChatMessage(msg.c_str()))
         {
             sLog.outError("Player %s (GUID: %u) sent a chatmessage with an invalid link: %s", GetPlayer()->GetName(),
@@ -206,14 +206,14 @@ void WorldSession::HandleMessagechatOpcode( WorldPacket & recv_data )
 
             Player *player = sObjectMgr.GetPlayer(to.c_str());
             uint32 tSecurity = GetSecurity();
-            uint32 pSecurity = player ? player->GetSession()->GetSecurity() : SEC_PLAYER;
-            if (!player || (tSecurity == SEC_PLAYER && pSecurity > SEC_PLAYER && !player->isAcceptWhispers()))
+            uint32 pSecurity = player ? player->GetSession()->GetSecurity() : SECURITY_PLAYER;
+            if (!player || (tSecurity <= SECURITY_VIP && pSecurity > SECURITY_PLAYER && !player->isAcceptWhispers()))
             {
                 SendPlayerNotFoundNotice(to);
                 return;
             }
 
-            if (!sWorld.getConfig(CONFIG_BOOL_ALLOW_TWO_SIDE_INTERACTION_CHAT) && tSecurity == SEC_PLAYER && pSecurity == SEC_PLAYER )
+            if (!sWorld.getConfig(CONFIG_BOOL_ALLOW_TWO_SIDE_INTERACTION_CHAT) && tSecurity <= SECURITY_VIP && pSecurity <= SECURITY_VIP )
             {
                 if (GetPlayer()->GetTeam() != player->GetTeam())
                 {

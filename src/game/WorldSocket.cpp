@@ -737,8 +737,8 @@ int WorldSocket::HandleAuthSession (WorldPacket& recvPacket)
 
     id = fields[0].GetUInt32 ();
     security = fields[1].GetUInt16 ();
-    if(security > SEC_ADMINISTRATOR)                        // prevent invalid security settings in DB
-        security = SEC_ADMINISTRATOR;
+    if(security > SECURITY_ADMINISTRATOR)                        // prevent invalid security settings in DB
+        security = SECURITY_ADMINISTRATOR;
 
     K.SetHexStr (fields[2].GetString ());
 
@@ -772,7 +772,7 @@ int WorldSocket::HandleAuthSession (WorldPacket& recvPacket)
     // Check locked state for server
     AccountTypes allowedAccountType = sWorld.GetPlayerSecurityLimit ();
 
-    if (allowedAccountType > SEC_PLAYER && AccountTypes(security) < allowedAccountType)
+    if (allowedAccountType > SECURITY_PLAYER && AccountTypes(security) < allowedAccountType)
     {
         WorldPacket Packet (SMSG_AUTH_RESPONSE, 1);
         Packet << uint8 (AUTH_UNAVAILABLE);
@@ -868,7 +868,7 @@ int WorldSocket::HandlePing (WorldPacket& recvPacket)
             {
                 ACE_GUARD_RETURN (LockType, Guard, m_SessionLock, -1);
 
-                if (m_Session && m_Session->GetSecurity () == SEC_PLAYER)
+                if (m_Session && m_Session->GetSecurity () <= SECURITY_VIP)
                 {
                     sLog.outError  ("WorldSocket::HandlePing: Player kicked for "
                                     "overspeeded pings address = %s",

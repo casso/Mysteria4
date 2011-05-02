@@ -144,7 +144,7 @@ void WorldSession::HandleWhoOpcode( WorldPacket & recv_data )
     HashMapHolder<Player>::MapType& m = sObjectAccessor.GetPlayers();
     for(HashMapHolder<Player>::MapType::const_iterator itr = m.begin(); itr != m.end(); ++itr)
     {
-        if (security == SEC_PLAYER)
+        if (security <= SECURITY_VIP)
         {
             // player can see member of other team only if CONFIG_BOOL_ALLOW_TWO_SIDE_WHO_LIST
             if (itr->second->GetTeam() != team && !allowTwoSideWhoList )
@@ -470,7 +470,7 @@ void WorldSession::HandleAddFriendOpcodeCallBack(QueryResult *result, uint32 acc
     {
         if (friendGuid == session->GetPlayer()->GetObjectGuid())
             friendResult = FRIEND_SELF;
-        else if(session->GetPlayer()->GetTeam() != team && !sWorld.getConfig(CONFIG_BOOL_ALLOW_TWO_SIDE_ADD_FRIEND) && session->GetSecurity() < SEC_MODERATOR)
+        else if(session->GetPlayer()->GetTeam() != team && !sWorld.getConfig(CONFIG_BOOL_ALLOW_TWO_SIDE_ADD_FRIEND) && session->GetSecurity() < SECURITY_MODERATOR)
             friendResult = FRIEND_ENEMY;
         else if(session->GetPlayer()->GetSocial()->HasFriend(friendGuid))
             friendResult = FRIEND_ALREADY;
@@ -1123,7 +1123,7 @@ void WorldSession::HandleWorldTeleportOpcode(WorldPacket& recv_data)
 
     DEBUG_LOG("Time %u sec, map=%u, x=%f, y=%f, z=%f, orient=%f", time/1000, mapid, PositionX, PositionY, PositionZ, Orientation);
 
-    if (GetSecurity() >= SEC_ADMINISTRATOR)
+    if (GetSecurity() >= SECURITY_ADMINISTRATOR)
         GetPlayer()->TeleportTo(mapid, PositionX, PositionY, PositionZ, Orientation);
     else
         SendNotification(LANG_YOU_NOT_HAVE_PERMISSION);
@@ -1136,7 +1136,7 @@ void WorldSession::HandleWhoisOpcode(WorldPacket& recv_data)
     std::string charname;
     recv_data >> charname;
 
-    if (GetSecurity() < SEC_ADMINISTRATOR)
+    if (GetSecurity() < SECURITY_ADMINISTRATOR)
     {
         SendNotification(LANG_YOU_NOT_HAVE_PERMISSION);
         return;

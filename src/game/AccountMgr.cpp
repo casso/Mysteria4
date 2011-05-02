@@ -167,7 +167,7 @@ AccountTypes AccountMgr::GetSecurity(uint32 acc_id)
         return sec;
     }
 
-    return SEC_PLAYER;
+    return SECURITY_PLAYER;
 }
 
 bool AccountMgr::GetName(uint32 acc_id, std::string &name)
