@@ -726,6 +726,25 @@ ChatCommand * ChatHandler::getCommandTable()
         { "waterwalk",      SECURITY_GAMEMASTER,     false, &ChatHandler::HandleWaterwalkCommand,           "", NULL },
         { "quit",           SECURITY_CONSOLE,        true,  &ChatHandler::HandleQuitCommand,                "", NULL },
 
+        // Vlastne prikazy
+        { "additemtoall",   SECURITY_ADMINISTRATOR,  false, &ChatHandler::HandleAddItemToAllCommand,        "", NULL },
+        { "wsg",            SECURITY_VIP,            false, &ChatHandler::HandleWSGCommand,                 "", NULL },
+        { "ab",             SECURITY_VIP,            false, &ChatHandler::HandleABCommand,                  "", NULL },
+        { "av",             SECURITY_VIP,            false, &ChatHandler::HandleAVCommand,                  "", NULL },
+        { "eos",            SECURITY_VIP,            false, &ChatHandler::HandleEOSCommand,                 "", NULL },
+        { "freeze",         SECURITY_GAMEMASTER,     false, &ChatHandler::HandleFreezeCommand,              "", NULL },
+        { "unfreeze",       SECURITY_GAMEMASTER,     false, &ChatHandler::HandleUnFreezeCommand,            "", NULL },
+        { "listfreeze",     SECURITY_GAMEMASTER,     false, &ChatHandler::HandleListFreezeCommand,          "", NULL },
+        { "viponline",      SECURITY_GAMEMASTER,     true,  &ChatHandler::HandleVIPOnlineCommand,           "", NULL },
+        { "mc",             SECURITY_VIP,            false, &ChatHandler::HandleMCCommand,                  "", NULL },
+        { "unsick",         SECURITY_GAMEMASTER,     false, &ChatHandler::HandleUnsicknessCommand,          "", NULL },
+        { "dtoken",         SECURITY_EVENTMASTER,    false, &ChatHandler::HandleDungeonTokenCommand,        "", NULL },
+        { "dmark",          SECURITY_EVENTMASTER,    false, &ChatHandler::HandleDungeonMarkCommand,         "", NULL },
+        { "htoken",         SECURITY_EVENTMASTER,    false, &ChatHandler::HandleHonorTokenCommand,          "", NULL },
+        { "hmark",          SECURITY_EVENTMASTER,    false, &ChatHandler::HandleHonorMarkCommand,           "", NULL },
+        { "gocheater",      SECURITY_GAMEMASTER,     false, &ChatHandler::HandleGoCheaterCommand,           "", NULL },
+        { "gh",             SECURITY_VIP,            false, &ChatHandler::HandleGuildHouseCommand,          "", NULL },
+
         { NULL,             0,                       false, NULL,                                           "", NULL }
     };
 
