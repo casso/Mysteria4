@@ -96,6 +96,7 @@ ChatCommand * ChatHandler::getCommandTable()
         { "account",        SECURITY_ADMINISTRATOR,  true,  &ChatHandler::HandleBanAccountCommand,          "", NULL },
         { "character",      SECURITY_ADMINISTRATOR,  true,  &ChatHandler::HandleBanCharacterCommand,        "", NULL },
         { "ip",             SECURITY_ADMINISTRATOR,  true,  &ChatHandler::HandleBanIPCommand,               "", NULL },
+        { "mail",           SECURITY_ADMINISTRATOR,  true,  &ChatHandler::HandleBanMailCommand,             "", NULL },
         { NULL,             0,                       false, NULL,                                           "", NULL }
     };
 
