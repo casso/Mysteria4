@@ -753,6 +753,8 @@ void WorldSession::HandleBattlemasterJoinArena( WorldPacket & recv_data )
             sBattleGroundMgr.BuildGroupJoinedBattlegroundPacket(&data, bgTypeId);
             member->GetSession()->SendPacket(&data);
             DEBUG_LOG("Battleground: player joined queue for arena as group bg queue type %u bg type %u: GUID %u, NAME %s",bgQueueTypeId,bgTypeId,member->GetGUIDLow(), member->GetName());
+            if(isRated)
+                sLog.outArena("Player %s joined queue for rated arena. teamID: %u, rating: %u, type: %u",member->GetName(), _player->GetArenaTeamId(arenaslot), arenaRating, arenatype);
         }
         DEBUG_LOG("Battleground: arena join as group end");
         //announce to world ... removed
