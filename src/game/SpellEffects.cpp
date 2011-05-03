@@ -284,6 +284,15 @@ void Spell::EffectInstaKill(SpellEffectIndex /*eff_idx*/)
     data << uint32(m_spellInfo->Id);
     m_caster->SendMessageToSet(&data, true);
 
+    // Instant kill spelly by sa oplatilo logovat v pripade GMok
+    if (m_caster->GetTypeId() == TYPEID_PLAYER && ((Player *)m_caster)->GetSession()->GetSecurity() >= SECURITY_MODERATOR )
+    {
+        Player *p_caster = (Player *)m_caster;
+        ObjectGuid tar_guid = p_caster->GetSelectionGuid();
+        sLog.outCommand(p_caster->GetSession()->GetAccountId(),"GM %s (Account: %u) pouzil instant kill spell %u na target: %s",
+            p_caster->GetName(), p_caster->GetSession()->GetAccountId(), m_spellInfo->Id, tar_guid.GetString().c_str());
+    }
+
     m_caster->DealDamage(unitTarget, unitTarget->GetHealth(), NULL, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, NULL, false);
 }
 
