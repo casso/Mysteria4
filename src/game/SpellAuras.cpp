@@ -3699,6 +3699,10 @@ void Aura::HandleAuraModStun(bool apply, bool Real)
     if(!Real)
         return;
 
+    // Sap ma vyhadzovat target zo stealthu
+    if(GetSpellProto()->SpellFamilyFlags & SPELLFAMILYFLAG_ROGUE_SAP && GetSpellProto()->SpellFamilyName == SPELLFAMILY_ROGUE)
+        m_target->RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);
+
     if (apply)
     {
         // Frost stun aura -> freeze/unfreeze target
