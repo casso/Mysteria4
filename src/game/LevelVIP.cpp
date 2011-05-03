@@ -34,7 +34,7 @@ bool ChatHandler::HandleWSGCommand(char* args)
         return false;
     }
 
-    m_session->JoinIntoBattleground( ObjectGuid(), BATTLEGROUND_WS, 0, 0);
+    m_session->JoinIntoBattleground( BATTLEGROUND_WS, 0, 0);
 
     return true;
 }
@@ -66,7 +66,7 @@ bool ChatHandler::HandleABCommand(char* args)
         return false;
     }
 
-    m_session->JoinIntoBattleground( ObjectGuid(), BATTLEGROUND_AB, 0, 0);
+    m_session->JoinIntoBattleground( BATTLEGROUND_AB, 0, 0);
 
     return true;
 }
@@ -99,7 +99,7 @@ bool ChatHandler::HandleAVCommand(char* args)
         return false;
     }
 
-    m_session->JoinIntoBattleground( ObjectGuid(), BATTLEGROUND_AV, 0, 0);
+    m_session->JoinIntoBattleground( BATTLEGROUND_AV, 0, 0);
 
     return true;
 }
@@ -132,7 +132,7 @@ bool ChatHandler::HandleEOSCommand(char* args)
         return false;
     }
 
-    m_session->JoinIntoBattleground( ObjectGuid(), BATTLEGROUND_EY, 0, 0);
+    m_session->JoinIntoBattleground( BATTLEGROUND_EY, 0, 0);
 
     return true;
 }

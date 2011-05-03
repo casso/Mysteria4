@@ -86,10 +86,19 @@ void WorldSession::HandleBattlemasterJoinOpcode( WorldPacket & recv_data )
     recv_data >> instanceId;                                // instance id, 0 if First Available selected
     recv_data >> joinAsGroup;                               // join as group
 
-    JoinIntoBattleground( guid, bgTypeId_, instanceId, joinAsGroup);
+    Creature *unit = GetPlayer()->GetMap()->GetCreature(guid);
+    if (!unit)
+        return;
+
+    if (!unit->isBattleMaster())                            // it's not battlemaster
+        return;
+
+    DEBUG_LOG( "WORLD: Recvd CMSG_BATTLEMASTER_JOIN Message from %s", guid.GetString().c_str());
+
+    JoinIntoBattleground( bgTypeId_, instanceId, joinAsGroup);
 }
 
-void WorldSession::JoinIntoBattleground( ObjectGuid guid, uint32 bgTypeId_, uint32 instanceId, uint8 joinAsGroup )
+void WorldSession::JoinIntoBattleground( uint32 bgTypeId_, uint32 instanceId, uint8 joinAsGroup )
 {
     Group * grp;
     bool isPremade = false;
@@ -135,20 +144,11 @@ void WorldSession::JoinIntoBattleground( ObjectGuid guid, uint32 bgTypeId_, uint
 
     BattleGroundTypeId bgTypeId = BattleGroundTypeId(bgTypeId_);
 
-    DEBUG_LOG( "WORLD: Recvd CMSG_BATTLEMASTER_JOIN Message from %s", guid.GetString().c_str());
-
     // can do this, since it's battleground, not arena
     BattleGroundQueueTypeId bgQueueTypeId = BattleGroundMgr::BGQueueTypeId(bgTypeId, 0);
 
     // ignore if player is already in BG
     if (_player->InBattleGround())
-        return;
-
-    Creature *unit = GetPlayer()->GetMap()->GetCreature(guid);
-    if (!unit)
-        return;
-
-    if (!unit->isBattleMaster())                            // it's not battlemaster
         return;
 
     // get bg instance or bg template if instance not found

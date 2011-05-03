@@ -623,7 +623,7 @@ void BattleGroundAV::FillInitialWorldStates(WorldPacket& data, uint32& count)
         }
     }
 
-    if( m_Nodes[BG_AV_NODES_SNOWFALL_GRAVE].Owner == BG_AV_TEAM_NEUTRAL )   // cause neutral teams aren't handled generic
+    if( m_Nodes[BG_AV_NODES_SNOWFALL_GRAVE].Owner == urand(0,1) ? BG_AV_TEAM_ALLIANCE : BG_AV_TEAM_HORDE )   // cause neutral teams aren't handled generic
         FillInitialWorldState(data, count, AV_SNOWFALL_N, 1);
 
     FillInitialWorldState(data, count, BG_AV_Alliance_Score, m_TeamScores[BG_TEAM_ALLIANCE]);
@@ -824,6 +824,6 @@ void BattleGroundAV::Reset()
     for(BG_AV_Nodes i = BG_AV_NODES_ICEBLOOD_TOWER; i <= BG_AV_NODES_FROSTWOLF_WTOWER; ++i)     // horde towers
         InitNode(i, BG_AV_TEAM_HORDE, true);
 
-    InitNode(BG_AV_NODES_SNOWFALL_GRAVE, BG_AV_TEAM_NEUTRAL, false);                            // give snowfall neutral owner
+    InitNode(BG_AV_NODES_SNOWFALL_GRAVE, urand(0,1) ? BG_AV_TEAM_ALLIANCE : BG_AV_TEAM_HORDE , false);                            // give snowfall neutral owner
 
 }

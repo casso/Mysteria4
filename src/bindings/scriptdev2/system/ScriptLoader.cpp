@@ -7,7 +7,17 @@
 // battlegrounds
 extern void AddSC_battleground();
 
+//Alterac Valley
+extern void AddSC_boss_balinda();
+extern void AddSC_boss_drekthar();
+extern void AddSC_boss_galvangar();
+extern void AddSC_boss_vanndar();
+
 // custom
+extern void AddSC_Teleporter();
+extern void AddSC_MCGuard();
+extern void AddSC_TokenChanger();
+extern void AddSC_barber();
 
 // examples
 extern void AddSC_example_creature();
@@ -370,7 +380,17 @@ void AddScripts()
     // battlegrounds
     AddSC_battleground();
 
+    //Alterac Valley
+    AddSC_boss_balinda();
+    AddSC_boss_drekthar();
+    AddSC_boss_galvangar();
+    AddSC_boss_vanndar();
+
     // custom
+    AddSC_Teleporter();
+    AddSC_MCGuard();
+    AddSC_TokenChanger();
+    AddSC_barber();
 
     // examples
     AddSC_example_creature();

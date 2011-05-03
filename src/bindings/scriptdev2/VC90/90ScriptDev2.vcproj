@@ -399,10 +399,46 @@
 					RelativePath="..\scripts\battlegrounds\battleground.cpp"
 					>
 				</File>
+				<Filter
+					Name="Alterac Valley"
+					>
+					<File
+						RelativePath="..\scripts\battlegrounds\alterac_valley\boss_balinda.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\scripts\battlegrounds\alterac_valley\boss_drekthar.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\scripts\battlegrounds\alterac_valley\boss_galvangar.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\scripts\battlegrounds\alterac_valley\boss_vanndar.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="custom"
 				>
+				<File
+					RelativePath="..\scripts\custom\barber.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\scripts\custom\MysteriaGuard.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\scripts\custom\npc_mysteria_changer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\scripts\custom\teleporter.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="eastern_kingdoms"
