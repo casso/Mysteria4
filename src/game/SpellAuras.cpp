@@ -6246,6 +6246,10 @@ void Aura::PeriodicTick()
             if(target != pCaster && spellProto->SpellVisual==163 && !pCaster->isAlive())
                 return;
 
+            // Cyclone nedovoluje HoTkovat
+            if(m_target->hasUnitState(UNIT_STAT_STUNNED) && m_target->HasAura(33786))
+                 return;
+
             // ignore non positive values (can be result apply spellmods to aura damage
             uint32 amount = m_modifier.m_amount > 0 ? m_modifier.m_amount : 0;
 
