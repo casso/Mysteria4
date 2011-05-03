@@ -945,6 +945,16 @@ enum MangosStrings
     LANG_ADMIN_ANNOUNCE                 = 11001,
     LANG_EVENT_ANNOUNCE                 = 11002,
 
+    // GM Notifications
+    LANG_ANTICRASH_NOTIFY               = 11003,
+    LANG_ANTICHEAT_NOTIFY               = 11004,
+    LANG_ANTIFLOOD_NOTIFY               = 11005,
+    LANG_ANTIWPE_NOTIFY                 = 11006,
+    LANG_BANNED_NOTIFY                  = 11007,
+    LANG_PERMBANNED_NOTIFY              = 11008,
+    LANG_MUTED_NOTIFY                   = 11009,
+    LANG_KICKED_NOTIFY                  = 11010,
+
     LANG_MODERATOR_ANNOUNCE             = 11011,
     LANG_DEVELOPER_ANNOUNCE             = 11012,
 

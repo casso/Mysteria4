@@ -31,6 +31,7 @@
 #include "MapPersistentStateMgr.h"
 #include "ObjectMgr.h"
 #include "Timer.h"
+#include "Language.h"
 
 bool WorldSession::Anti__ReportCheat(Player* Ply,const char* Reason,float Speed,const char* Op,float Val1,uint32 Val2)
 {
@@ -50,7 +51,7 @@ bool WorldSession::Anti__ReportCheat(Player* Ply,const char* Reason,float Speed,
         return false;
     }
 
-    //sWorld.SendGMWorldText(SEC_GAMEMASTER, LANG_ANTICHEAT_NOTIFY, Ply->GetName(), Reason); \todo gm announce patch
+    sWorld.SendGMWorldText(SECURITY_GAMEMASTER, LANG_ANTICHEAT_NOTIFY, Ply->GetName(), Reason);
 
     QueryResult *Res=CharacterDatabase.PQuery("SELECT speed,Val1,Val2 FROM cheaters WHERE player='%s' AND reason LIKE '%s' AND Map='%u' AND last_date >= NOW()-300",Player,Reason,Map);
     if(Res)

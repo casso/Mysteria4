@@ -92,7 +92,8 @@ bool ChatHandler::HandleMuteCommand(char* args)
 
     std::string nameLink = playerLink(target_name);
 
-    PSendSysMessage(LANG_YOU_DISABLE_CHAT, nameLink.c_str(), notspeaktime);
+    sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_MUTED_NOTIFY, m_session ? m_session->GetPlayerName() : "Server console", nameLink.c_str(), notspeaktime);
+
     return true;
 }
 
@@ -2270,7 +2271,8 @@ bool ChatHandler::HandleKickPlayerCommand(char *args)
         return false;
 
     // send before target pointer invalidate
-    PSendSysMessage(LANG_COMMAND_KICKMESSAGE, GetNameLink(target).c_str());
+    sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_KICKED_NOTIFY, GetNameLink(target).c_str(), m_session ? m_session->GetPlayerName() : "Server console");
+
     target->GetSession()->KickPlayer();
     return true;
 }

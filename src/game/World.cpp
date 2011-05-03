@@ -1548,6 +1548,25 @@ void World::SendWorldText(int32 string_id, ...)
     va_end(ap);
 }
 
+/// Send a System Message to GMs
+void World::SendGMWorldText(AccountTypes security, int32 string_id, ...)
+{
+    va_list ap;
+    va_start(ap, string_id);
+
+    MaNGOS::WorldWorldTextBuilder wt_builder(string_id, &ap);
+    MaNGOS::LocalizedPacketListDo<MaNGOS::WorldWorldTextBuilder> wt_do(wt_builder);
+    for(SessionMap::iterator itr = m_sessions.begin(); itr != m_sessions.end(); ++itr)
+    {
+        if(!itr->second || !itr->second->GetPlayer() || !itr->second->GetPlayer()->IsInWorld() || itr->second->GetSecurity() < security )
+            continue;
+
+        wt_do(itr->second->GetPlayer());
+    }
+
+    va_end(ap);
+}
+
 /// DEPRICATED, only for debug purpose. Send a System Message to all players (except self if mentioned)
 void World::SendGlobalText(const char* text, WorldSession *self)
 {

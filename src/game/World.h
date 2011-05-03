@@ -487,6 +487,7 @@ class World
         void LoadConfigSettings(bool reload = false);
 
         void SendWorldText(int32 string_id, ...);
+        void SendGMWorldText(AccountTypes security, int32 string_id, ...);
         void SendGlobalText(const char* text, WorldSession *self);
         void SendGlobalMessage(WorldPacket *packet, WorldSession *self = 0, uint32 team = 0);
         void SendZoneMessage(uint32 zone, WorldPacket *packet, WorldSession *self = 0, uint32 team = 0);
