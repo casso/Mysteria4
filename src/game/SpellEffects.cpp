@@ -4139,7 +4139,7 @@ void Spell::EffectWeaponDmg(SpellEffectIndex eff_idx)
         case SPELLFAMILY_WARRIOR:
         {
             // Devastate
-            if(m_spellInfo->SpellVisual == 671 && m_spellInfo->SpellIconID == 1508)
+            if(m_spellInfo->SpellVisual == 671 && m_spellInfo->SpellIconID == 1508 && m_spellInfo->SpellFamilyFlags == 16384 )
             {
                 customBonusDamagePercentMod = true;
                 bonusDamagePercentMod = 0.0f;               // only applied if auras found
@@ -4150,6 +4150,7 @@ void Spell::EffectWeaponDmg(SpellEffectIndex eff_idx)
                 // Devastate bonus and sunder armor refresh, additional threat
                 if (sunder)
                 {
+                    sunder->modStackAmount(1);
                     sunder->RefreshAura();
 
                     // 100% * stack
@@ -4157,6 +4158,14 @@ void Spell::EffectWeaponDmg(SpellEffectIndex eff_idx)
 
                     // 25 * stack
                     unitTarget->AddThreat(m_caster, 25.0f * sunder->GetStackAmount(), false, GetSpellSchoolMask(m_spellInfo), m_spellInfo);
+                }
+                else
+                {
+                    m_caster->CastSpell(unitTarget, 11597, true);
+                    // 100% * stack
+                    bonusDamagePercentMod += 1.0f;
+                    // 25 * stack
+                    unitTarget->AddThreat(m_caster, 25.0f , false, GetSpellSchoolMask(m_spellInfo), m_spellInfo);
                 }
             }
             break;
