@@ -232,6 +232,7 @@ extern void AddSC_boss_temporus();
 extern void AddSC_dark_portal();
 extern void AddSC_instance_dark_portal();
 extern void AddSC_hyjal();                                  // COT, hyjal
+extern void AddSC_hyjal_fun();                              //COT, hyjal_fun
 extern void AddSC_boss_archimonde();
 extern void AddSC_instance_mount_hyjal();
 extern void AddSC_boss_captain_skarloc();                   // COT, old_hillsbrad
@@ -605,6 +606,7 @@ void AddScripts()
     AddSC_dark_portal();
     AddSC_instance_dark_portal();
     AddSC_hyjal();                                          // CoT, hyjal
+    AddSC_hyjal_fun();                                      // CoT, hyjal_fun
     AddSC_boss_archimonde();
     AddSC_instance_mount_hyjal();
     AddSC_boss_captain_skarloc();                           // CoT, old_hillsbrand

@@ -1434,11 +1434,23 @@
 							>
 						</File>
 						<File
+							RelativePath="..\scripts\kalimdor\caverns_of_time\hyjal\hyjal_fun.cpp"
+							>
+						</File>
+						<File
 							RelativePath="..\scripts\kalimdor\caverns_of_time\hyjal\hyjalAI.cpp"
 							>
 						</File>
 						<File
 							RelativePath="..\scripts\kalimdor\caverns_of_time\hyjal\hyjalAI.h"
+							>
+						</File>
+						<File
+							RelativePath="..\scripts\kalimdor\caverns_of_time\hyjal\hyjalAI_fun.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\scripts\kalimdor\caverns_of_time\hyjal\hyjalAI_fun.h"
 							>
 						</File>
 						<File
