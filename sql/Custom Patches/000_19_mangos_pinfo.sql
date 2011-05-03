@@ -1,0 +1,1 @@
+UPDATE `mangos_string` SET `content_default`='Player%s %s (guid: %u) Account: %s (id: %u) GMLevel: %u Guild: <%s> Last IP: %s Last login: %s Latency: %ums' WHERE `entry`='548' ;

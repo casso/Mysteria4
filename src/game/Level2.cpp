@@ -43,6 +43,7 @@
 #include <fstream>
 #include <map>
 #include "Formulas.h"
+#include "Guild.h"
 
 #include "TargetedMovementGenerator.h"                      // for HandleNpcUnFollowCommand
 
@@ -2283,6 +2284,8 @@ bool ChatHandler::HandlePInfoCommand(char* args)
     Player* target;
     ObjectGuid target_guid;
     std::string target_name;
+    std::string guild_name = "-";
+
     if (!ExtractPlayerTarget(&args, &target, &target_guid, &target_name))
         return false;
 
@@ -2304,6 +2307,8 @@ bool ChatHandler::HandlePInfoCommand(char* args)
         total_player_time = target->GetTotalPlayedTime();
         level = target->getLevel();
         latency = target->GetSession()->GetLatency();
+        if(target->GetGuildId() > 0)
+            guild_name = sObjectMgr.GetGuildById(target->GetGuildId())->GetName();
     }
     // get additional information from DB
     else
@@ -2312,8 +2317,8 @@ bool ChatHandler::HandlePInfoCommand(char* args)
         if (HasLowerSecurity(NULL, target_guid))
             return false;
 
-        //                                                     0          1      2      3
-        QueryResult *result = CharacterDatabase.PQuery("SELECT totaltime, level, money, account FROM characters WHERE guid = '%u'", target_guid.GetCounter());
+        //                                                       0          1      2      3        4
+        QueryResult *result = CharacterDatabase.PQuery("SELECT totaltime, level, money, account, guild.name FROM characters LEFT JOIN guild_member ON characters.guid=guild_member.guid LEFT JOIN guild ON guild_member.guildid = guild.guildid WHERE characters.guid = '%u'", target_guid.GetCounter());
         if (!result)
             return false;
 
@@ -2322,6 +2327,8 @@ bool ChatHandler::HandlePInfoCommand(char* args)
         level = fields[1].GetUInt32();
         money = fields[2].GetUInt32();
         accId = fields[3].GetUInt32();
+        if(!fields[4].IsNULL())
+            guild_name = fields[4].GetCppString();
         delete result;
     }
 
@@ -2353,7 +2360,7 @@ bool ChatHandler::HandlePInfoCommand(char* args)
 
     std::string nameLink = playerLink(target_name);
 
-    PSendSysMessage(LANG_PINFO_ACCOUNT, (target?"":GetMangosString(LANG_OFFLINE)), nameLink.c_str(), target_guid.GetCounter(), username.c_str(), accId, security, last_ip.c_str(), last_login.c_str(), latency);
+    PSendSysMessage(LANG_PINFO_ACCOUNT, (target?"":GetMangosString(LANG_OFFLINE)), nameLink.c_str(), target_guid.GetCounter(), username.c_str(), accId, security, guild_name.c_str(), last_ip.c_str(), last_login.c_str(), latency);
 
     std::string timeStr = secsToTimeString(total_player_time,true,true);
     uint32 gold = money /GOLD;
