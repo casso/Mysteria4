@@ -1953,42 +1953,45 @@ void Aura::TriggerSpell()
                 }
                 break;
             }
+            case SPELLFAMILY_HUNTER:
+            {
+                switch (auraId)
+                {
+                    // talent Entrapment
+                    case 13810: // Frost trap aura
+                    case 13797: // Immolation Trap aura Rank 1
+                    case 14298: // Immolation Trap aura Rank 2
+                    case 14299: // Immolation Trap aura Rank 3
+                    case 14300: // Immolation Trap aura Rank 4
+                    case 14301: // Immolation Trap aura Rank 5
+                    case 27024: // Immolation Trap aura Rank 6
+                        if (GetCaster()->GetTypeId() == TYPEID_PLAYER)
+                        {
+                            float f_chance = 0;
+                            Unit::AuraList const& auraTriggerSpell = GetCaster()->GetAurasByType(SPELL_AURA_PROC_TRIGGER_SPELL);
+                            for (Unit::AuraList::const_iterator itr = auraTriggerSpell.begin(); itr != auraTriggerSpell.end(); ++itr)
+                            {
+                                switch ((*itr)->GetSpellProto()->Id)
+                                {
+                                    case 19384:
+                                    case 19387:
+                                    case 19388:
+                                        f_chance = (*itr)->GetSpellProto()->procChance;
+                                        break;
+                                }
+                            }
 
-//            case SPELLFAMILY_HUNTER:
-//            {
-//                switch(auraId)
-//                {
-//                    //Frost Trap Aura
-//                    case 13810:
-//                        return;
-//                    //Rizzle's Frost Trap
-//                    case 39900:
-//                        return;
-//                    // Tame spells
-//                    case 19597:         // Tame Ice Claw Bear
-//                    case 19676:         // Tame Snow Leopard
-//                    case 19677:         // Tame Large Crag Boar
-//                    case 19678:         // Tame Adult Plainstrider
-//                    case 19679:         // Tame Prairie Stalker
-//                    case 19680:         // Tame Swoop
-//                    case 19681:         // Tame Dire Mottled Boar
-//                    case 19682:         // Tame Surf Crawler
-//                    case 19683:         // Tame Armored Scorpid
-//                    case 19684:         // Tame Webwood Lurker
-//                    case 19685:         // Tame Nightsaber Stalker
-//                    case 19686:         // Tame Strigid Screecher
-//                    case 30100:         // Tame Crazed Dragonhawk
-//                    case 30103:         // Tame Elder Springpaw
-//                    case 30104:         // Tame Mistbat
-//                    case 30647:         // Tame Barbed Crawler
-//                    case 30648:         // Tame Greater Timberstrider
-//                    case 30652:         // Tame Nightstalker
-//                        return;
-//                    default:
-//                        break;
-//                }
-//                break;
-//            }
+                            if (roll_chance_f(f_chance))
+                                trigger_spell_id = 19185;
+                            else
+                                return;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            }
             case SPELLFAMILY_SHAMAN:
             {
                 switch(auraId)
@@ -4673,6 +4676,7 @@ void Aura::HandlePeriodicDamage(bool apply, bool Real)
                 {
                     // $RAP*0.1/5 bonus per tick
                     m_modifier.m_amount += int32(caster->GetTotalAttackPowerValue(RANGED_ATTACK) * 10 / 500);
+                    TriggerSpell();
                     return;
                 }
                 break;
