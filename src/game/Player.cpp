@@ -6186,7 +6186,7 @@ void Player::UpdateHonorFields()
 ///Calculate the amount of honor gained based on the victim
 ///and the size of the group for which the honor is divided
 ///An exact honor value can also be given (overriding the calcs)
-bool Player::RewardHonor(Unit *uVictim, uint32 groupsize, float honor)
+bool Player::RewardHonor(Unit *uVictim, uint32 groupsize, float honor, bool pvptoken)
 {
     // do not reward honor in arenas, but enable onkill spellproc
     if(InArena())
@@ -6307,6 +6307,44 @@ bool Player::RewardHonor(Unit *uVictim, uint32 groupsize, float honor)
     ModifyHonorPoints(int32(honor));
 
     ApplyModUInt32Value(PLAYER_FIELD_TODAY_CONTRIBUTION, uint32(honor), true);
+
+    if (sWorld.getConfig(CONFIG_BOOL_PVP_TOKEN_ENABLE) && pvptoken)
+    {
+        if (!uVictim || uVictim == this || uVictim->HasAuraType(SPELL_AURA_NO_PVP_CREDIT))
+            return true;
+
+        if (uVictim->GetTypeId() == TYPEID_PLAYER)
+        {
+            // Check if allowed to receive it in current map
+            uint8 MapType = sWorld.getConfig(CONFIG_UINT32_PVP_TOKEN_MAP_TYPE);
+            if ((MapType == 1 && !InBattleGround() && !HasByteFlag(UNIT_FIELD_BYTES_2, 1, UNIT_BYTE2_FLAG_UNK2))
+                || (MapType == 2 && !HasByteFlag(UNIT_FIELD_BYTES_2, 1, UNIT_BYTE2_FLAG_UNK2))
+                || (MapType == 3 && !InBattleGround()))
+                return true;
+
+            uint32 noSpaceForCount = 0;
+            uint32 itemId = sWorld.getConfig(CONFIG_UINT32_PVP_TOKEN_ID);
+            int32 count = sWorld.getConfig(CONFIG_UINT32_PVP_TOKEN_COUNT);
+
+            // check space and find places
+            ItemPosCountVec dest;
+            uint8 msg = CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, itemId, count, &noSpaceForCount);
+            if (msg != EQUIP_ERR_OK)   // convert to possible store amount
+                count = noSpaceForCount;
+
+            if (count == 0 || dest.empty()) // can't add any
+            {
+                // -- TODO: Send to mailbox if no space
+                ChatHandler(this).PSendSysMessage("You don't have any space in your bags for a token.");
+                return true;
+            }
+
+            Item* item = StoreNewItem(dest, itemId, true, Item::GenerateItemRandomPropertyId(itemId));
+            SendNewItem(item,count,true,false);
+            //ChatHandler(this).PSendSysMessage("You have been awarded a token for slaying another player.");
+        }
+    }
+
     return true;
 }
 
@@ -19183,7 +19221,7 @@ void Player::RewardSinglePlayerAtKill(Unit* pVictim)
     uint32 xp = PvP ? 0 : MaNGOS::XP::Gain(this, pVictim);
 
     // honor can be in PvP and !PvP (racial leader) cases
-    RewardHonor(pVictim,1);
+    RewardHonor(pVictim,1, -1, true);
 
     // xp and reputation only in !PvP case
     if(!PvP)

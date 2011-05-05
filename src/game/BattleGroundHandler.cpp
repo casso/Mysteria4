@@ -112,33 +112,36 @@ void WorldSession::JoinIntoBattleground( uint32 bgTypeId_, uint32 instanceId, ui
     //////////////////////////////////////////////////////
     ///////// Kazde dve hodiny iny battleground //////////
     //////////////////////////////////////////////////////
-
-    time_t t = time(NULL);
-    tm* aTm = localtime(&t);
-    int openid = ( aTm->tm_hour / 2 /*hodiny*/ ) % 3;
-
-    // WSG + AV
-    if( openid == 0 && bgTypeId_ != BATTLEGROUND_WS && bgTypeId_ != BATTLEGROUND_AV )
+    if(sWorld.getConfig(CONFIG_BOOL_BG_ROTATE))
     {
-        ChatHandler(this).SendSysMessage("This hour is opened only Warsong Gulch and Alterac Valley.");
+        time_t t = time(NULL);
+        tm* aTm = localtime(&t);
+        
+        int openid = ( aTm->tm_hour / sWorld.getConfig(CONFIG_UINT32_BG_ROTATE_HOURS)) % 3;
 
-        return;
-    }
+        // WSG + AV
+        if( openid == 0 && bgTypeId_ != BATTLEGROUND_WS && bgTypeId_ != BATTLEGROUND_AV )
+        {
+            ChatHandler(this).SendSysMessage("This time is opened only Warsong Gulch and Alterac Valley.");
 
-    // AB + AV
-    if( openid == 1 && bgTypeId_ != BATTLEGROUND_AB && bgTypeId_ != BATTLEGROUND_AV )
-    {
-        ChatHandler(this).SendSysMessage("This hour is opened only Arathi Basin and Alterac Valley.");
+            return;
+        }
 
-        return;
-    }
+        // AB + AV
+        if( openid == 1 && bgTypeId_ != BATTLEGROUND_AB && bgTypeId_ != BATTLEGROUND_AV )
+        {
+            ChatHandler(this).SendSysMessage("This time is opened only Arathi Basin and Alterac Valley.");
 
-    // EOS + AV
-    if( openid == 2 && bgTypeId_ != BATTLEGROUND_EY && bgTypeId_ != BATTLEGROUND_AV )
-    {
-        ChatHandler(this).SendSysMessage("This hour is opened only Eye of the Storm and Alterac Valley.");
+            return;
+        }
 
-        return;
+        // EOS + AV
+        if( openid == 2 && bgTypeId_ != BATTLEGROUND_EY && bgTypeId_ != BATTLEGROUND_AV )
+        {
+            ChatHandler(this).SendSysMessage("This time is opened only Eye of the Storm and Alterac Valley.");
+
+            return;
+        }
     }
     //////////////////////////////////////////////////////
 

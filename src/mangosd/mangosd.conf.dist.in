@@ -1568,3 +1568,43 @@ Anticheat.Movement.Enable = 1
 Anticheat.Movement.Kick = 1
 Anticheat.Movement.AlarmCount = 5
 Anticheat.Movement.AlarmTime = 5000
+
+###################################################################################################################
+# PVP TOKEN
+#    PvPToken.Enable
+#        Enable/disable PvP Token System. Players will get a token
+#         after slaying another player that gives honor.
+#
+#    PvPToken.MapAllowType
+#        Where players can receive the pvp token
+#        4 - In all maps
+#        3 - In battlegrounds only
+#        2 - In FFA areas only (gurubashi arena etc)
+#        1 - In battlegrounds AND FFA areas only
+#
+#    PvPToken.ItemID
+#        The item players will get after killing someone
+#         if PvP Token system is enabled.
+#        Default: 10663 - Encyho vymysel
+#
+#    PvPToken.ItemCount
+#        Modify the item ID count - Default: 1
+#
+###################################################################################################################
+
+PvPToken.Enable = 0
+PvPToken.MapAllowType = 4
+PvPToken.ItemID = 10663
+PvPToken.ItemCount = 1
+
+###################################################################################################################
+# ROTACIA BG
+#    BGRotate.Enable
+#        Zapnutie rotacie BGcok (0-Vypnute (default), 1-Zapnute)
+#    BGRotate.Hours
+#        Pocet hodin pre jeden bg (Default:2)
+#
+###################################################################################################################
+
+BGRotate.Enable = 1
+BGRotate.Hours = 2
