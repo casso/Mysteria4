@@ -128,7 +128,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP /Zm200"
-				InlineFunctionExpansion="1"
+				InlineFunctionExpansion="2"
+				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game\vmap;..\..\dep\ACE_wrappers;..\..\dep\include\g3dlite"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_SECURE_SCL=0"
 				StringPooling="true"

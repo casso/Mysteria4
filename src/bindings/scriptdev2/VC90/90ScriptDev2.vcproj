@@ -127,6 +127,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
+				InlineFunctionExpansion="2"
+				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories="..\..\..\..\dep\include\;..\..\..\shared\;..\..\..\framework\;..\..\..\game\;..\include\;..\base\;..\..\..\..\dep\ACE_wrappers\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;SCRIPT;_SECURE_SCL=0"
 				MinimalRebuild="false"
@@ -149,16 +151,17 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="mangosd.lib ACE.lib"
-				OutputFile="$(OutDir)/mangosscript.dll"
+				OutputFile="$(OutDir)/Mysteria4_script.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\..\win\VC90\mangosd__Win32_Release;..\..\..\..\dep\lib\win32_release\"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				OptimizeForWindows98="0"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/mangosscript.lib"
+				ImportLibrary="$(OutDir)/Mysteria4_script.lib"
 				TargetMachine="1"
 			/>
 			<Tool
