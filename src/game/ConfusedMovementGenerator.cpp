@@ -145,7 +145,10 @@ bool ConfusedMovementGenerator<T>::Update(T &unit, const uint32 &diff)
             const float y = i_waypoints[i_nextMove][1];
             const float z = i_waypoints[i_nextMove][2];
             Traveller<T> traveller(unit);
-            i_destinationHolder.SetDestination(traveller, x, y, z);
+            if( unit.IsWithinLOS(x,y,z))
+                i_destinationHolder.SetDestination(traveller, x, y, z);
+            else // TODO: maybe other method when not in LOS
+                i_nextMoveTime.Update(diff/5);
         }
     }
     return true;
