@@ -11626,6 +11626,18 @@ void Player::ApplyEnchantment(Item *item, EnchantmentSlot slot, bool apply, bool
                 case ITEM_ENCHANTMENT_TYPE_EQUIP_SPELL:
                     if (enchant_spell_id)
                     {
+                        // Using unused "Windfury Weapon (Passive) Rank 2" to proc Flametongue
+                        switch (enchant_spell_id)
+                        {
+                            case 10400:
+                            case 15567:
+                            case 15568:
+                            case 15569:
+                            case 16311:
+                            case 16312:
+                            case 16313:
+                                enchant_spell_id = 33756;
+                        }
                         if (apply)
                         {
                             int32 basepoints = 0;

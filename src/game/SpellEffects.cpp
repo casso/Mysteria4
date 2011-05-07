@@ -377,6 +377,21 @@ void Spell::EffectSchoolDMG(SpellEffectIndex effect_idx)
                     m_caster->CastSpell(m_caster, 36032, true);
                 }
                 break;
+
+                // Improved Scorch talent
+                if (m_spellInfo->SpellFamilyFlags == UI64LIT(0x00000010) && m_spellInfo->SpellIconID == 816 && m_caster->GetTypeId() == TYPEID_PLAYER)
+                {
+                    if(m_caster->HasSpell(12873))      // Rank 3 - 100%
+                        m_caster->CastSpell(unitTarget,22959,true);
+                    else if(m_caster->HasSpell(12872)) // Rank 2 - 66%
+                    {
+                        if(urand(1,3) > 1)
+                            m_caster->CastSpell(unitTarget,22959,true);
+                    }          
+                    else if(m_caster->HasSpell(11095)) // Rank 1 - 33%
+                        if(urand(1,3) > 2)
+                            m_caster->CastSpell(unitTarget,22959,true);
+                }
             }
             case SPELLFAMILY_WARRIOR:
             {
