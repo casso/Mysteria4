@@ -6043,6 +6043,34 @@ bool Unit::HandleProcTriggerSpell(Unit *pVictim, uint32 damage, Aura* triggeredB
                         return false;
                 }
             }
+            // Deep Wounds (replace triggered spells to directly apply DoT), dot spell have finilyflags
+            if (auraSpellInfo->SpellFamilyFlags == UI64LIT(0x0) && auraSpellInfo->SpellIconID == 243 && auraSpellInfo->procFlags == 69972)
+            {
+                float weaponDamage;
+                // DW should benefit of attack power, damage percent mods etc.
+                // TODO: check if using offhand damage is correct and if it should be divided by 2
+                if (haveOffhandWeapon() && getAttackTimer(BASE_ATTACK) > getAttackTimer(OFF_ATTACK))
+                    weaponDamage = (GetFloatValue(UNIT_FIELD_MINOFFHANDDAMAGE) + GetFloatValue(UNIT_FIELD_MAXOFFHANDDAMAGE))/2;
+                else
+                    weaponDamage = (GetFloatValue(UNIT_FIELD_MINDAMAGE) + GetFloatValue(UNIT_FIELD_MAXDAMAGE))/2;
+
+                switch (auraSpellInfo->Id)
+                {
+                    case 12834: basepoints[0] = int32(weaponDamage * 20 / 100); break;
+                    case 12849: basepoints[0] = int32(weaponDamage * 40 / 100); break;
+                    case 12867: basepoints[0] = int32(weaponDamage * 60 / 100); break;
+                    // Impossible case
+                    default:
+                        sLog.outError("Unit::HandleProcTriggerSpell: DW unknown spell rank %u",auraSpellInfo->Id);
+                        return false;
+                }
+
+                // 1 tick/sec * 6 sec = 6 ticks
+                basepoints[0] /= 6;
+
+                trigger_spell_id = 12721;
+                break;
+            }
             break;
         case SPELLFAMILY_WARLOCK:
         {

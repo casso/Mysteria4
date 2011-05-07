@@ -12975,10 +12975,14 @@ void Player::RewardQuest(Quest const *pQuest, uint32 reward, Object* questGiver,
         GetMap()->ScriptsStart(sQuestEndScripts, pQuest->GetQuestCompleteScript(), questGiver, this);
 
     // cast spells after mark quest complete (some spells have quest completed state reqyurements in spell_area data)
-    if (pQuest->GetRewSpellCast() > 0)
-        CastSpell(this, pQuest->GetRewSpellCast(), true);
-    else if (pQuest->GetRewSpell() > 0)
-        CastSpell(this, pQuest->GetRewSpell(), true);
+    Unit *caster=this;
+    if(questGiver->GetTypeId() == TYPEID_UNIT)
+        caster = (Unit *)questGiver;
+
+     if( pQuest->GetRewSpellCast() > 0 )
+        caster->CastSpell( this, pQuest->GetRewSpellCast(), true);
+     else if( pQuest->GetRewSpell() > 0)
+        caster->CastSpell( this, pQuest->GetRewSpell(), true);
 
     uint32 zone = 0;
     uint32 area = 0;
