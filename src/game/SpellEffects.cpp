@@ -376,8 +376,6 @@ void Spell::EffectSchoolDMG(SpellEffectIndex effect_idx)
                 {
                     m_caster->CastSpell(m_caster, 36032, true);
                 }
-                break;
-
                 // Improved Scorch talent
                 if (m_spellInfo->SpellFamilyFlags == UI64LIT(0x00000010) && m_spellInfo->SpellIconID == 816 && m_caster->GetTypeId() == TYPEID_PLAYER)
                 {
@@ -392,6 +390,8 @@ void Spell::EffectSchoolDMG(SpellEffectIndex effect_idx)
                         if(urand(1,3) > 2)
                             m_caster->CastSpell(unitTarget,22959,true);
                 }
+
+                break;
             }
             case SPELLFAMILY_WARRIOR:
             {
