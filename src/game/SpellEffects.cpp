@@ -1740,6 +1740,27 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
         }
         case SPELLFAMILY_SHAMAN:
         {
+            // Flametongue Procs
+            // Totem: 0x000400000000 - Weapon: 0x00200000
+            if (m_spellInfo->SpellFamilyFlags & UI64LIT(0x000400200000))
+            {
+                if (!m_CastItem)
+                    return;
+
+                uint32 basePoints = m_spellInfo->EffectBasePoints[eff_idx];
+                uint32 attackSpeed = m_CastItem->GetProto()->Delay;
+                if (attackSpeed > 3500)
+                    attackSpeed = 3500;
+                else if (attackSpeed < 1500)
+                    attackSpeed = 1500;
+
+                int32 dmg = int32(basePoints / ((-1) * (13.0f/500.0f * attackSpeed - 115.825f)));
+
+                if (m_spellInfo->SpellFamilyFlags & UI64LIT(0x000400000000))
+                    m_caster->CastCustomSpell(unitTarget,16368,&dmg,NULL,NULL,true);
+                else if (m_spellInfo->SpellFamilyFlags & UI64LIT(0x00200000))
+                    m_caster->CastCustomSpell(unitTarget,29469,&dmg,NULL,NULL,true);
+            }
             // Rockbiter Weapon
             if (m_spellInfo->SpellFamilyFlags & UI64LIT(0x400000))
             {

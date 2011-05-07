@@ -5678,6 +5678,33 @@ bool Unit::HandleDummyAuraProc(Unit *pVictim, uint32 damage, Aura* triggeredByAu
                     triggered_spell_id = 28850;
                     break;
                 }
+                // Windfury Weapon (Passive) 2 [used for Flametongue Weapon]
+                case 33756:
+                {
+                    if (GetTypeId()!=TYPEID_PLAYER)
+                        return false;
+
+                    if (!castItem || !castItem->IsEquipped())
+                        return false;
+
+                    switch (castItem->GetEnchantmentId(EnchantmentSlot(TEMP_ENCHANTMENT_SLOT)))
+                    {
+                        case    5: triggered_spell_id = 8026;  break;   //1 Rank
+                        case    4: triggered_spell_id = 8028;  break;   //2 Rank
+                        case    3: triggered_spell_id = 8029;  break;   //3 Rank
+                        case  523: triggered_spell_id = 10445; break;   //4 Rank
+                        case 1665: triggered_spell_id = 16343; break;   //5 Rank
+                        case 1666: triggered_spell_id = 16344; break;   //6 Rank
+                        case 2634: triggered_spell_id = 25488; break;   //7 Rank
+                        default:
+                        {
+                            sLog.outError("Unit::HandleDummyAuraProc: non handled item enchantment (rank?) %u for spell id: %u (Flametongue)",
+                                castItem->GetEnchantmentId(EnchantmentSlot(TEMP_ENCHANTMENT_SLOT)),dummySpell->Id);
+                            return false;
+                        }
+                    }
+                    break;
+                }
                 // Windfury Weapon (Passive) 1-5 Ranks
                 case 33757:
                 {
@@ -7993,6 +8020,14 @@ uint32 Unit::SpellHealingBonus(Unit *pVictim, SpellEntry const *spellProto, uint
                 break;
             }
         }
+
+        // Flametongue Totem Proc: 0%
+        if (spellProto->Id == 16368)
+            CastingTime = 0;
+        // Flametongue Weapon Proc: 10%
+        else if (spellProto->Id == 29469)
+            CastingTime = 350;
+
         DoneTotal  += int32(DoneAdvertisedBenefit * (CastingTime / 3500.0f) * DotFactor * LvlPenalty * SpellModSpellDamage * 1.88f);
         TakenTotal += int32(TakenAdvertisedBenefit * (CastingTime / 3500.0f) * DotFactor * LvlPenalty * 1.88f);
     }
