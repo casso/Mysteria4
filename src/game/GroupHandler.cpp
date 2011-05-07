@@ -280,7 +280,7 @@ void WorldSession::HandleGroupUninviteOpcode(WorldPacket & recv_data)
     // can't uninvite yourself
     if (GetPlayer()->GetName() == membername)
     {
-        sLog.outError("WorldSession::HandleGroupUninviteOpcode: leader %s tried to uninvite himself from the group.", GetPlayer()->GetObjectGuid().GetString().c_str());
+        sLog.outBasic("WorldSession::HandleGroupUninviteOpcode: leader %s tried to uninvite himself from the group.", GetPlayer()->GetObjectGuid().GetString().c_str());
         return;
     }
 
@@ -298,6 +298,10 @@ void WorldSession::HandleGroupUninviteOpcode(WorldPacket & recv_data)
     ObjectGuid guid = grp->GetMemberGuid(membername);
     if (!guid.IsEmpty())
     {
+        // Leader sa neda vykopnut
+        if(guid == grp->GetLeaderGuid())
+            return;
+
         Player::RemoveFromGroup(grp, guid);
         return;
     }
