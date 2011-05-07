@@ -19885,6 +19885,10 @@ void Player::HandleFall(MovementInfo & movementInfo)
         {
             uint32 damage = (uint32)(damageperc * GetMaxHealth()*sWorld.getConfig(CONFIG_FLOAT_RATE_DAMAGE_FALL));
 
+            // Fall dmg v instanciach
+            if(GetMap()->Instanceable())
+                damage = (uint32)(damageperc * GetMaxHealth()*sWorld.getConfig(CONFIG_FLOAT_RATE_DAMAGE_FALL_INSTANCE));
+
             float height = movementInfo.GetPos()->z;
             UpdateAllowedPositionZ(movementInfo.GetPos()->x, movementInfo.GetPos()->y, height);
 

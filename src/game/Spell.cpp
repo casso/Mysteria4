@@ -3765,7 +3765,7 @@ SpellCastResult Spell::CheckCast(bool strict)
                         target_friendly = m_caster->IsFriendlyTo(target);
                     }
 
-                    if(target_friendly)
+                    if(target_friendly  && m_spellInfo->Id != 34026 /*Kill Command hack fix*/)
                         return SPELL_FAILED_BAD_TARGETS;
 
                     explicit_target_mode = true;
