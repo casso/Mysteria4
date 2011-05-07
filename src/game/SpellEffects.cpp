@@ -167,7 +167,7 @@ pEffect SpellEffects[TOTAL_SPELL_EFFECTS]=
     &Spell::EffectSummonDeadPet,                            //109 SPELL_EFFECT_SUMMON_DEAD_PET
     &Spell::EffectDestroyAllTotems,                         //110 SPELL_EFFECT_DESTROY_ALL_TOTEMS
     &Spell::EffectDurabilityDamage,                         //111 SPELL_EFFECT_DURABILITY_DAMAGE
-    &Spell::EffectUnused,                                   //112 SPELL_EFFECT_112 (old SPELL_EFFECT_SUMMON_DEMON)
+    &Spell::EffectSummonDemon,                              //112 SPELL_EFFECT_112 (old SPELL_EFFECT_SUMMON_DEMON)
     &Spell::EffectResurrectNew,                             //113 SPELL_EFFECT_RESURRECT_NEW
     &Spell::EffectTaunt,                                    //114 SPELL_EFFECT_ATTACK_ME
     &Spell::EffectDurabilityDamagePCT,                      //115 SPELL_EFFECT_DURABILITY_DAMAGE_PCT
@@ -3028,7 +3028,9 @@ void Spell::EffectSummonType(SpellEffectIndex eff_idx)
                 {
                     // those are classical totems - effectbasepoints is their hp and not summon ammount!
                     //SUMMON_TYPE_TOTEM = 121: 23035, battlestands
-                    if(prop_id == 121)
+                    if(prop_id==66) // 66 = summon type demon
+                        EffectSummonDemon(eff_idx);
+                    else if(prop_id == 121)
                         DoSummonTotem(eff_idx);
                     else
                         DoSummonWild(eff_idx, summon_prop->FactionId);
@@ -6177,4 +6179,29 @@ void Spell::EffectRedirectThreat(SpellEffectIndex eff_idx)
 {
     if (unitTarget)
         m_caster->getHostileRefManager().SetThreatRedirection(unitTarget->GetObjectGuid());
+}
+
+void Spell::EffectSummonDemon(SpellEffectIndex eff_idx)
+{
+    float px = m_targets.m_destX;
+    float py = m_targets.m_destY;
+    float pz = m_targets.m_destZ;
+
+    Creature* Charmed = m_caster->SummonCreature(m_spellInfo->EffectMiscValue[eff_idx], px, py, pz, m_caster->GetOrientation(),TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,3600000);
+    if (!Charmed)
+        return;
+
+    // might not always work correctly, maybe the creature that dies from CoD casts the effect on itself and is therefore the caster?
+    Charmed->SetLevel(m_caster->getLevel());
+
+    // TODO: Add damage/mana/hp according to level
+
+    if (m_spellInfo->EffectMiscValue[eff_idx] == 89)              // Inferno summon
+    {
+        // Enslave demon effect, without mana cost and cooldown
+        m_caster->CastSpell(Charmed, 20882, true);          // FIXME: enslave does not scale with level, level 62+ minions cannot be enslaved
+
+        // Inferno effect
+        Charmed->CastSpell(Charmed, 22703, true, 0);
+    }
 }

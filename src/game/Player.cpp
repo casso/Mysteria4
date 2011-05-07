@@ -18183,6 +18183,10 @@ void Player::LeaveBattleground(bool teleportToEntryPoint)
         {
             if( bg->GetStatus() == STATUS_IN_PROGRESS || bg->GetStatus() == STATUS_WAIT_JOIN )
             {
+                RemoveAurasDueToSpell(642);   // Divine Shield Rank 1
+                RemoveAurasDueToSpell(1020);  // Divine Shield Rank 2
+                RemoveAurasDueToSpell(45438); // Ice Block
+
                 //lets check if player was teleported from BG and schedule delayed Deserter spell cast
                 if(IsBeingTeleportedFar())
                 {

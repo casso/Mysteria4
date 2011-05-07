@@ -293,6 +293,7 @@ class Spell
         void EffectSummonDeadPet(SpellEffectIndex eff_idx);
         void EffectDestroyAllTotems(SpellEffectIndex eff_idx);
         void EffectDurabilityDamage(SpellEffectIndex eff_idx);
+        void EffectSummonDemon(SpellEffectIndex eff_idx);
         void EffectSkill(SpellEffectIndex eff_idx);
         void EffectTaunt(SpellEffectIndex eff_idx);
         void EffectDurabilityDamagePCT(SpellEffectIndex eff_idx);

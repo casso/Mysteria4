@@ -28,6 +28,7 @@
 #include "Group.h"
 #include "SocialMgr.h"
 #include "Util.h"
+#include "Language.h"
 
 /* differeces from off:
     -you can uninvite yourself - is is useful
@@ -103,6 +104,14 @@ void WorldSession::HandleGroupInviteOpcode( WorldPacket & recv_data )
     {
         SendPartyResult(PARTY_OP_INVITE, membername, ERR_ALREADY_IN_GROUP_S);
         return;
+    }
+
+    // hraci s mute nemozu primat ludi do groupy
+    if(!GetPlayer()->CanSpeak())
+    {
+        std::string timeStr = secsToTimeString(m_muteTime - time(NULL));
+        SendNotification(GetMangosString(LANG_WAIT_BEFORE_SPEAKING),timeStr.c_str());
+        return;   
     }
 
     if(group)
