@@ -42,8 +42,8 @@ void GMTicketMgr::LoadGMTickets()
 
         bar.step();
 
-        sLog.outString();
-        sLog.outString(">> Loaded `character_ticket`, table is empty.");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded `character_ticket`, table is empty.");
         return;
     }
 

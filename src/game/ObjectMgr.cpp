@@ -262,8 +262,8 @@ void ObjectMgr::LoadCreatureLocales()
 
         bar.step();
 
-        sLog.outString();
-        sLog.outString(">> Loaded 0 creature locale strings. DB table `locales_creature` is empty.");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded 0 creature locale strings. DB table `locales_creature` is empty.");
         return;
     }
 
@@ -336,8 +336,8 @@ void ObjectMgr::LoadGossipMenuItemsLocales()
 
         bar.step();
 
-        sLog.outString();
-        sLog.outString(">> Loaded 0 gossip_menu_option locale strings. DB table `locales_gossip_menu_option` is empty.");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded 0 gossip_menu_option locale strings. DB table `locales_gossip_menu_option` is empty.");
         return;
     }
 
@@ -421,8 +421,8 @@ void ObjectMgr::LoadPointOfInterestLocales()
 
         bar.step();
 
-        sLog.outString("");
-        sLog.outString(">> Loaded 0 points_of_interest locale strings. DB table `locales_points_of_interest` is empty.");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded 0 points_of_interest locale strings. DB table `locales_points_of_interest` is empty.");
         return;
     }
 
@@ -1609,8 +1609,8 @@ void ObjectMgr::LoadItemLocales()
 
         bar.step();
 
-        sLog.outString();
-        sLog.outString(">> Loaded 0 Item locale strings. DB table `locales_item` is empty.");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded 0 Item locale strings. DB table `locales_item` is empty.");
         return;
     }
 
@@ -2165,8 +2165,8 @@ void ObjectMgr::LoadItemRequiredTarget()
 
         bar.step();
 
-        sLog.outString();
-        sLog.outErrorDb(">> Loaded 0 ItemRequiredTarget. DB table `item_required_target` is empty.");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded 0 ItemRequiredTarget. DB table `item_required_target` is empty.");
         return;
     }
 
@@ -4024,8 +4024,8 @@ void ObjectMgr::LoadQuestLocales()
 
         bar.step();
 
-        sLog.outString();
-        sLog.outString(">> Loaded 0 Quest locale strings. DB table `locales_quest` is empty.");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded 0 Quest locale strings. DB table `locales_quest` is empty.");
         return;
     }
 
@@ -4375,8 +4375,8 @@ void ObjectMgr::LoadPageTextLocales()
 
         bar.step();
 
-        sLog.outString();
-        sLog.outString(">> Loaded 0 PageText locale strings. DB table `locales_page_text` is empty.");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded 0 PageText locale strings. DB table `locales_page_text` is empty.");
         return;
     }
 
@@ -4628,8 +4628,8 @@ void ObjectMgr::LoadGossipTextLocales()
 
         bar.step();
 
-        sLog.outString();
-        sLog.outString(">> Loaded 0 Quest locale strings. DB table `locales_npc_text` is empty.");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded 0 Quest locale strings. DB table `locales_npc_text` is empty.");
         return;
     }
 
@@ -5571,8 +5571,8 @@ void ObjectMgr::LoadGameObjectLocales()
 
         bar.step();
 
-        sLog.outString();
-        sLog.outString(">> Loaded 0 gameobject locale strings. DB table `locales_gameobject` is empty.");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded 0 gameobject locale strings. DB table `locales_gameobject` is empty.");
         return;
     }
 
@@ -6059,8 +6059,8 @@ void ObjectMgr::LoadReputationRewardRate()
 
         bar.step();
 
-        sLog.outString();
-        sLog.outErrorDb(">> Loaded `reputation_reward_rate`, table is empty!");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded `reputation_reward_rate`, table is empty!");
         return;
     }
 
@@ -6208,8 +6208,8 @@ void ObjectMgr::LoadReputationSpilloverTemplate()
 
         bar.step();
 
-        sLog.outString();
-        sLog.outErrorDb(">> Loaded `reputation_spillover_template`, table is empty!");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded `reputation_spillover_template`, table is empty!");
         return;
     }
 
@@ -6330,8 +6330,8 @@ void ObjectMgr::LoadPointsOfInterest()
 
         bar.step();
 
-        sLog.outString();
-        sLog.outErrorDb(">> Loaded 0 Points of Interest definitions. DB table `points_of_interest` is empty.");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded 0 Points of Interest definitions. DB table `points_of_interest` is empty.");
         return;
     }
 
@@ -7635,8 +7635,8 @@ void ObjectMgr::LoadMailLevelRewards()
 
         bar.step();
 
-        sLog.outString();
-        sLog.outErrorDb(">> Loaded `mail_level_reward`, table is empty!");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded `mail_level_reward`, table is empty!");
         return;
     }
 
@@ -7976,8 +7976,8 @@ void ObjectMgr::LoadGossipMenu()
 
         bar.step();
 
-        sLog.outString();
-        sLog.outErrorDb(">> Loaded gossip_menu, table is empty!");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded gossip_menu, table is empty!");
         return;
     }
 

@@ -334,8 +334,8 @@ void AuctionHouseMgr::LoadAuctions()
     {
         barGoLink bar(1);
         bar.step();
-        sLog.outString();
-        sLog.outString(">> Loaded 0 auctions. DB table `auction` is empty.");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded 0 auctions. DB table `auction` is empty.");
         return;
     }
 
@@ -347,8 +347,8 @@ void AuctionHouseMgr::LoadAuctions()
     {
         barGoLink bar(1);
         bar.step();
-        sLog.outString();
-        sLog.outString(">> Loaded 0 auctions. DB table `auction` is empty.");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded 0 auctions. DB table `auction` is empty.");
         return;
     }
 
@@ -357,8 +357,8 @@ void AuctionHouseMgr::LoadAuctions()
     {
         barGoLink bar(1);
         bar.step();
-        sLog.outString();
-        sLog.outString(">> Loaded 0 auctions. DB table `auction` is empty.");
+        sLog.outBasic("");
+        sLog.outBasic(">> Loaded 0 auctions. DB table `auction` is empty.");
         return;
     }
 
