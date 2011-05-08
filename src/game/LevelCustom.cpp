@@ -768,3 +768,12 @@ bool ChatHandler::HandleAnnounceCommand(char* args)
 
     return true;
 }
+
+bool ChatHandler::HandleReloadDBCCommand(char* args)
+{
+    sWorld.CustomizeDBCData();
+
+    SendGlobalSysMessage("DB table `DBC_Spell` reloaded.");
+
+    return true;
+}

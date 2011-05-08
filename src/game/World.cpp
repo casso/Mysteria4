@@ -887,6 +887,7 @@ void World::SetInitialWorldSettings()
     ///- Load the DBC files
     sLog.outString("Initialize data stores...");
     LoadDBCStores(m_dataPath);
+    CustomizeDBCData();
     DetectDBCLang();
     sObjectMgr.SetDBCLocaleIndex(GetDefaultDbcLocale());    // Get once for all the locale index of DBC language (console/broadcasts)
 
@@ -2161,4 +2162,34 @@ bool World::configNoReload(bool reload, eConfigBoolValues index, char const* fie
         sLog.outError("%s option can't be changed at mangosd.conf reload, using current value (%s).", fieldname, getConfig(index) ? "'true'" : "'false'");
 
     return false;
+}
+
+void World::CustomizeDBCData(void)
+{
+    // Spell.DBC                                       0        1                 2              3                  4                  5
+    QueryResult* result = WorldDatabase.PQuery("SELECT SpellID, CastingTimeIndex, DurationIndex, EffectBasePoints0, EffectBasePoints1, EffectBasePoints2 FROM dbc_spell");
+    if(result)
+    {
+        do
+        {
+            Field* fields = result->Fetch();
+
+            uint32 spellid = fields[0].GetUInt32();
+
+            // Uprava dat z dbc
+            if(!fields[1].IsNULL())
+                sSpellStore.LookupEntry(spellid)->CastingTimeIndex = fields[1].GetUInt32();
+            if(!fields[2].IsNULL())
+                sSpellStore.LookupEntry(spellid)->DurationIndex = fields[2].GetUInt32();
+            if(!fields[3].IsNULL())
+                sSpellStore.LookupEntry(spellid)->EffectBasePoints[0] = fields[3].GetInt32();
+            if(!fields[4].IsNULL())
+                sSpellStore.LookupEntry(spellid)->EffectBasePoints[1] = fields[4].GetInt32();
+            if(!fields[5].IsNULL())
+                sSpellStore.LookupEntry(spellid)->EffectBasePoints[2] = fields[5].GetInt32();
+        }
+        while(result->NextRow());
+
+        delete result;
+    }
 }

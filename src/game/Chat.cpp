@@ -499,6 +499,7 @@ ChatCommand * ChatHandler::getCommandTable()
         { "spell_scripts",               SECURITY_ADMINISTRATOR, true,  &ChatHandler::HandleReloadSpellScriptsCommand,            "", NULL },
         { "spell_target_position",       SECURITY_ADMINISTRATOR, true,  &ChatHandler::HandleReloadSpellTargetPositionCommand,     "", NULL },
         { "spell_threats",               SECURITY_ADMINISTRATOR, true,  &ChatHandler::HandleReloadSpellThreatsCommand,            "", NULL },
+        { "dbc",                         SECURITY_ADMINISTRATOR, true,  &ChatHandler::HandleReloadDBCCommand,                     "", NULL },
 
         { NULL,                          0,                      false, NULL,                                                     "", NULL }
     };

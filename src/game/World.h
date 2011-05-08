@@ -578,6 +578,8 @@ class World
         char const* GetDBVersion() { return m_DBVersion.c_str(); }
         char const* GetCreatureEventAIVersion() { return m_CreatureEventAIVersion.c_str(); }
 
+        void CustomizeDBCData(void);
+
     protected:
         void _UpdateGameTime();
         // callback for UpdateRealmCharacters
