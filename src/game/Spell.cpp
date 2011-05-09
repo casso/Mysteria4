@@ -4219,6 +4219,48 @@ SpellCastResult Spell::CheckCast(bool strict)
                 if (m_caster->hasUnitState(UNIT_STAT_ROOT))
                     return SPELL_FAILED_ROOTED;
 
+                // Kontrola viditelnosti
+                if(m_caster && m_targets.getUnitTarget() && m_caster->GetTypeId() == TYPEID_PLAYER )
+                {
+                    // Pozicia castera
+                    float caster_x = m_caster->GetPositionX();
+                    float caster_y = m_caster->GetPositionY();
+                    float caster_z = m_caster->GetPositionZ();
+
+                    // pozicia cielu
+                    Unit *target = m_targets.getUnitTarget();
+                    float target_x = target->GetPositionX();
+                    float target_y = target->GetPositionY();
+                    float target_z = target->GetPositionZ();
+
+                    // Vektor od castera k cielu
+                    float dist_x = target_x - caster_x;
+                    float dist_y = target_y - caster_y;
+                    float dist_z = target_z - caster_z;
+                    
+                    // Na kolko casti sa vektor rozdeli (~pocet testovani)
+                    const uint8 divider = 10;
+                    // Vyska (akasi tolerancia zvlnenia terenu)
+                    const float height = 1.0f;
+
+                    for(uint8 part=1; part<divider ; part++)
+                    {
+                        // Parametricke vzjadrenie usecky: part_f je z intervalu <0,1>
+                        float part_f = (float)part/(float)divider;
+
+                        float part_x = caster_x + dist_x*part_f;
+                        float part_y = caster_y + dist_y*part_f;
+                        float part_z = caster_z + dist_z*part_f;
+
+                        // Vyska z mapy bez pouzitia VMAP
+                        float map_z = m_caster->GetTerrain()->GetHeight(part_x, part_y, part_z, false);
+
+                        // Ide sa cez textury?
+                        if(map_z > part_z + height)
+                            return SPELL_FAILED_LINE_OF_SIGHT;
+                    }
+                }
+
                 break;
             }
             case SPELL_EFFECT_SKINNING:
