@@ -2095,7 +2095,19 @@ void Aura::TriggerSpell()
 
     // All ok cast by default case
     if (triggeredSpellInfo)
-        triggerTarget->CastSpell(triggerTarget, triggeredSpellInfo, true, NULL, this, casterGUID);
+    {
+        // Arcane missiles visual bug
+        if(triggeredSpellInfo->Attributes == 0x00010000 && triggeredSpellInfo->AttributesEx2 == 0x000000004 && triggeredSpellInfo->AttributesEx3 == 0x00000200 && triggeredSpellInfo->SpellFamilyFlags == 0x0000000000200000)
+        {
+            Unit* caster = GetCaster();
+            if(caster)
+                caster->CastSpell(triggerTarget, triggeredSpellInfo, true, NULL, this, casterGUID);
+        }
+        // Normal case
+        else
+            triggerTarget->CastSpell(triggerTarget, triggeredSpellInfo, true, NULL, this, casterGUID);
+
+    }
     else
     {
         if (Unit* caster = GetCaster())
