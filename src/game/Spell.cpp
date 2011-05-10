@@ -327,6 +327,8 @@ Spell::Spell( Unit* caster, SpellEntry const *info, bool triggered, ObjectGuid o
 
     if(m_spellInfo->DmgClass == SPELL_DAMAGE_CLASS_MAGIC && !(m_spellInfo->AttributesEx2 & SPELL_ATTR_EX2_CANT_REFLECTED))
     {
+        // AOE spelly maju radius index a nemaju byt reflectnute
+        if(m_spellInfo->EffectRadiusIndex[0]==0 && m_spellInfo->EffectRadiusIndex[1]==0 && m_spellInfo->EffectRadiusIndex[2]==0)
         for(int j = 0; j < MAX_EFFECT_INDEX; ++j)
         {
             if (m_spellInfo->Effect[j] == 0)
