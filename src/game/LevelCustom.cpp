@@ -773,7 +773,7 @@ bool ChatHandler::HandleReloadDBCCommand(char* args)
 {
     sWorld.CustomizeDBCData();
 
-    SendGlobalSysMessage("DB table `DBC_Spell` reloaded.");
+    SendGlobalSysMessage("DB tables `DBC_*` reloaded.");
 
     return true;
 }

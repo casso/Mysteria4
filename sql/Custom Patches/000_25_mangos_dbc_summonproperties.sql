@@ -10,4 +10,4 @@ CREATE TABLE `dbc_summonproperties` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `dbc_summonproperties` (`id`, `group_property`, `faction`, `type`, `slot`, `flags`) VALUES
-	('407',NULL,'35',NULL,NULL,NULL);
+	('407','1','0','5','5','0');
