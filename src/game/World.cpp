@@ -2175,18 +2175,19 @@ void World::CustomizeDBCData(void)
             Field* fields = result->Fetch();
 
             uint32 spellid = fields[0].GetUInt32();
+            SpellEntry *spellEntry = sSpellStore.LookupEntryOnEdit(spellid);
 
             // Uprava dat z dbc
             if(!fields[1].IsNULL())
-                sSpellStore.LookupEntry(spellid)->CastingTimeIndex = fields[1].GetUInt32();
+                spellEntry->CastingTimeIndex = fields[1].GetUInt32();
             if(!fields[2].IsNULL())
-                sSpellStore.LookupEntry(spellid)->DurationIndex = fields[2].GetUInt32();
+                spellEntry->DurationIndex = fields[2].GetUInt32();
             if(!fields[3].IsNULL())
-                sSpellStore.LookupEntry(spellid)->EffectBasePoints[0] = fields[3].GetInt32();
+                spellEntry->EffectBasePoints[0] = fields[3].GetInt32();
             if(!fields[4].IsNULL())
-                sSpellStore.LookupEntry(spellid)->EffectBasePoints[1] = fields[4].GetInt32();
+                spellEntry->EffectBasePoints[1] = fields[4].GetInt32();
             if(!fields[5].IsNULL())
-                sSpellStore.LookupEntry(spellid)->EffectBasePoints[2] = fields[5].GetInt32();
+                spellEntry->EffectBasePoints[2] = fields[5].GetInt32();
         }
         while(result->NextRow());
 
@@ -2202,18 +2203,19 @@ void World::CustomizeDBCData(void)
             Field* fields = result->Fetch();
 
             uint32 summonid = fields[0].GetUInt32();
+            SummonPropertiesEntry *summonProperty = sSummonPropertiesStore.LookupEntryOnEdit(summonid);
 
             // Uprava dat
             if(!fields[1].IsNULL())
-                sSummonPropertiesStore.LookupEntry(summonid)->Group = fields[1].GetUInt32();
+                summonProperty->Group = fields[1].GetUInt32();
             if(!fields[2].IsNULL())
-                sSummonPropertiesStore.LookupEntry(summonid)->FactionId = fields[2].GetUInt32();
+                summonProperty->FactionId = fields[2].GetUInt32();
             if(!fields[3].IsNULL())
-                sSummonPropertiesStore.LookupEntry(summonid)->Type = fields[3].GetUInt32();
+                summonProperty->Type = fields[3].GetUInt32();
             if(!fields[4].IsNULL())
-                sSummonPropertiesStore.LookupEntry(summonid)->Slot = fields[4].GetUInt32();
+                summonProperty->Slot = fields[4].GetUInt32();
             if(!fields[5].IsNULL())
-                sSummonPropertiesStore.LookupEntry(summonid)->Flags = fields[5].GetUInt32();
+                summonProperty->Flags = fields[5].GetUInt32();
         }
         while(result->NextRow());
 
