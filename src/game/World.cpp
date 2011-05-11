@@ -2192,4 +2192,31 @@ void World::CustomizeDBCData(void)
 
         delete result;
     }
+
+    // SummonProperty.DBC                              0   1               2        3     4     5
+    result = WorldDatabase.PQuery("SELECT id, group_property, faction, type, slot, flags FROM dbc_summonproperties");
+    if(result)
+    {
+        do
+        {
+            Field* fields = result->Fetch();
+
+            uint32 summonid = fields[0].GetUInt32();
+
+            // Uprava dat
+            if(!fields[1].IsNULL())
+                sSummonPropertiesStore.LookupEntry(summonid)->Group = fields[1].GetUInt32();
+            if(!fields[2].IsNULL())
+                sSummonPropertiesStore.LookupEntry(summonid)->FactionId = fields[2].GetUInt32();
+            if(!fields[3].IsNULL())
+                sSummonPropertiesStore.LookupEntry(summonid)->Type = fields[3].GetUInt32();
+            if(!fields[4].IsNULL())
+                sSummonPropertiesStore.LookupEntry(summonid)->Slot = fields[4].GetUInt32();
+            if(!fields[5].IsNULL())
+                sSummonPropertiesStore.LookupEntry(summonid)->Flags = fields[5].GetUInt32();
+        }
+        while(result->NextRow());
+
+        delete result;
+    }
 }
