@@ -615,6 +615,7 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder *holder)
     pCurrChar->SendInitialPacketsAfterAddToMap();
 
     CharacterDatabase.PExecute("UPDATE characters SET online = 1 WHERE guid = '%u'", pCurrChar->GetGUIDLow());
+    CharacterDatabase.PExecute("INSERT INTO character_login_history (id_character, id_account) VALUES (%u, %u)", pCurrChar->GetGUIDLow(), GetAccountId());
     LoginDatabase.PExecute("UPDATE account SET active_realm_id = %u WHERE id = '%u'", realmID, GetAccountId());
     pCurrChar->SetInGameTime( WorldTimer::getMSTime() );
 

@@ -509,6 +509,9 @@ bool AuthSocket::_HandleLogonChallenge()
                         _localizationName[i] = ch->country[4-i-1];
 
                     BASIC_LOG("[AuthChallenge] account %s is using '%c%c%c%c' locale (%u)", _login.c_str (), ch->country[3], ch->country[2], ch->country[1], ch->country[0], GetLocaleByName(_localizationName));
+
+                    // Zaznamenanie IP a casu prihlasenia sa na account
+                    LoginDatabase.PExecute("INSERT INTO account_login_history (id_account, ip_address) VALUES (%u, '%s')", (*result)[1].GetUInt32(), address.c_str());
                 }
             }
             delete result;
