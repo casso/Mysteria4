@@ -4037,6 +4037,7 @@ void Spell::EffectSummonPet(SpellEffectIndex eff_idx)
     NewSummon->SetUInt32Value(UNIT_FIELD_PETEXPERIENCE, 0);
     NewSummon->SetUInt32Value(UNIT_FIELD_PETNEXTLEVELEXP, 1000);
     NewSummon->SetUInt32Value(UNIT_CREATED_BY_SPELL, m_spellInfo->Id);
+    NewSummon->SetByteValue(UNIT_FIELD_BYTES_0, 1, CLASS_MAGE);
 
     NewSummon->UpdateWalkMode(m_caster);
 
