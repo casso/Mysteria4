@@ -3633,7 +3633,10 @@ bool Player::resetTalents(bool no_cost)
 
         for (int j = 0; j < MAX_TALENT_RANK; ++j)
             if (talentInfo->RankID[j])
-                removeSpell(talentInfo->RankID[j],!IsPassiveSpell(talentInfo->RankID[j]),false);
+                if(talentInfo->RankID[j] == 37116 || talentInfo->RankID[j] == 37117)
+                    removeSpell(talentInfo->RankID[j],false,false);
+                else
+                    removeSpell(talentInfo->RankID[j],!IsPassiveSpell(talentInfo->RankID[j]),false);  
     }
 
     UpdateFreeTalentPoints(false);
