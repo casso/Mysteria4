@@ -150,7 +150,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="mangosd.lib ACE.lib"
+				AdditionalDependencies="Mysteria4_world.lib ACE.lib"
 				OutputFile="$(OutDir)/Mysteria4_script.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\..\..\win\VC90\mangosd__Win32_Release;..\..\..\..\dep\lib\win32_release\"

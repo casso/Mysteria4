@@ -34,6 +34,8 @@
 #include "Player.h"
 #include "Chat.h"
 
+#define CLIRUNNABLE_PROMPT "Mysteria4> "
+
 void utf8print(void* arg, const char* str)
 {
 #if PLATFORM == PLATFORM_WINDOWS
@@ -52,7 +54,7 @@ void utf8print(void* arg, const char* str)
 
 void commandFinished(void*, bool sucess)
 {
-    printf("mangos>");
+    printf(CLIRUNNABLE_PROMPT);
     fflush(stdout);
 }
 
@@ -599,7 +601,7 @@ void CliRunnable::run()
 
     // print this here the first time
     // later it will be printed after command queue updates
-    printf("mangos>");
+    printf(CLIRUNNABLE_PROMPT);
 
     ///- As long as the World is running (no World::m_stopEvent), get the command line and handle it
     while (!World::IsStopped())
@@ -625,14 +627,14 @@ void CliRunnable::run()
 
             if(!*command_str)
             {
-                printf("mangos>");
+                printf(CLIRUNNABLE_PROMPT);
                 continue;
             }
 
             std::string command;
             if(!consoleToUtf8(command_str,command))         // convert from console encoding to utf8
             {
-                printf("mangos>");
+                printf(CLIRUNNABLE_PROMPT);
                 continue;
             }
 
