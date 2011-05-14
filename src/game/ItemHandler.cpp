@@ -26,6 +26,7 @@
 #include "Item.h"
 #include "UpdateData.h"
 #include "Chat.h"
+#include "World.h"
 
 void WorldSession::HandleSplitItemOpcode( WorldPacket & recv_data )
 {
@@ -926,6 +927,11 @@ void WorldSession::HandleAutoBankItemOpcode(WorldPacket& recvPacket)
     Item *pItem = _player->GetItemByPos( srcbag, srcslot );
     if( !pItem )
         return;
+
+    // WPE dupe protection
+    if(pItem->IsBag())
+        if(!((Bag *)pItem)->IsEmpty())
+            sWorld.BanAccount(BAN_CHARACTER, GetPlayerName(),0 ,"WPE Duplication Item","Casso's WPE Protection");
 
     ItemPosCountVec dest;
     uint8 msg = _player->CanBankItem( NULL_BAG, NULL_SLOT, dest, pItem, false );
