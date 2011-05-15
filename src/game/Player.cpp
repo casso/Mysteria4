@@ -16444,7 +16444,7 @@ void Player::UpdateSpeakTime()
             if(GetSession()->m_muteTime < new_mute)
                 GetSession()->m_muteTime = new_mute;
 
-            sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_ANTIFLOOD_NOTIFY, GetName());
+            sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_ANTIFLOOD_NOTIFY, GetName(), sWorld.getConfig(CONFIG_UINT32_CHATFLOOD_MUTE_TIME));
 
             m_speakCount = 0;
         }
