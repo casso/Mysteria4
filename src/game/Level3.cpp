@@ -5477,7 +5477,7 @@ bool ChatHandler::HandleServerPLimitCommand(char *args)
             return false;
 
         // kick all low security level players
-        if(sWorld.GetPlayerAmountLimit() > SECURITY_PLAYER)
+        if(sWorld.GetPlayerSecurityLimit() > SECURITY_PLAYER)
             sWorld.KickAllLess(sWorld.GetPlayerSecurityLimit());
     }
 
