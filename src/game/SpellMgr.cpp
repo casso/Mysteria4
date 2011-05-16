@@ -548,6 +548,9 @@ bool IsPositiveEffect(uint32 spellId, SpellEffectIndex effIndex)
                         return false;
                     break;
                 case SPELL_AURA_MOD_DAMAGE_TAKEN:           // dependent from bas point sign (positive -> negative)
+                    // Amplify Magic, Dampen Magic are positive buffs
+                    if(spellproto->Attributes == 65536 && spellproto->AttributesEx == 131072 && spellproto->SpellFamilyFlags == 8192)
+                        return true;
                     if(spellproto->CalculateSimpleValue(effIndex) > 0)
                         return false;
                     break;
