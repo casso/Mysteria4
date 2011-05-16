@@ -7469,7 +7469,7 @@ uint32 Unit::SpellDamageBonus(Unit *pVictim, SpellEntry const *spellProto, uint3
             case 4920:
             case 4919:
             {
-                if(pVictim->HasAuraState(AURA_STATE_HEALTHLESS_35_PERCENT))
+                if(pVictim->HasAuraState(AURA_STATE_HEALTHLESS_20_PERCENT))
                     DoneTotalMod *= (100.0f+(*i)->GetModifier()->m_amount)/100.0f;
                 break;
             }
@@ -7480,7 +7480,7 @@ uint32 Unit::SpellDamageBonus(Unit *pVictim, SpellEntry const *spellProto, uint3
                 // effect 1 m_amount
                 int32 maxPercent = (*i)->GetModifier()->m_amount;
                 // effect 0 m_amount
-                int32 stepPercent = CalculateSpellDamage(this, (*i)->GetSpellProto(), EFFECT_INDEX_0);
+                int32 stepPercent = CalculateSpellDamage(this, (*i)->GetSpellProto(), EFFECT_INDEX_0)/2;
                 // count affliction effects and calc additional damage in percentage
                 int32 modPercent = 0;
                 AuraMap const& victimAuras = pVictim->GetAuras();

@@ -1236,6 +1236,15 @@ bool Aura::isAffectedOnSpell(SpellEntry const *spell) const
         return false;
 
     uint64 mask = sSpellMgr.GetSpellAffectMask(GetId(),GetEffIndex());
+
+    // Soul Siphon
+    if(GetId() == 17804 || GetId() == 17805)
+        mask = 8;
+
+    // Molten Fury
+    if(GetId() == 31679 || GetId() == 31680)
+        mask = 1;
+
     return (mask & spell->SpellFamilyFlags);
 }
 
