@@ -2672,6 +2672,27 @@ void Spell::EffectPersistentAA(SpellEffectIndex eff_idx)
         return;
     }
 
+    switch(m_spellInfo->Id)
+    {
+        case 2120:  // Flamestrike Rank 1
+        case 2121:  // Flamestrike Rank 2
+        case 8422:  // Flamestrike Rank 3
+        case 8423:  // Flamestrike Rank 4
+        case 10215: // Flamestrike Rank 5
+        case 10216: // Flamestrike Rank 6
+        case 27086: // Flamestrike Rank 7
+        {    
+            DynamicObject* remObj = m_caster->GetDynObject(m_spellInfo->Id, eff_idx);
+            if(remObj)
+            {    
+                remObj->RemoveFromWorld();
+                remObj->Delete();
+            }
+
+            break;
+        }
+    }
+
     m_caster->AddDynObject(dynObj);
     m_caster->GetMap()->Add(dynObj);
 }
