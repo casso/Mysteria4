@@ -6396,6 +6396,28 @@ void Aura::PeriodicTick()
                 int32 gain = pCaster->ModifyPower(power, gain_amount);
                 target->AddThreat(pCaster, float(gain) * 0.5f, false, GetSpellSchoolMask(spellProto), spellProto);
             }
+            
+            // Drain Mana Ranks 1-6
+            if(spellProto->AttributesEx4 == 2048 && spellProto->AttributesEx5 == 8192)
+                // Mana Feed Talent
+                if(pCaster->GetTypeId() == TYPEID_PLAYER)
+                    if(gain_amount > 0)
+                {
+                    int32 manaFeedVal = 0;
+
+                    if(pCaster->HasSpell(30328)) // Rank 3 - 100%
+                        manaFeedVal = gain_amount;
+                    else if(pCaster->HasSpell(30327)) // Rank 2 - 66%
+                        manaFeedVal = (gain_amount * 66) /100;
+                    else if(pCaster->HasSpell(30326)) // Rank 1 - 33%
+                        manaFeedVal = (gain_amount * 33) /100;
+                    else
+                        break;
+
+                    pCaster->CastCustomSpell(pCaster, 32553, &manaFeedVal, NULL, NULL, true, NULL);
+
+                }
+
             break;
         }
         case SPELL_AURA_PERIODIC_ENERGIZE:
