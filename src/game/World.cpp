@@ -737,6 +737,8 @@ void World::LoadConfigSettings(bool reload)
     setConfig(CONFIG_UINT32_PVP_TOKEN_ID,             "PvPToken.ItemID", 10663);
     setConfigMin(CONFIG_UINT32_PVP_TOKEN_COUNT,       "PvPToken.ItemCount", 1, 1);
 
+    setConfig(CONFIG_BOOL_DUEL_RESTORE,               "Duel.Restore", false);
+
     setConfig(CONFIG_BOOL_BG_ROTATE,                  "BGRotate.Enable", false);
     setConfigMin(CONFIG_UINT32_BG_ROTATE_HOURS,       "BGRotate.Hours", 2, 1);
 

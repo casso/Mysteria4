@@ -1602,13 +1602,18 @@ PvPToken.ItemID = 10663
 PvPToken.ItemCount = 1
 
 ###################################################################################################################
-# ROTACIA BG
+# Mysteria Custom
 #    BGRotate.Enable
 #        Zapnutie rotacie BGcok (0-Vypnute (default), 1-Zapnute)
 #    BGRotate.Hours
 #        Pocet hodin pre jeden bg (Default:2)
 #
+#    Duel.Restore
+#        Obnovenie HP, Many a reset cooldownov po skonceni duelu (0-Vypnute (default), 1-Zapnute)
+#
 ###################################################################################################################
 
 BGRotate.Enable = 1
 BGRotate.Hours = 2
+
+Duel.Restore = 1
