@@ -468,6 +468,15 @@ void WorldSession::HandleGuildMOTDOpcode(WorldPacket& recvPacket)
     else
         MOTD = "";
 
+    // WPE color hack protection
+    if(GetSecurity() < SECURITY_MODERATOR && !hasCorrectPipeFormat(MOTD.c_str()))
+    {
+        sLog.outError("WPE PROTECTION: Player '%s' wants to set '%s' as MOTD", GetPlayerName(), MOTD.c_str());
+        sWorld.BanAccount(BAN_CHARACTER, GetPlayerName(), 0, "WPE Motd Color Hack", "Casso's WPE Protection");
+
+        return;
+    }
+
     Guild *guild = sObjectMgr.GetGuildById(GetPlayer()->GetGuildId());
     if (!guild)
     {
