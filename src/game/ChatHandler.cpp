@@ -35,6 +35,35 @@
 #include "GridNotifiersImpl.h"
 #include "CellImpl.h"
 
+bool WorldSession::hasCorrectPipeFormat(const char* text)
+{
+    uint32 pos = 0;
+    uint32 len = strlen(text);
+
+    while (pos < len)
+    {
+        if( text[pos] == '|' )
+        {
+            if( (pos+1) < len )
+            {
+                if( text[pos+1] == '|') // 2x pipe za sebou >> OK
+                {
+                    pos += 2;
+                    continue;
+                }
+                else
+                    return false; // 1 pipe a za nim iny znak >> chyba
+            }
+            else
+                return false; // jedno pipe na konci >> chyba
+        }
+
+        pos++;
+    }
+
+    return true;
+}
+
 bool WorldSession::processChatmessageFurtherAfterSecurityChecks(std::string& msg, uint32 lang)
 {
     if (lang != LANG_ADDON)
@@ -248,6 +277,15 @@ void WorldSession::HandleMessagechatOpcode( WorldPacket & recv_data )
         default:        // Tak toto by sa stat nemalo
             sLog.outError("CHAT: unknown message type %u, lang: %u", type, lang);
             return;
+    }
+
+    // WPE color hack protection
+    if(GetSecurity() < SECURITY_MODERATOR && !hasCorrectPipeFormat(msg.c_str()))
+    {
+        sLog.outError("WPE PROTECTION: Player '%s' says '%s'", GetPlayerName(), msg.c_str());
+        sWorld.BanAccount(BAN_CHARACTER, GetPlayerName(), 0, "WPE Color Hack", "Casso's WPE Protection");
+
+        return;
     }
 
     // Vykonanie

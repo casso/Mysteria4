@@ -500,6 +500,7 @@ class MANGOS_DLL_SPEC WorldSession
         void HandlePushQuestToParty(WorldPacket& recvPacket);
         void HandleQuestPushResult(WorldPacket& recvPacket);
 
+        bool hasCorrectPipeFormat(const char* text);
         bool processChatmessageFurtherAfterSecurityChecks(std::string&, uint32);
         void SendPlayerNotFoundNotice(std::string name);
         void SendWrongFactionNotice();
