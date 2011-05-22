@@ -154,7 +154,8 @@ void WorldSession::HandleMessagechatOpcode( WorldPacket & recv_data )
             }
 
             // DMG addon zapinal antiflood, flood je povoleny na /p /raid a /g kanaloch
-            if ( type != CHAT_MSG_PARTY && type != CHAT_MSG_RAID && type != CHAT_MSG_GUILD)
+            // Taktiez "Addon channel" moze byt legalne floodovany
+            if ( type != CHAT_MSG_PARTY && type != CHAT_MSG_RAID && type != CHAT_MSG_GUILD && type != CHAT_MSG_ADDON )
                 GetPlayer()->UpdateSpeakTime();
         }
     }
