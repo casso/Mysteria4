@@ -527,6 +527,15 @@ void WorldSession::HandleGuildSetPublicNoteOpcode(WorldPacket& recvPacket)
 
     recvPacket >> PNOTE;
 
+    // WPE color hack protection
+    if(GetSecurity() < SECURITY_MODERATOR && !hasCorrectPipeFormat(PNOTE.c_str()))
+    {
+        sLog.outError("WPE PROTECTION: Player '%s' wants to set '%s' as Public Note", GetPlayerName(), PNOTE.c_str());
+        sWorld.BanAccount(BAN_CHARACTER, GetPlayerName(), 0, "WPE Public Note Color Hack", "Casso's WPE Protection");
+
+        return;
+    }
+
     slot->SetPNOTE(PNOTE);
 
     guild->Roster(this);
@@ -563,6 +572,15 @@ void WorldSession::HandleGuildSetOfficerNoteOpcode(WorldPacket& recvPacket)
     }
 
     recvPacket >> OFFNOTE;
+
+    // WPE color hack protection
+    if(GetSecurity() < SECURITY_MODERATOR && !hasCorrectPipeFormat(OFFNOTE.c_str()))
+    {
+        sLog.outError("WPE PROTECTION: Player '%s' wants to set '%s' as Officers Note", GetPlayerName(), OFFNOTE.c_str());
+        sWorld.BanAccount(BAN_CHARACTER, GetPlayerName(), 0, "WPE Officers Note Color Hack", "Casso's WPE Protection");
+
+        return;
+    }
 
     slot->SetOFFNOTE(OFFNOTE);
 
