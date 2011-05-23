@@ -58,6 +58,7 @@
 #include "ScriptMgr.h"
 #include "SocialMgr.h"
 #include "Mail.h"
+#include "AccountMgr.h"
 
 #include <cmath>
 
@@ -14302,6 +14303,11 @@ bool Player::LoadFromDB( uint32 guid, SqlQueryHolder *holder )
     if( dbAccountId != GetSession()->GetAccountId() )
     {
         sLog.outError("Player (GUID: %u) loading from wrong account (is: %u, should be: %u)",guid,GetSession()->GetAccountId(),dbAccountId);
+
+        std::string accountname;
+        if(sAccountMgr.GetName(GetSession()->GetAccountId(), accountname))
+            sWorld.BanAccount(BAN_ACCOUNT, accountname.c_str(), 0, "WPE login bad character", "Casso's WPE Protection");
+
         delete result;
         return false;
     }
