@@ -2772,6 +2772,10 @@ void Spell::update(uint32 difftime)
                     // check if player has turned if flag is set
                     if( m_spellInfo->ChannelInterruptFlags & CHANNEL_FLAG_TURNING && m_castOrientation != m_caster->GetOrientation() )
                         cancel();
+
+                    // Vmap kontrola
+                    if(IsChanneledSpell(m_spellInfo) && m_targets.getUnitTarget() && VMAP::VMapFactory::checkSpellForLoS(m_spellInfo->Id) && !m_targets.getUnitTarget()->IsWithinLOSInMap(m_caster))
+                        cancel();
                 }
 
                 // check if there are alive targets left
