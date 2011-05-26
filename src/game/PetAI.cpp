@@ -99,6 +99,10 @@ bool PetAI::_needToStop() const
     if(m_creature->isCharmed() && m_creature->getVictim() == m_creature->GetCharmer())
         return true;
 
+    // Deffense Pet prestane utocit na target, ktory ma auru s interupt flag
+    if(m_creature->GetCharmInfo()->HasReactState(REACT_DEFENSIVE) && m_creature->getVictim()->hasNegativeAuraWithInterruptFlag(AURA_INTERRUPT_FLAG_DAMAGE))
+        return true;
+
     return !m_creature->getVictim()->isTargetableForAttack();
 }
 
@@ -191,7 +195,11 @@ void PetAI::UpdateAI(const uint32 diff)
     {
         if (owner->isInCombat() && !(m_creature->GetCharmInfo()->HasReactState(REACT_PASSIVE) || m_creature->GetCharmInfo()->HasCommandState(COMMAND_STAY)))
         {
-            AttackStart(owner->getAttackerForHelper());
+            
+            if(m_creature->GetCharmInfo()->HasReactState(REACT_AGGRESSIVE) || // Ak je pet agresivny, alebo
+                (owner->getAttackerForHelper() &&                             // ak target vlastnika peta nema auru prerusitelnu damage-om, zacne utocit
+                 !owner->getAttackerForHelper()->hasNegativeAuraWithInterruptFlag(AURA_INTERRUPT_FLAG_DAMAGE)))
+                AttackStart(owner->getAttackerForHelper());
         }
         else if(m_creature->GetCharmInfo()->HasCommandState(COMMAND_FOLLOW))
         {
