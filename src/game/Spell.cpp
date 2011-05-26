@@ -5598,7 +5598,7 @@ bool Spell::CheckTarget( Unit* target, SpellEffectIndex eff )
             // Get GO cast coordinates if original caster -> GO
             if (target != m_caster)
                 if (WorldObject *caster = GetCastingObject())
-                    if (VMAP::VMapFactory::checkSpellForLoS(m_spellInfo->Id) && !target->IsWithinLOSInMap(caster))
+                    if (!m_IsTriggeredSpell && VMAP::VMapFactory::checkSpellForLoS(m_spellInfo->Id) && !target->IsWithinLOSInMap(caster))
                         return false;
             break;
     }
