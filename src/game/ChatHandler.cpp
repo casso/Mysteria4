@@ -46,9 +46,14 @@ bool WorldSession::hasCorrectPipeFormat(const char* text)
         {
             if( (pos+1) < len )
             {
-                if( text[pos+1] == '|') // 2x pipe za sebou >> OK
+                if( text[pos+1] == '|' || text[pos+1] == 'h' || text[pos+1] == 'r') // ||, |h alebo |r su povolene
                 {
                     pos += 2;
+                    continue;
+                }
+                else if((pos+11)< len && text[pos+10] == '|' && text[pos+11] == 'H') // |cffxxxxxx|H 
+                {
+                    pos += 12;
                     continue;
                 }
                 else
