@@ -742,6 +742,12 @@ void World::LoadConfigSettings(bool reload)
     setConfig(CONFIG_BOOL_BG_ROTATE,                  "BGRotate.Enable", false);
     setConfigMin(CONFIG_UINT32_BG_ROTATE_HOURS,       "BGRotate.Hours", 2, 1);
 
+    setConfig      (CONFIG_BOOL_ARENA_ANTIWINTRADE,                 "Arena.Wintrade.Enable",       false);
+    setConfigMinMax(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKDAY_START, "Arena.Wintrade.WeekdayStart", 0,      0, 23);
+    setConfigMinMax(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKDAY_END,   "Arena.Wintrade.WeekdayEnd",   0,      0, 23);
+    setConfigMinMax(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKEND_START, "Arena.Wintrade.WeekendStart", 0,      0, 23);
+    setConfigMinMax(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKEND_END,   "Arena.Wintrade.WeekendEnd",   0,      0, 23);
+
     m_VisibleUnitGreyDistance = sConfig.GetFloatDefault("Visibility.Distance.Grey.Unit", 1);
     if(m_VisibleUnitGreyDistance >  MAX_VISIBILITY_DISTANCE)
     {

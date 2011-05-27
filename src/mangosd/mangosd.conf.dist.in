@@ -1617,3 +1617,20 @@ BGRotate.Enable = 1
 BGRotate.Hours = 2
 
 Duel.Restore = 1
+
+###################################################################################################################
+# Rated Arena AntiWintrade
+#    Arena.Wintrade.Enable 
+#        Zapnutie blokovania rated aren v urcitom case (0-Vypnute (default), 1-Zapnute)
+#
+#    Arena.Wintrade.Week*
+#        Hodina zaciatku a konca blokovania aren cez tyzden a vikend (vratane)
+#  
+###################################################################################################################
+
+Arena.Wintrade.Enable = 0
+Arena.Wintrade.WeekdayStart = 0
+Arena.Wintrade.WeekdayEnd = 24
+ 
+Arena.Wintrade.WeekendStart = 0
+Arena.Wintrade.WeekendEnd = 24

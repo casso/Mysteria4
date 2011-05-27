@@ -709,6 +709,39 @@ void WorldSession::HandleBattlemasterJoinArena( WorldPacket & recv_data )
             _player->GetSession()->SendNotInArenaTeamPacket(arenatype);
             return;
         }
+
+        //AntiWintrade, Blokovanie rated aren v urcenom case
+        if(sWorld.getConfig(CONFIG_BOOL_ARENA_ANTIWINTRADE))
+        {
+            time_t t = time(NULL);
+            tm* aTm = localtime(&t);
+            uint8 hour = aTm->tm_hour;
+            bool isWeekday = ( aTm->tm_wday == 0 || aTm->tm_wday == 6 ) ? false : true; // 0 sunday, 6 saturday
+
+            if(isWeekday) // Tyzden
+            {
+                if(hour >= sWorld.getConfig(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKDAY_START) && hour <= sWorld.getConfig(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKDAY_END))
+                {
+                    ChatHandler(this).PSendSysMessage("Rated arena is blocked this time!\nBlocked: Mon-Fri: %u:00-%u:59, Sat-Sun: %u:00-%u:59", 
+                        sWorld.getConfig(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKDAY_START),
+                        sWorld.getConfig(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKDAY_END  ),
+                        sWorld.getConfig(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKEND_START),
+                        sWorld.getConfig(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKEND_END  ));
+                    return;
+                }
+            }
+            else // Vikend
+                if(hour >= sWorld.getConfig(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKEND_START) && hour <= sWorld.getConfig(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKEND_END))
+                {
+                    ChatHandler(this).PSendSysMessage("Rated arena is blocked this time!\nBlocked: Mon-Fri: %u:00-%u:59, Sat-Sun: %u:00-%u:59", 
+                        sWorld.getConfig(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKDAY_START),
+                        sWorld.getConfig(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKDAY_END  ),
+                        sWorld.getConfig(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKEND_START),
+                        sWorld.getConfig(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKEND_END  ));
+                    return;
+                }
+        }
+
         // get the team rating for queue
         arenaRating = at->GetRating();
         // the arena team id must match for everyone in the group
