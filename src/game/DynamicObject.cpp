@@ -139,6 +139,18 @@ void DynamicObject::Update(uint32 update_diff, uint32 p_time)
         caster->RemoveDynObjectWithGUID(GetGUID());
         Delete();
     }
+
+    // Shifting naaru silver
+    if(m_spellId==45043)
+    {
+        if(GetDistance(caster) <= m_radius && !deleteThis)
+        {
+            if(!caster->HasAura(45044))
+                caster->CastSpell(caster, 45044, true);
+        }
+        else if(caster->HasAura(45044))
+            caster->RemoveAurasDueToSpell(45044);
+    }
 }
 
 void DynamicObject::Delete()
