@@ -896,12 +896,19 @@ void Spell::DoAllEffectOnTarget(TargetInfo *target)
             if (!(m_spellInfo->AttributesEx3 & SPELL_ATTR_EX3_NO_INITIAL_AGGRO) && !IsPositiveSpell(m_spellInfo->Id) &&
                 m_caster->isVisibleForOrDetect(unit, unit, false))
             {
-                if (!unit->isInCombat() && unit->GetTypeId() != TYPEID_PLAYER && ((Creature*)unit)->AI())
-                    ((Creature*)unit)->AI()->AttackedBy(real_caster);
+                if(m_spellInfo->Id == 32375 && real_caster->IsFriendlyTo(unit))
+                {
+                    // Mass dispell na friendly nema davat aggro
+                }
+                else
+                {
+                    if (!unit->isInCombat() && unit->GetTypeId() != TYPEID_PLAYER && ((Creature*)unit)->AI())
+                        ((Creature*)unit)->AI()->AttackedBy(real_caster);
 
-                unit->AddThreat(real_caster);
-                unit->SetInCombatWith(real_caster);
-                real_caster->SetInCombatWith(unit);
+                    unit->AddThreat(real_caster);
+                    unit->SetInCombatWith(real_caster);
+                    real_caster->SetInCombatWith(unit);
+                }
             }
         }
     }
