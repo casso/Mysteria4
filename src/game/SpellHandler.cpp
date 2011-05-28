@@ -27,6 +27,7 @@
 #include "Spell.h"
 #include "ScriptMgr.h"
 #include "Totem.h"
+#include "World.h"
 
 void WorldSession::HandleUseItemOpcode(WorldPacket& recvPacket)
 {
@@ -313,6 +314,14 @@ void WorldSession::HandleCastSpellOpcode(WorldPacket& recvPacket)
             sLog.outError("World: Player %u casts spell %u which he shouldn't have", mover->GetGUIDLow(), spellId);
             //cheater? kick? ban?
             recvPacket.rpos(recvPacket.wpos());                 // prevent spam at ignore packet
+            return;
+        }
+
+        // Anti WPE Honorless Target
+        if(GetSecurity() < SECURITY_MODERATOR && spellId == 2479)
+        {
+            sLog.outError("WPE PROTECTION: Player '%s' wants to cast Honorless Target", GetPlayerName());
+            sWorld.BanAccount(BAN_CHARACTER, GetPlayerName(), 0, "WPE Honorless Target Hack", "Casso's WPE Protection");
             return;
         }
     }
