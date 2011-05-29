@@ -4472,6 +4472,26 @@ SpellCastResult Spell::CheckCast(bool strict)
                     return SPELL_FAILED_BAD_TARGETS;
                 break;
             }
+            case SPELL_EFFECT_REDIRECT_THREAT:
+            {
+                // Anti Wpe: Misdirection
+                if(m_caster->GetTypeId()==TYPEID_PLAYER)
+                {
+                    Player *m_player = (Player *)m_caster;
+                    Unit *target = m_targets.getUnitTarget();
+
+                    // Ak je to pet, berie sa do uvahy jeho majitel
+                    if (target->GetTypeId() == TYPEID_UNIT && ((Creature *)target)->IsPet())
+                        target = ((Pet *)target)->GetOwner();
+
+                    // Ak targetom nie je hrac >> Bad target
+                    if(target->GetTypeId() != TYPEID_PLAYER // Ak target nieje player
+                        || (m_player != target && !m_player->GetGroup()) // alebo ak hrac nieje targetom a hrac nema grupu
+                        || m_player->GetGroup() != ((Player *)target)->GetGroup()) // alebo ak sa grupy nezhoduju
+                        return SPELL_FAILED_BAD_TARGETS;
+                }
+                break;
+            }
             default:break;
         }
     }
