@@ -2174,8 +2174,8 @@ bool World::configNoReload(bool reload, eConfigBoolValues index, char const* fie
 
 void World::CustomizeDBCData(void)
 {
-    // Spell.DBC                                       0        1                 2              3                  4                  5
-    QueryResult* result = WorldDatabase.PQuery("SELECT SpellID, CastingTimeIndex, DurationIndex, EffectBasePoints0, EffectBasePoints1, EffectBasePoints2 FROM dbc_spell");
+    // Spell.DBC                                       0        1                 2              3                  4                  5                  6           7             8              9              10             11             12
+    QueryResult* result = WorldDatabase.PQuery("SELECT SpellID, CastingTimeIndex, DurationIndex, EffectBasePoints0, EffectBasePoints1, EffectBasePoints2, Attributes, AttributesEx, AttributesEx2, AttributesEx3, AttributesEx4, AttributesEx5, AttributesEx6 FROM dbc_spell");
     if(result)
     {
         do
@@ -2196,6 +2196,20 @@ void World::CustomizeDBCData(void)
                 spellEntry->EffectBasePoints[1] = fields[4].GetInt32();
             if(!fields[5].IsNULL())
                 spellEntry->EffectBasePoints[2] = fields[5].GetInt32();
+            if(!fields[6].IsNULL())
+                spellEntry->Attributes    = fields[ 6].GetInt32();
+            if(!fields[7].IsNULL())
+                spellEntry->AttributesEx  = fields[ 7].GetInt32();
+            if(!fields[8].IsNULL())
+                spellEntry->AttributesEx2 = fields[ 8].GetInt32();
+            if(!fields[9].IsNULL())
+                spellEntry->AttributesEx3 = fields[ 9].GetInt32();
+            if(!fields[10].IsNULL())
+                spellEntry->AttributesEx4 = fields[10].GetInt32();
+            if(!fields[11].IsNULL())
+                spellEntry->AttributesEx5 = fields[11].GetInt32();
+            if(!fields[12].IsNULL())
+                spellEntry->AttributesEx6 = fields[12].GetInt32();
         }
         while(result->NextRow());
 
