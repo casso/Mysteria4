@@ -28,6 +28,7 @@
 #include "ArenaTeam.h"
 #include "GossipDef.h"
 #include "SocialMgr.h"
+#include "Chat.h"
 
 /*enum PetitionType // dbc data
 {
@@ -446,6 +447,12 @@ void WorldSession::HandlePetitionSignOpcode(WorldPacket & recv_data)
     recv_data >> unk;
 
     uint32 petitionLowGuid = petitionGuid.GetCounter();
+
+    if(GetPlayer()->getLevel() < sWorld.getConfig(CONFIG_UINT32_SIGN_MINLEVEL) )
+    {
+        ChatHandler(this).PSendSysMessage("You need %u level to sign this!", sWorld.getConfig(CONFIG_UINT32_SIGN_MINLEVEL) );
+        return;
+    }
 
     QueryResult *result = CharacterDatabase.PQuery(
         "SELECT ownerguid, "

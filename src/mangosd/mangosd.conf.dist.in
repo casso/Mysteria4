@@ -1625,6 +1625,9 @@ Duel.Restore = 1
 #
 #    Arena.Wintrade.Week*
 #        Hodina zaciatku a konca blokovania aren cez tyzden a vikend (vratane)
+#
+#    Sign.MinLevel
+#        Minimalny level potrebny na podpisanie peticie
 #  
 ###################################################################################################################
 
@@ -1634,3 +1637,5 @@ Arena.Wintrade.WeekdayEnd = 24
  
 Arena.Wintrade.WeekendStart = 0
 Arena.Wintrade.WeekendEnd = 24
+
+Sign.MinLevel = 1

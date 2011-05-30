@@ -748,6 +748,8 @@ void World::LoadConfigSettings(bool reload)
     setConfigMinMax(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKEND_START, "Arena.Wintrade.WeekendStart", 0,      0, 23);
     setConfigMinMax(CONFIG_UINT32_ARENA_ANTIWINTRADE_WEEKEND_END,   "Arena.Wintrade.WeekendEnd",   0,      0, 23);
 
+    setConfigMinMax(CONFIG_UINT32_SIGN_MINLEVEL,   "Sign.MinLevel",   1,      1, 255);
+
     m_VisibleUnitGreyDistance = sConfig.GetFloatDefault("Visibility.Distance.Grey.Unit", 1);
     if(m_VisibleUnitGreyDistance >  MAX_VISIBILITY_DISTANCE)
     {
