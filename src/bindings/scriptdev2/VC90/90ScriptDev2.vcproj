@@ -3109,7 +3109,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="Extracting revision"
-					CommandLine="cd &quot;$(SolutionDir)&quot;&#x0D;&#x0A;&quot;$(SolutionDir)..\..\..\win\VC90\genrevision__Win32_$(ConfigurationName)\genrevision.exe&quot;&#x0D;&#x0A;"
+					CommandLine="echo on&#x0D;&#x0A;cd &quot;$(SolutionDir)..\src\bindings\ScriptDev2&quot;&#x0D;&#x0A;&quot;..\..\..\win\VC90\genrevision__$(PlatformName)_$(ConfigurationName)\genrevision.exe&quot;&#x0D;&#x0A;"
 					AdditionalDependencies=".svn/entries"
 					Outputs="revision.h"
 				/>
