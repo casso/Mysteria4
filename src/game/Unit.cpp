@@ -1308,7 +1308,7 @@ void Unit::CalculateSpellDamage(SpellNonMeleeDamage *damageInfo, int32 damage, S
         }
 
         // absorb/resist: lookup ignore auras on caster for spell
-        CalcAbsorbResist(pVictim, damageSchoolMask, SPELL_DIRECT_DAMAGE, damage, &damageInfo->absorb, &damageInfo->resist);
+        CalcAbsorbResist(pVictim, damageSchoolMask, SPELL_DIRECT_DAMAGE, damage, &damageInfo->absorb, &damageInfo->resist, !(spellInfo->AttributesEx2 & SPELL_ATTR_EX2_CANT_REFLECTED), spellInfo);
         damage-= damageInfo->absorb + damageInfo->resist;
     }
     else
@@ -1806,7 +1806,7 @@ uint32 Unit::CalcArmorReducedDamage(Unit* pVictim, const uint32 damage)
     return (newdamage > 1) ? newdamage : 1;
 }
 
-void Unit::CalcAbsorbResist(Unit *pVictim,SpellSchoolMask schoolMask, DamageEffectType damagetype, const uint32 damage, uint32 *absorb, uint32 *resist, bool canReflect)
+void Unit::CalcAbsorbResist(Unit *pVictim,SpellSchoolMask schoolMask, DamageEffectType damagetype, const uint32 damage, uint32 *absorb, uint32 *resist, bool canReflect, SpellEntry const *CastedSpellProto)
 {
     if(!pVictim || !pVictim->isAlive() || !damage)
         return;
@@ -1915,6 +1915,34 @@ void Unit::CalcAbsorbResist(Unit *pVictim,SpellSchoolMask schoolMask, DamageEffe
                     if (max_absorb < currentAbsorb)
                         currentAbsorb = max_absorb;
                     break;
+                }
+                break;
+            }
+            case SPELLFAMILY_MAGE:
+            {
+                // Fire Ward + Molten Shields
+                if( spellProto->SpellFamilyFlags == 8 && spellProto->SpellIconID==16 && // Fire Ward
+                    CastedSpellProto && canReflect && schoolMask == SPELL_SCHOOL_MASK_FIRE) // Reflectable fire spell
+                {
+                    if(pVictim->GetTypeId() != TYPEID_PLAYER)
+                        break;
+                    
+                    uint32 chance = 0 ;
+
+                    if(pVictim->HasSpell(11094))
+                        chance = 10;
+                    else if(pVictim->HasSpell(13043))
+                        chance = 20;
+                    else
+                        break;
+
+                    if (urand(1,100) > chance)
+                        break;
+
+                    reflectDamage = currentAbsorb ;
+                    reflectSpell = CastedSpellProto->Id;    // TODO molten shields attack spell alebo povodny spell?
+                    reflectTriggeredBy = *i;
+                    reflectTriggeredBy->SetInUse(true);// lock aura from final deletion until processing                    
                 }
                 break;
             }
