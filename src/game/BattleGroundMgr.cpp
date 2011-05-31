@@ -987,6 +987,48 @@ void BattleGroundQueue::Update(BattleGroundTypeId bgTypeId, BattleGroundBracketI
                 return;
             }
 
+            // Antiwintrade
+
+            // Spojenie hracov do jedneho vektoru
+            std::vector<Player *> plrs;
+            
+            for(std::map<uint64,PlayerQueueInfo*>::iterator itr = (*itr_team[BG_TEAM_ALLIANCE])->Players.begin(); itr != (*itr_team[BG_TEAM_ALLIANCE])->Players.end(); ++itr)
+                plrs.push_back(sObjectMgr.GetPlayer(itr->first));
+            for(std::map<uint64,PlayerQueueInfo*>::iterator itr = (*itr_team[BG_TEAM_HORDE])->Players.begin(); itr != (*itr_team[BG_TEAM_HORDE])->Players.end(); ++itr)
+                plrs.push_back(sObjectMgr.GetPlayer(itr->first));
+
+            bool possibleWintrade = false;
+
+            // 1/2 Maticove porovnavanie
+            for(std::vector<Player *>::iterator itr1 = plrs.begin(); itr1 != plrs.end(); itr1++)
+            {
+                for(std::vector<Player *>::iterator itr2 = itr1; itr2 != plrs.end(); itr2++)
+                {
+                    // Vylucenie diagonaly matice
+                    if((*itr1) == (*itr2))
+                        continue;
+
+                    // Porovnanie IP adries
+                    if((*itr1)->GetSession()->GetRemoteAddress().compare((*itr2)->GetSession()->GetRemoteAddress()) == 0)
+                    {
+                        possibleWintrade = true;
+                        break;
+                    }
+                }
+                
+                if(possibleWintrade)
+                    break;
+            }
+            if(possibleWintrade)
+            {
+                sLog.outInterest("###### Wintrade ######");
+                for(std::vector<Player *>::iterator itr = plrs.begin(); itr != plrs.end(); itr++)
+                    sLog.outInterest("# Account: %u Player: %s (%u) IP: %s", (*itr)->GetSession()->GetAccountId(), (*itr)->GetName(), (*itr)->GetGUIDLow(), (*itr)->GetSession()->GetRemoteAddress().c_str());
+                sLog.outInterest("######################");
+            }            
+            //////////////////
+            
+
             (*(itr_team[BG_TEAM_ALLIANCE]))->OpponentsTeamRating = (*(itr_team[BG_TEAM_HORDE]))->ArenaTeamRating;
             DEBUG_LOG("setting oposite teamrating for team %u to %u", (*(itr_team[BG_TEAM_ALLIANCE]))->ArenaTeamId, (*(itr_team[BG_TEAM_ALLIANCE]))->OpponentsTeamRating);
             (*(itr_team[BG_TEAM_HORDE]))->OpponentsTeamRating = (*(itr_team[BG_TEAM_ALLIANCE]))->ArenaTeamRating;
