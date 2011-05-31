@@ -118,6 +118,10 @@ class Log : public MaNGOS::Singleton<Log, MaNGOS::ClassLevelLockable<Log, ACE_Th
         if (arenaLogFile != NULL)
             fclose(arenaLogFile);
         arenaLogFile = NULL;
+
+        if (interestLogFile != NULL)
+            fclose(interestLogFile);
+        interestLogFile = NULL;
     }
     public:
         void Initialize();
@@ -150,6 +154,7 @@ class Log : public MaNGOS::Singleton<Log, MaNGOS::ClassLevelLockable<Log, ACE_Th
         void outCharDump( const char * str, uint32 account_id, uint32 guid, const char * name );
         void outRALog( const char * str, ... )       ATTR_PRINTF(2,3);
         void outArena( const char * str, ... )       ATTR_PRINTF(2,3);
+        void outInterest( const char * str, ... )       ATTR_PRINTF(2,3);
         uint32 GetLogLevel() const { return m_logLevel; }
         void SetLogLevel(char * Level);
         void SetLogFileLevel(char * Level);
@@ -176,6 +181,7 @@ class Log : public MaNGOS::Singleton<Log, MaNGOS::ClassLevelLockable<Log, ACE_Th
         FILE* dberLogfile;
         FILE* worldLogfile;
         FILE* arenaLogFile;
+        FILE* interestLogFile;
 
         // log/console control
         LogLevel m_logLevel;

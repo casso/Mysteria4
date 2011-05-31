@@ -936,6 +936,8 @@ void WorldSession::HandleAutoBankItemOpcode(WorldPacket& recvPacket)
             // GM announce
             sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_ANTIWPE_NOTIFY, GetPlayerName(), pItem->GetProto()->ItemId);
 
+            sLog.outInterest("WPE PROTECTION: Hrac %s duplikuje pomocou itemu %u", GetPlayerName(), pItem->GetProto()->ItemId);
+
             // Permanent Ban
             sWorld.BanAccount(BAN_CHARACTER, GetPlayerName(),0 ,"WPE Duplication Item","Casso's WPE Protection");
         }

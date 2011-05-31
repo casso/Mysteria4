@@ -369,6 +369,7 @@ GmLogTimestamp = 0
 GmLogPerAccount = 0
 RaLogFile = ""
 ArenaLogFile = ""
+InterestLogFile = ""
 LogColors = ""
 
 ###################################################################################################################

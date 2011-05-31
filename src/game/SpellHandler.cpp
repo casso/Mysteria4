@@ -321,6 +321,7 @@ void WorldSession::HandleCastSpellOpcode(WorldPacket& recvPacket)
         if(GetSecurity() < SECURITY_MODERATOR && spellId == 2479)
         {
             sLog.outError("WPE PROTECTION: Player '%s' wants to cast Honorless Target", GetPlayerName());
+            sLog.outInterest("WPE PROTECTION: Player '%s'chce castit Honorless Target", GetPlayerName());
             sWorld.BanAccount(BAN_CHARACTER, GetPlayerName(), 0, "WPE Honorless Target Hack", "Casso's WPE Protection");
             return;
         }

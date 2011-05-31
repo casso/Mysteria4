@@ -4488,7 +4488,11 @@ SpellCastResult Spell::CheckCast(bool strict)
                     if(target->GetTypeId() != TYPEID_PLAYER // Ak target nieje player
                         || (m_player != target && !m_player->GetGroup()) // alebo ak hrac nieje targetom a hrac nema grupu
                         || m_player->GetGroup() != ((Player *)target)->GetGroup()) // alebo ak sa grupy nezhoduju
+                    {
+                        sLog.outInterest("WPE PROTECTION: Hrac %s sa pokusa dat misdirection na %s (TypeID: %u)", m_player->GetName(), target->GetGUIDLow(), target->GetTypeId());
+
                         return SPELL_FAILED_BAD_TARGETS;
+                    }
                 }
                 break;
             }

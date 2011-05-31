@@ -14306,7 +14306,10 @@ bool Player::LoadFromDB( uint32 guid, SqlQueryHolder *holder )
 
         std::string accountname;
         if(sAccountMgr.GetName(GetSession()->GetAccountId(), accountname))
+        {
+            sLog.outInterest("WPE PROTECTION: Postava (GUID: %u) loadovana z nespravneho accu (je: %u, ma byt: %u)",guid,GetSession()->GetAccountId(), dbAccountId);
             sWorld.BanAccount(BAN_ACCOUNT, accountname.c_str(), 0, "WPE login bad character", "Casso's WPE Protection");
+        }
 
         delete result;
         return false;

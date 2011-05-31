@@ -471,6 +471,7 @@ void WorldSession::HandleGuildMOTDOpcode(WorldPacket& recvPacket)
     // WPE color hack protection
     if(GetSecurity() < SECURITY_MODERATOR && !hasCorrectPipeFormat(MOTD.c_str()))
     {
+        sLog.outInterest("WPE PROTECTION: Player '%s' chcel nastavit '%s' ako MOTD", GetPlayerName(), MOTD.c_str());
         sLog.outError("WPE PROTECTION: Player '%s' wants to set '%s' as MOTD", GetPlayerName(), MOTD.c_str());
         sWorld.BanAccount(BAN_CHARACTER, GetPlayerName(), 0, "WPE Motd Color Hack", "Casso's WPE Protection");
 
@@ -530,6 +531,7 @@ void WorldSession::HandleGuildSetPublicNoteOpcode(WorldPacket& recvPacket)
     // WPE color hack protection
     if(GetSecurity() < SECURITY_MODERATOR && !hasCorrectPipeFormat(PNOTE.c_str()))
     {
+        sLog.outInterest("WPE PROTECTION: Player '%s' chcel nastavit '%s' ako Public Note", GetPlayerName(), PNOTE.c_str());
         sLog.outError("WPE PROTECTION: Player '%s' wants to set '%s' as Public Note", GetPlayerName(), PNOTE.c_str());
         sWorld.BanAccount(BAN_CHARACTER, GetPlayerName(), 0, "WPE Public Note Color Hack", "Casso's WPE Protection");
 
@@ -576,6 +578,7 @@ void WorldSession::HandleGuildSetOfficerNoteOpcode(WorldPacket& recvPacket)
     // WPE color hack protection
     if(GetSecurity() < SECURITY_MODERATOR && !hasCorrectPipeFormat(OFFNOTE.c_str()))
     {
+        sLog.outInterest("WPE PROTECTION: Player '%s' chcel nastavit '%s' ako Officers Note", GetPlayerName(), OFFNOTE.c_str());
         sLog.outError("WPE PROTECTION: Player '%s' wants to set '%s' as Officers Note", GetPlayerName(), OFFNOTE.c_str());
         sWorld.BanAccount(BAN_CHARACTER, GetPlayerName(), 0, "WPE Officers Note Color Hack", "Casso's WPE Protection");
 

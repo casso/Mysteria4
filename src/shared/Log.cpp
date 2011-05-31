@@ -261,6 +261,7 @@ void Log::Initialize()
     raLogfile = openLogFile("RaLogFile",NULL,"a");
     worldLogfile = openLogFile("WorldLogFile","WorldLogTimestamp","a");
     arenaLogFile = openLogFile("ArenaLogFile",NULL,"a");
+    arenaLogFile = openLogFile("InterestLogFile",NULL,"a");
 
     // Main log file settings
     m_includeTime  = sConfig.GetBoolDefault("LogTime", false);
@@ -438,6 +439,24 @@ void Log::outArena( const char * str, ... )
         fprintf(arenaLogFile, "\n" );
         va_end(ap);
         fflush(arenaLogFile);
+    }
+    fflush(stdout);
+}
+
+void Log::outInterest( const char * str, ... )
+{
+    if( !str )
+        return;
+  
+    if(interestLogFile)
+    {
+        va_list ap;
+        outTimestamp(interestLogFile);
+        va_start(ap, str);
+        vfprintf(interestLogFile, str, ap);
+        fprintf(interestLogFile, "\n" );
+        va_end(ap);
+        fflush(interestLogFile);
     }
     fflush(stdout);
 }
