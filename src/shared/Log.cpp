@@ -261,7 +261,7 @@ void Log::Initialize()
     raLogfile = openLogFile("RaLogFile",NULL,"a");
     worldLogfile = openLogFile("WorldLogFile","WorldLogTimestamp","a");
     arenaLogFile = openLogFile("ArenaLogFile",NULL,"a");
-    arenaLogFile = openLogFile("InterestLogFile",NULL,"a");
+    interestLogFile = openLogFile("InterestLogFile",NULL,"a");
 
     // Main log file settings
     m_includeTime  = sConfig.GetBoolDefault("LogTime", false);
