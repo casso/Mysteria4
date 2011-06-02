@@ -26,6 +26,7 @@
 #include "Guild.h"
 #include "GossipDef.h"
 #include "SocialMgr.h"
+#include "Language.h"
 
 void WorldSession::HandleGuildQueryOpcode(WorldPacket& recvPacket)
 {
@@ -467,6 +468,14 @@ void WorldSession::HandleGuildMOTDOpcode(WorldPacket& recvPacket)
         recvPacket >> MOTD;
     else
         MOTD = "";
+
+    // Hrac s mute nemoze pisat motd
+    if(!GetPlayer()->CanSpeak())
+    {
+        std::string timeStr = secsToTimeString(m_muteTime - time(NULL));
+        SendNotification(GetMangosString(LANG_WAIT_BEFORE_SPEAKING),timeStr.c_str());
+        return;
+    }
 
     // WPE color hack protection
     if(GetSecurity() < SECURITY_MODERATOR && !hasCorrectPipeFormat(MOTD.c_str()))

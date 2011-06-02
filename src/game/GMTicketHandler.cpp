@@ -108,17 +108,9 @@ void WorldSession::HandleGMTicketCreateOpcode( WorldPacket & recv_data )
         std::string timeStr = secsToTimeString(m_muteTime - time(NULL));
         SendNotification(GetMangosString(LANG_WAIT_BEFORE_SPEAKING),timeStr.c_str());
         return;
-}
+    }
 
     DEBUG_LOG("TicketCreate: map %u, x %f, y %f, z %f, text %s", map, x, y, z, ticketText.c_str());
-
-    // Hrac s mute nemoze pisat tickety
-    if(!GetPlayer()->CanSpeak())
-    {
-        std::string timeStr = secsToTimeString(m_muteTime - time(NULL));
-        SendNotification(GetMangosString(LANG_WAIT_BEFORE_SPEAKING),timeStr.c_str());
-        return;
-    }
 
     if(sTicketMgr.GetGMTicket(GetPlayer()->GetObjectGuid()))
     {
