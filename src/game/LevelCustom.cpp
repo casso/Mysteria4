@@ -777,3 +777,27 @@ bool ChatHandler::HandleReloadDBCCommand(char* args)
 
     return true;
 }
+
+//Play sound for all online players
+bool ChatHandler::HandlePlaySoundToAllCommand(char* args)
+{
+    // USAGE: .debug playsound #soundid
+    // #soundid - ID decimal number from SoundEntries.dbc (1st column)
+    uint32 dwSoundId;
+    if (!ExtractUInt32(&args, dwSoundId))
+        return false;
+
+    if (!sSoundEntriesStore.LookupEntry(dwSoundId))
+    {
+        PSendSysMessage(LANG_SOUND_NOT_EXIST, dwSoundId);
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    HashMapHolder<Player>::MapType& m = ObjectAccessor::Instance().GetPlayers();
+    for(HashMapHolder<Player>::MapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+        itr->second->PlayDirectSound(dwSoundId, itr->second);
+
+    PSendSysMessage(LANG_YOU_HEAR_SOUND, dwSoundId);
+    return true;
+}

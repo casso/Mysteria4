@@ -567,6 +567,7 @@ class ChatHandler
         bool HandleGuildHouseCommand(char* args);
         bool HandleBanMailCommand(char* args);
         bool HandleReloadDBCCommand(char* args);
+        bool HandlePlaySoundToAllCommand(char* args);
 
         //! Development Commands
         bool HandleSaveAllCommand(char* args);

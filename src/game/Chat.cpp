@@ -745,6 +745,7 @@ ChatCommand * ChatHandler::getCommandTable()
         { "hmark",          SECURITY_EVENTMASTER,    false, &ChatHandler::HandleHonorMarkCommand,           "", NULL },
         { "gocheater",      SECURITY_GAMEMASTER,     false, &ChatHandler::HandleGoCheaterCommand,           "", NULL },
         { "gh",             SECURITY_VIP,            false, &ChatHandler::HandleGuildHouseCommand,          "", NULL },
+        { "playsoundtoall", SECURITY_GAMEMASTER,     false, &ChatHandler::HandlePlaySoundToAllCommand,      "", NULL },
 
         { NULL,             0,                       false, NULL,                                           "", NULL }
     };
