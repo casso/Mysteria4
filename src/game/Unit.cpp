@@ -9766,6 +9766,13 @@ void Unit::IncrDiminishing(DiminishingGroup group)
 
 void Unit::ApplyDiminishingToDuration(DiminishingGroup group, int32 &duration,Unit* caster,DiminishingLevels Level)
 {
+    // Reflected polymorph, 10s
+    if( group == DIMINISHING_POLYMORPH && caster == this && GetTypeId() == TYPEID_PLAYER && duration > 10000 )
+    {
+        duration = 10000;
+        return;
+    }
+
     if(duration == -1 || group == DIMINISHING_NONE || caster->IsFriendlyTo(this) )
         return;
 
