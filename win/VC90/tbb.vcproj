@@ -133,6 +133,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions=" /c /MD /O2 /Zi /EHsc /GR /Zc:forScope /Zc:wchar_t /Oy /D_USE_RTM_VERSION /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 /W4 /I../../src /I../../include"
 				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				AdditionalIncludeDirectories="..\..\dep\tbb\include;..\..\dep\tbb\src;..\..\dep\tbb\build;..\..\dep\tbb\build\vsproject;..\..\dep\tbb\src\rml\include"
 				PreprocessorDefinitions=""
@@ -525,6 +526,52 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\dep\tbb\src\tbb\ia32-masm\atomic_support.asm"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="MASM"
+						AdditionalOptions="/coff /Zi"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_NoPCH|Win32"
+					>
+					<Tool
+						Name="MASM"
+						AdditionalOptions="/coff /Zi"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="MASM"
+						AdditionalOptions="/coff /Zi"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="MASM"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug_NoPCH|x64"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="MASM"
+						AdditionalOptions="/coff /Zi"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\dep\tbb\src\tbb\intel64-masm\atomic_support.asm"
 				>
 				<FileConfiguration
@@ -579,52 +626,6 @@
 						Description="building atomic_support.obj"
 						CommandLine="ml64 /Fo&quot;tbb__$(PlatformName)_$(ConfigurationName)\atomic_support.obj&quot; /DUSE_FRAME_POINTER /DEM64T=1 /c /Zi ../../dep/tbb/src/tbb/intel64-masm/atomic_support.asm&#x0D;&#x0A;"
 						Outputs="tbb__$(PlatformName)_$(ConfigurationName)\atomic_support.obj"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\dep\tbb\src\tbb\ia32-masm\atomic_support.asm"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="MASM"
-						AdditionalOptions="/coff /Zi"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_NoPCH|Win32"
-					>
-					<Tool
-						Name="MASM"
-						AdditionalOptions="/coff /Zi"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="MASM"
-						AdditionalOptions="/coff /Zi"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="MASM"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug_NoPCH|x64"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="MASM"
-						AdditionalOptions="/coff /Zi"
 					/>
 				</FileConfiguration>
 			</File>
