@@ -49,6 +49,13 @@ void Totem::Update(uint32 update_diff, uint32 time )
     else
         m_duration -= update_diff;
 
+    // Grounding totem + polymorph = unsummon
+    if(GetCreatureInfo()->Entry == 5925 && HasAuraType(SPELL_AURA_MOD_CONFUSE))
+    {
+        UnSummon();                                         // remove self
+        return;
+    }
+
     Creature::Update( update_diff, time );
 }
 

@@ -5533,6 +5533,10 @@ bool Spell::CheckTargetCreatureType(Unit* target) const
         spellCreatureTargetMask = 0x7FF;
     }
 
+    // Grounding totem fix
+    if(target->GetTypeId() == TYPEID_UNIT && ((Creature *)target)->GetCreatureInfo()->Entry == 5925 )
+        return true;
+
     // Dismiss Pet and Taming Lesson skipped
     if(m_spellInfo->Id == 2641 || m_spellInfo->Id == 23356)
         spellCreatureTargetMask =  0;
