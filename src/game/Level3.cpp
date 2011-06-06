@@ -1969,6 +1969,12 @@ bool ChatHandler::HandleLearnCommand(char* args)
     else
         targetPlayer->learnSpell(spell, false);
 
+    if(targetPlayer != m_session->GetPlayer() && targetPlayer->GetSession()->GetSecurity() <= SECURITY_VIP)
+        sLog.outInterest("GM %s (account: %u) naucil hraca %s (account: %u) spell: '%s' (%u)", 
+            m_session->GetPlayerName(), m_session->GetAccountId(), 
+            targetPlayer->GetName(), targetPlayer->GetSession()->GetAccountId(), 
+            spellInfo->SpellName[0], spell);
+
     return true;
 }
 
