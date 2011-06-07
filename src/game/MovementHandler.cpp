@@ -734,7 +734,7 @@ void WorldSession::HandleMoverRelocation(MovementInfo& movementInfo)
     {
         if (movementInfo.HasMovementFlag(MOVEFLAG_ONTRANSPORT))
         {
-          if ((GetPlayer()->m_anti_transportGUID.IsEmpty()) && (movementInfo.t_guid.IsEmpty())) 
+          if ((GetPlayer()->m_anti_transportGUID.IsEmpty()) && (!movementInfo.t_guid.IsEmpty())) 
           {
             if (!plMover->m_transport)
             {
@@ -752,7 +752,7 @@ void WorldSession::HandleMoverRelocation(MovementInfo& movementInfo)
             GetPlayer()->m_anti_transportGUID = movementInfo.t_guid;
           }
         }
-        else if (GetPlayer()->m_anti_transportGUID.IsEmpty())
+        else if (!GetPlayer()->m_anti_transportGUID.IsEmpty())
         { 
             if (GetPlayer()->m_transport)                      // if we were on a transport, leave
             {
