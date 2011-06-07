@@ -13752,6 +13752,12 @@ void Player::KilledMonsterCredit( uint32 entry, ObjectGuid guid )
 
                     if (reqkill == entry)
                     {
+                        // Ak    je quest heroic a hrac sa nenachadza v heroic mape
+                        // Ak nieje quest heroic a hrac sa   nachadza v heroic mape
+                        //  nezarata kredit questu
+                        if((qInfo->GetType() == QUEST_TYPE_HEROIC)  != (GetMap()->GetDifficulty() == DUNGEON_DIFFICULTY_HEROIC))
+                            continue;
+
                         uint32 reqkillcount = qInfo->ReqCreatureOrGOCount[j];
                         uint32 curkillcount = q_status.m_creatureOrGOcount[j];
                         if (curkillcount < reqkillcount)

@@ -784,13 +784,13 @@ void WorldSession::HandleBattlemasterJoinArena( WorldPacket & recv_data )
 
             WorldPacket data;
             // send status packet (in queue)
-            sBattleGroundMgr.BuildBattleGroundStatusPacket(&data, bg, queueSlot, STATUS_WAIT_QUEUE, avgTime, 0, arenatype);
+            sBattleGroundMgr.BuildBattleGroundStatusPacket(&data, bg, queueSlot, STATUS_WAIT_QUEUE, avgTime, 0, arenatype, isRated);
             member->GetSession()->SendPacket(&data);
             sBattleGroundMgr.BuildGroupJoinedBattlegroundPacket(&data, bgTypeId);
             member->GetSession()->SendPacket(&data);
             DEBUG_LOG("Battleground: player joined queue for arena as group bg queue type %u bg type %u: GUID %u, NAME %s",bgQueueTypeId,bgTypeId,member->GetGUIDLow(), member->GetName());
             if(isRated)
-                sLog.outArena("Player %s (ip: %s) joined queue for rated arena. teamID: %u, rating: %u, type: %u",member->GetName(), member->GetSession()->GetRemoteAddress(), _player->GetArenaTeamId(arenaslot), arenaRating, arenatype);
+                sLog.outArena("Player %s joined queue for rated arena. teamID: %u, rating: %u, type: %u",member->GetName(), _player->GetArenaTeamId(arenaslot), arenaRating, arenatype);
         }
         DEBUG_LOG("Battleground: arena join as group end");
         //announce to world ... removed

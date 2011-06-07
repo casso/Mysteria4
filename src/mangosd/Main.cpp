@@ -152,17 +152,15 @@ extern int main(int argc, char **argv)
     sLog.outString( "%s [world-daemon]", _FULLVERSION(REVISION_DATE,REVISION_TIME,REVISION_NR,REVISION_ID) );
     sLog.outString( "<Ctrl-C> to stop.\n\n" );
 
-    sLog.outTitle( "MM   MM         MM   MM  MMMMM   MMMM   MMMMM");
-    sLog.outTitle( "MM   MM         MM   MM MMM MMM MM  MM MMM MMM");
-    sLog.outTitle( "MMM MMM         MMM  MM MMM MMM MM  MM MMM");
-    sLog.outTitle( "MM M MM         MMMM MM MMM     MM  MM  MMM");
-    sLog.outTitle( "MM M MM  MMMMM  MM MMMM MMM     MM  MM   MMM");
-    sLog.outTitle( "MM M MM M   MMM MM  MMM MMMMMMM MM  MM    MMM");
-    sLog.outTitle( "MM   MM     MMM MM   MM MM  MMM MM  MM     MMM");
-    sLog.outTitle( "MM   MM MMMMMMM MM   MM MMM MMM MM  MM MMM MMM");
-    sLog.outTitle( "MM   MM MM  MMM MM   MM  MMMMMM  MMMM   MMMMM");
-    sLog.outTitle( "        MM  MMM http://getmangos.com");
-    sLog.outTitle( "        MMMMMM\n\n");
+    sLog.outTitle( " __  __           _            _");
+    sLog.outTitle( "|  \\/  |         | |          (_)");
+    sLog.outTitle( "| \\  / |_   _ ___| |_ ___ _ __ _  __ _ ");
+    sLog.outTitle( "| |\\/| | | | / __| __/ _ \\ '__| |/ _` |");
+    sLog.outTitle( "| |  | | |_| \\__ \\ ||  __/ |  | | (_| |");
+    sLog.outTitle( "|_|  |_|\\__, |___/\\__\\___|_|  |_|\\__,_|");
+    sLog.outTitle( "         __/ |");
+    sLog.outTitle( "        |___/ http://www.mysteriaserver.sk/wow/");
+    sLog.outTitle( "");
 
     sLog.outString("Using configuration file %s.", cfg_file);
 
