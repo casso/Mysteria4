@@ -53,7 +53,9 @@ void SendDefaultMenu_Teleporter(Player *player, Creature *_Creature, uint32 acti
         if(player->getLevel() >= 60) player->ADD_GOSSIP_ITEM( GOSSIP_ICON_VENDOR, "Area 52",         GOSSIP_SENDER_MAIN, 1012);
         if(player->getLevel() >= 30) player->ADD_GOSSIP_ITEM( GOSSIP_ICON_VENDOR, "Gadgetzan",       GOSSIP_SENDER_MAIN, 1013);
         if(player->getLevel() >= 30) player->ADD_GOSSIP_ITEM( GOSSIP_ICON_VENDOR, "Booty Bay",       GOSSIP_SENDER_MAIN, 1014);
+        if(player->getLevel() >= 30) player->ADD_GOSSIP_ITEM( GOSSIP_ICON_VENDOR, "Ratchet",         GOSSIP_SENDER_MAIN, 1016);
         if(player->getLevel() >= 40) player->ADD_GOSSIP_ITEM( GOSSIP_ICON_VENDOR, "Everlook",        GOSSIP_SENDER_MAIN, 1015);
+
 
         player->ADD_GOSSIP_ITEM( GOSSIP_ICON_TALK,   "<- Back",  GOSSIP_SENDER_MAIN, 6000);
 
@@ -241,6 +243,11 @@ void SendDefaultMenu_Teleporter(Player *player, Creature *_Creature, uint32 acti
     case 1015: // Everlook
         player->CLOSE_GOSSIP_MENU();
         player->TeleportTo(1, 6727.00f, -4643.06f, 721.40f, 4.76f);
+        break;
+
+    case 1016: // Ratchet
+        player->CLOSE_GOSSIP_MENU();
+        player->TeleportTo(1, -956.66f, -3754.70f, 5.34f, 0.99f);
         break;
 
 

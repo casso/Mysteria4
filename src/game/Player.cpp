@@ -5913,7 +5913,7 @@ void Player::CheckAreaExploreAndOutdoor()
     bool isOutdoor;
     uint16 areaFlag = GetTerrain()->GetAreaFlag(GetPositionX(),GetPositionY(),GetPositionZ(), &isOutdoor);
 
-    if (sWorld.getConfig(CONFIG_BOOL_VMAP_INDOOR_CHECK) && !isOutdoor)
+    if (sWorld.getConfig(CONFIG_BOOL_VMAP_INDOOR_CHECK) && !isOutdoor && !IsFreeFlying())
         RemoveAurasWithAttribute(SPELL_ATTR_OUTDOORS_ONLY);
 
     if (areaFlag==0xffff)

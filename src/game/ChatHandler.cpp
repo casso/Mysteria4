@@ -285,14 +285,14 @@ void WorldSession::HandleMessagechatOpcode( WorldPacket & recv_data )
     }
 
     // WPE color hack protection
-    if(GetSecurity() < SECURITY_MODERATOR && !hasCorrectPipeFormat(msg.c_str()))
-    {
-        sLog.outInterest("WPE PROTECTION: Player '%s' hovori '%s'", GetPlayerName(), msg.c_str());
-        sLog.outError("WPE PROTECTION: Player '%s' says '%s'", GetPlayerName(), msg.c_str());
-        sWorld.BanAccount(BAN_CHARACTER, GetPlayerName(), 0, "WPE Color Hack", "Casso's WPE Protection");
-
-        return;
-    }
+    //if(GetSecurity() < SECURITY_MODERATOR && !hasCorrectPipeFormat(msg.c_str()))
+    //{
+    //    sLog.outInterest("WPE PROTECTION: Player '%s' hovori '%s'", GetPlayerName(), msg.c_str());
+    //    sLog.outError("WPE PROTECTION: Player '%s' says '%s'", GetPlayerName(), msg.c_str());
+    //    sWorld.BanAccount(BAN_CHARACTER, GetPlayerName(), 0, "WPE Color Hack", "Casso's WPE Protection");
+    //
+    //    return;
+    //}
 
     // Vykonanie
     switch(type)

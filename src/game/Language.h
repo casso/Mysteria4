@@ -958,6 +958,8 @@ enum MangosStrings
     LANG_MODERATOR_ANNOUNCE             = 11011,
     LANG_DEVELOPER_ANNOUNCE             = 11012,
 
+    LANG_WINTRADE_NOTIFY                = 11013,
+
 
     // NOT RESERVED IDS                   12000-1999999999
     // `db_script_string` table index     2000000000-2000009999 (MIN_DB_SCRIPT_STRING_ID-MAX_DB_SCRIPT_STRING_ID)

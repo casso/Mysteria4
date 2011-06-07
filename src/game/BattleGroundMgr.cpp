@@ -1025,6 +1025,8 @@ void BattleGroundQueue::Update(BattleGroundTypeId bgTypeId, BattleGroundBracketI
                 for(std::vector<Player *>::iterator itr = plrs.begin(); itr != plrs.end(); itr++)
                     sLog.outInterest("# Account: %u Player: %s (%u) IP: %s", (*itr)->GetSession()->GetAccountId(), (*itr)->GetName(), (*itr)->GetGUIDLow(), (*itr)->GetSession()->GetRemoteAddress().c_str());
                 sLog.outInterest("######################");
+
+                sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_WINTRADE_NOTIFY, (*plrs.begin())->GetName() );
             }            
             //////////////////
             
