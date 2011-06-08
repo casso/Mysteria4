@@ -661,6 +661,7 @@ void WorldSession::HandleBattlemasterJoinArena( WorldPacket & recv_data )
         sLog.outError("Battleground: template bg (all arenas) not found");
         return;
     }
+    bg->SetRated(isRated);
 
     BattleGroundTypeId bgTypeId = bg->GetTypeID();
     BattleGroundQueueTypeId bgQueueTypeId = BattleGroundMgr::BGQueueTypeId(bgTypeId, arenatype);

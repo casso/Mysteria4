@@ -158,14 +158,14 @@ extern int main(int argc, char **argv)
     sLog.outString( "%s [realm-daemon]", _FULLVERSION(REVISION_DATE,REVISION_TIME,REVISION_NR,REVISION_ID) );
     sLog.outString( "<Ctrl-C> to stop.\n" );
 
-    sLog.outTitle( " __  __           _            _");
-    sLog.outTitle( "|  \\/  |         | |          (_)");
-    sLog.outTitle( "| \\  / |_   _ ___| |_ ___ _ __ _  __ _ ");
-    sLog.outTitle( "| |\\/| | | | / __| __/ _ \\ '__| |/ _` |");
-    sLog.outTitle( "| |  | | |_| \\__ \\ ||  __/ |  | | (_| |");
-    sLog.outTitle( "|_|  |_|\\__, |___/\\__\\___|_|  |_|\\__,_|");
-    sLog.outTitle( "         __/ |");
-    sLog.outTitle( "        |___/ http://www.mysteriaserver.sk/wow/");
+    sLog.outTitle( "___  ___          _            _              ___ ");
+    sLog.outTitle( "|  \\/  |         | |          (_)            /   |");
+    sLog.outTitle( "| .  . |_   _ ___| |_ ___ _ __ _  __ _      / /| |");
+    sLog.outTitle( "| |\\/| | | | / __| __/ _ \\ '__| |/ _` |    / /_| |");
+    sLog.outTitle( "| |  | | |_| \\__ \\ ||  __/ |  | | (_| |    \\___  |");
+    sLog.outTitle( "\\_|  |_/\\__, |___/\\__\\___|_|  |_|\\__,_|        |_/");
+    sLog.outTitle( "         __/ |                                    ");
+    sLog.outTitle( "        |___/  http://www.mysteriaserver.sk/wow/  ");
     sLog.outTitle( "");
 
     sLog.outString("Using configuration file %s.", cfg_file);

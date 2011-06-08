@@ -1237,13 +1237,35 @@ bool Aura::isAffectedOnSpell(SpellEntry const *spell) const
 
     uint64 mask = sSpellMgr.GetSpellAffectMask(GetId(),GetEffIndex());
 
-    // Soul Siphon
-    if(GetId() == 17804 || GetId() == 17805)
-        mask = 8;
+    switch(GetId())
+    {
+        // Soul Siphon
+        case 17804:
+        case 17805:
+            mask = 8;
+            break;
+ 
+        // Molten Fury
+        case 31679:
+        case 31680:
+            mask = 1;
+            break;
 
-    // Molten Fury
-    if(GetId() == 31679 || GetId() == 31680)
-        mask = 1;
+        // Shatter
+        case 11170: 
+        case 12982: 
+        case 12983: 
+        case 12984:
+        case 12985:
+        {
+            // Shatter affectuje vsetky magove spelly
+            if(spell->SpellFamilyName == SPELLFAMILY_MAGE)
+                return true;
+
+            break;
+        }
+
+    }
 
     return (mask & spell->SpellFamilyFlags);
 }

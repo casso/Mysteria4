@@ -74,6 +74,13 @@ void WorldSession::HandleGroupInviteOpcode( WorldPacket & recv_data )
         return;
     }
 
+    // GM s visible off
+    if(!player->isGMVisible())
+    {
+        SendPartyResult(PARTY_OP_INVITE, membername, ERR_BAD_PLAYER_NAME_S);
+        return;
+    }
+
     // can't group with
     if(!sWorld.getConfig(CONFIG_BOOL_ALLOW_TWO_SIDE_INTERACTION_GROUP) && GetPlayer()->GetTeam() != player->GetTeam())
     {

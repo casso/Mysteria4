@@ -23,6 +23,7 @@
 #include "Opcodes.h"
 #include "UpdateData.h"
 #include "Player.h"
+#include "World.h"
 
 void WorldSession::HandleDuelAcceptedOpcode(WorldPacket& recvPacket)
 {
@@ -48,6 +49,30 @@ void WorldSession::HandleDuelAcceptedOpcode(WorldPacket& recvPacket)
 
     pl->SendDuelCountdown(3000);
     plTarget->SendDuelCountdown(3000);
+
+    if(sWorld.getConfig(CONFIG_BOOL_DUEL_RESTORE))
+    {
+        // Restore HP        
+        pl->SetHealthPercent(100.0f);
+
+        // Restore Mana
+        if(pl->getPowerType() == POWER_MANA || pl->getClass() == CLASS_DRUID)
+            pl->SetPower(POWER_MANA, pl->GetMaxPower(POWER_MANA));
+
+        // Remove Cooldowns; TODO: NOT BLIZZLIKE
+        pl->RemoveAllSpellCooldown();
+
+        // Obnova druheho hraca
+        // Restore HP, oponent
+        plTarget->SetHealthPercent(100.0f);
+
+        // Restore Mana, oponent
+        if(plTarget->getPowerType() == POWER_MANA || plTarget->getClass() == CLASS_DRUID)
+            plTarget->SetPower(POWER_MANA, plTarget->GetMaxPower(POWER_MANA));
+
+        // Remove Cooldowns, oponent; TODO: NOT BLIZZLIKE
+        plTarget->RemoveAllSpellCooldown();
+    }
 }
 
 void WorldSession::HandleDuelCancelledOpcode(WorldPacket& recvPacket)

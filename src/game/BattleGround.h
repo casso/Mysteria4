@@ -538,6 +538,10 @@ class BattleGround
         // door-events are automaticly added - but _ALL_ other must be in this vector
         std::map<uint8, uint8> m_ActiveEvents;
 
+        // AntiWintrade system
+        bool isPossibleWintrade(){return m_possibleWintrade;}
+        void setPossibleWintrade(){m_possibleWintrade = true;}
+
 
     protected:
         //this method is called, when BG cannot spawn its own spirit guide, or something is wrong, It correctly ends BattleGround
@@ -581,6 +585,7 @@ class BattleGround
         bool   m_PrematureCountDown;
         uint32 m_PrematureCountDownTimer;
         char const *m_Name;
+        bool m_possibleWintrade;
 
         /* Player lists */
         typedef std::deque<ObjectGuid> OfflineQueue;

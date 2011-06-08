@@ -745,6 +745,8 @@ should be called from BattleGround::RemovePlayer function in some cases
 */
 void BattleGroundQueue::Update(BattleGroundTypeId bgTypeId, BattleGroundBracketId bracket_id, uint8 arenaType, bool isRated, uint32 arenaRating)
 {
+    try
+    {
     //ACE_Guard<ACE_Recursive_Thread_Mutex> guard(m_Lock);
     //if no players in queue - do nothing
     if( m_QueuedGroups[bracket_id][BG_QUEUE_PREMADE_ALLIANCE].empty() &&
@@ -997,8 +999,6 @@ void BattleGroundQueue::Update(BattleGroundTypeId bgTypeId, BattleGroundBracketI
             for(std::map<uint64,PlayerQueueInfo*>::iterator itr = (*itr_team[BG_TEAM_HORDE])->Players.begin(); itr != (*itr_team[BG_TEAM_HORDE])->Players.end(); ++itr)
                 plrs.push_back(sObjectMgr.GetPlayer(itr->first));
 
-            bool possibleWintrade = false;
-
             // 1/2 Maticove porovnavanie
             for(std::vector<Player *>::iterator itr1 = plrs.begin(); itr1 != plrs.end(); itr1++)
             {
@@ -1011,19 +1011,29 @@ void BattleGroundQueue::Update(BattleGroundTypeId bgTypeId, BattleGroundBracketI
                     // Porovnanie IP adries
                     if((*itr1)->GetSession()->GetRemoteAddress().compare((*itr2)->GetSession()->GetRemoteAddress()) == 0)
                     {
-                        possibleWintrade = true;
+                        arena->setPossibleWintrade();
                         break;
                     }
                 }
                 
-                if(possibleWintrade)
+                if(arena->isPossibleWintrade())
                     break;
             }
-            if(possibleWintrade)
+            if(arena->isPossibleWintrade())
             {
+                int slot=0;
+                if(arenaType == ARENA_TYPE_2v2)
+                    slot = 0;
+                else if(arenaType == ARENA_TYPE_3v3)
+                    slot = 1;
+                else if(arenaType == ARENA_TYPE_5v5)
+                    slot = 2;
+                else
+                    sLog.outError("BattleGroundQueue::Uprade() : WTF error");
+
                 sLog.outInterest("###### Wintrade ######");
                 for(std::vector<Player *>::iterator itr = plrs.begin(); itr != plrs.end(); itr++)
-                    sLog.outInterest("# Account: %u Player: %s (%u) IP: %s", (*itr)->GetSession()->GetAccountId(), (*itr)->GetName(), (*itr)->GetGUIDLow(), (*itr)->GetSession()->GetRemoteAddress().c_str());
+                    sLog.outInterest("# Account: %u Team: %u Player: %s (%u) IP: %s", (*itr)->GetSession()->GetAccountId(), (*itr)->GetArenaTeamId(slot), (*itr)->GetName(), (*itr)->GetGUIDLow(), (*itr)->GetSession()->GetRemoteAddress().c_str());
                 sLog.outInterest("######################");
 
                 sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_WINTRADE_NOTIFY, (*plrs.begin())->GetName() );
@@ -1058,6 +1068,13 @@ void BattleGroundQueue::Update(BattleGroundTypeId bgTypeId, BattleGroundBracketI
 
             arena->StartBattleGround();
         }
+    }
+    }
+    catch(...)
+    {
+         sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_ANTICRASH_NOTIFY, "BattleGroundQueue::Update");
+         sLog.outError("### Casso: BattleGroundQueue::Update: Pokus o zamedzenie crashu aktivovany ###");
+         return;
     }
 }
 
@@ -1258,7 +1275,7 @@ void BattleGroundMgr::BuildBattleGroundStatusPacket(WorldPacket *data, BattleGro
     *data << uint32(bg->GetClientInstanceID());
     // alliance/horde for BG and skirmish/rated for Arenas
     // following displays the minimap-icon 0 = faction icon 1 = arenaicon
-    *data << uint8(rated);
+    *data << uint8(bg->isRated());
     *data << uint32(StatusID);                              // status
     switch(StatusID)
     {

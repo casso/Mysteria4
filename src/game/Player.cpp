@@ -6692,31 +6692,6 @@ void Player::DuelComplete(DuelCompleteType type)
     else if (duel->opponent->GetComboTargetGuid() == GetPetGuid())
         duel->opponent->ClearComboPoints();
 
-    if(sWorld.getConfig(CONFIG_BOOL_DUEL_RESTORE))
-    {
-        // Obnova prveho hraca
-        if(isDead())
-            ResurrectPlayer(1.0f);
-        else // Restore HP        
-            SetHealthPercent(100.0f);
-        // Restore Mana
-        if(getPowerType() == POWER_MANA || getClass() == CLASS_DRUID)
-            SetPower(POWER_MANA, GetMaxPower(POWER_MANA));
-        // Remove Cooldowns; TODO: NOT BLIZZLIKE
-        RemoveAllSpellCooldown();
-
-        // Obnova druheho hraca
-        if(duel->opponent->isDead())
-            duel->opponent->ResurrectPlayer(1.0f);
-        else // Restore HP, oponent
-            duel->opponent->SetHealthPercent(100.0f);
-        // Restore Mana, oponent
-        if(duel->opponent->getPowerType() == POWER_MANA || duel->opponent->getClass() == CLASS_DRUID)
-            duel->opponent->SetPower(POWER_MANA, duel->opponent->GetMaxPower(POWER_MANA));
-        // Remove Cooldowns, oponent; TODO: NOT BLIZZLIKE
-        duel->opponent->RemoveAllSpellCooldown();
-    }
-
     //cleanups
     SetUInt64Value(PLAYER_DUEL_ARBITER, 0);
     SetUInt32Value(PLAYER_DUEL_TEAM, 0);
