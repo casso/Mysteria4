@@ -1074,6 +1074,7 @@ void BattleGroundQueue::Update(BattleGroundTypeId bgTypeId, BattleGroundBracketI
     {
          sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_ANTICRASH_NOTIFY, "BattleGroundQueue::Update");
          sLog.outError("### Casso: BattleGroundQueue::Update: Pokus o zamedzenie crashu aktivovany ###");
+         sLog.outInterest("### Casso: BattleGroundQueue::Update: Pokus o zamedzenie crashu aktivovany ###");
          return;
     }
 }
