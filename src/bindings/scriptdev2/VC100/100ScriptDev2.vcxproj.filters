@@ -298,6 +298,9 @@
     <Filter Include="scripts\northrend\ruby_sanctum">
       <UniqueIdentifier>{e35abead-2389-4eb9-88bd-70e6fe5636b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="scripts\battlegrounds\Alterac Valley">
+      <UniqueIdentifier>{6597c3f0-c420-4f87-94d0-2cfce06e4f7e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\base\escort_ai.cpp">
@@ -1750,6 +1753,36 @@
     <ClCompile Include="..\scripts\northrend\ruby_sanctum\instance_ruby_sanctum.cpp">
       <Filter>scripts\northrend\ruby_sanctum</Filter>
     </ClCompile>
+    <ClCompile Include="..\scripts\custom\barber.cpp">
+      <Filter>scripts\custom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\scripts\custom\MysteriaGuard.cpp">
+      <Filter>scripts\custom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\scripts\custom\npc_mysteria_changer.cpp">
+      <Filter>scripts\custom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\scripts\custom\teleporter.cpp">
+      <Filter>scripts\custom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\scripts\battlegrounds\alterac_valley\boss_balinda.cpp">
+      <Filter>scripts\battlegrounds\Alterac Valley</Filter>
+    </ClCompile>
+    <ClCompile Include="..\scripts\battlegrounds\alterac_valley\boss_drekthar.cpp">
+      <Filter>scripts\battlegrounds\Alterac Valley</Filter>
+    </ClCompile>
+    <ClCompile Include="..\scripts\battlegrounds\alterac_valley\boss_galvangar.cpp">
+      <Filter>scripts\battlegrounds\Alterac Valley</Filter>
+    </ClCompile>
+    <ClCompile Include="..\scripts\battlegrounds\alterac_valley\boss_vanndar.cpp">
+      <Filter>scripts\battlegrounds\Alterac Valley</Filter>
+    </ClCompile>
+    <ClCompile Include="..\scripts\kalimdor\caverns_of_time\hyjal\hyjal_fun.cpp">
+      <Filter>scripts\kalimdor\caverns_of_time\hyjal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\scripts\kalimdor\caverns_of_time\hyjal\hyjalAI_fun.cpp">
+      <Filter>scripts\kalimdor\caverns_of_time\hyjal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\base\escort_ai.h">
@@ -1979,6 +2012,9 @@
     </ClInclude>
     <ClInclude Include="..\config.h" />
     <ClInclude Include="..\ScriptMgr.h" />
+    <ClInclude Include="..\scripts\kalimdor\caverns_of_time\hyjal\hyjalAI_fun.h">
+      <Filter>scripts\kalimdor\caverns_of_time\hyjal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\revision.h" />

@@ -36,6 +36,7 @@
 #include "MapPersistentStateMgr.h"
 #include "VMapFactory.h"
 #include "BattleGroundMgr.h"
+#include "Language.h"
 
 #define MAX_GRID_LOAD_TIME      50
 
@@ -2981,9 +2982,19 @@ void Map::SendObjectUpdates()
 
     while(!i_objectsToClientUpdate.empty())
     {
-        Object* obj = *i_objectsToClientUpdate.begin();
-        i_objectsToClientUpdate.erase(i_objectsToClientUpdate.begin());
-        obj->BuildUpdateData(update_players);
+		try
+        {
+			Object* obj = *i_objectsToClientUpdate.begin();
+			i_objectsToClientUpdate.erase(i_objectsToClientUpdate.begin());
+			obj->BuildUpdateData(update_players);
+		}
+		catch(...)
+		{
+			sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_ANTICRASH_NOTIFY, "Map::SendObjectUpdates");
+			sLog.outError("### Casso: Map::SendObjectUpdates: Pokus o zamedzenie crashu aktivovany ###");
+			sLog.outInterest("### Casso: Map::SendObjectUpdates: Pokus o zamedzenie crashu aktivovany ###");
+			return;
+		}
     }
 
     WorldPacket packet;                                     // here we allocate a std::vector with a size of 0x10000

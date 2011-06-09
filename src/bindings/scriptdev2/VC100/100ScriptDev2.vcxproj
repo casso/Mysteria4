@@ -88,7 +88,7 @@
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mangosscript</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mangosscript</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Mysteria4_script</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mangosscript</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mangosscript</TargetName>
   </PropertyGroup>
@@ -165,6 +165,10 @@
       <StringPooling>true</StringPooling>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <AdditionalDependencies>mangosd.lib;ACE.lib;framework.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -176,7 +180,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
-      <ImportLibrary>$(OutDir)mangosscript.lib</ImportLibrary>
+      <ImportLibrary>$(OutDir)Mysteria4_script.lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -214,7 +218,15 @@
     <ClCompile Include="..\base\follower_ai.cpp" />
     <ClCompile Include="..\base\guard_ai.cpp" />
     <ClCompile Include="..\base\pet_ai.cpp" />
+    <ClCompile Include="..\scripts\battlegrounds\alterac_valley\boss_balinda.cpp" />
+    <ClCompile Include="..\scripts\battlegrounds\alterac_valley\boss_drekthar.cpp" />
+    <ClCompile Include="..\scripts\battlegrounds\alterac_valley\boss_galvangar.cpp" />
+    <ClCompile Include="..\scripts\battlegrounds\alterac_valley\boss_vanndar.cpp" />
     <ClCompile Include="..\scripts\battlegrounds\battleground.cpp" />
+    <ClCompile Include="..\scripts\custom\barber.cpp" />
+    <ClCompile Include="..\scripts\custom\MysteriaGuard.cpp" />
+    <ClCompile Include="..\scripts\custom\npc_mysteria_changer.cpp" />
+    <ClCompile Include="..\scripts\custom\teleporter.cpp" />
     <ClCompile Include="..\scripts\eastern_kingdoms\alterac_mountains.cpp" />
     <ClCompile Include="..\scripts\eastern_kingdoms\arathi_highlands.cpp" />
     <ClCompile Include="..\scripts\eastern_kingdoms\blasted_lands.cpp" />
@@ -389,6 +401,8 @@
     <ClCompile Include="..\scripts\kalimdor\azuremyst_isle.cpp" />
     <ClCompile Include="..\scripts\kalimdor\bloodmyst_isle.cpp" />
     <ClCompile Include="..\scripts\kalimdor\boss_azuregos.cpp" />
+    <ClCompile Include="..\scripts\kalimdor\caverns_of_time\hyjal\hyjalAI_fun.cpp" />
+    <ClCompile Include="..\scripts\kalimdor\caverns_of_time\hyjal\hyjal_fun.cpp" />
     <ClCompile Include="..\scripts\kalimdor\darkshore.cpp" />
     <ClCompile Include="..\scripts\kalimdor\desolace.cpp" />
     <ClCompile Include="..\scripts\kalimdor\dustwallow_marsh.cpp" />
@@ -729,6 +743,7 @@
     <ClInclude Include="..\scripts\kalimdor\caverns_of_time\dark_portal\dark_portal.h" />
     <ClInclude Include="..\scripts\kalimdor\caverns_of_time\hyjal\hyjal.h" />
     <ClInclude Include="..\scripts\kalimdor\caverns_of_time\hyjal\hyjalAI.h" />
+    <ClInclude Include="..\scripts\kalimdor\caverns_of_time\hyjal\hyjalAI_fun.h" />
     <ClInclude Include="..\scripts\kalimdor\caverns_of_time\old_hillsbrad\old_hillsbrad.h" />
     <ClInclude Include="..\scripts\kalimdor\dire_maul\dire_maul.h" />
     <ClInclude Include="..\scripts\kalimdor\onyxias_lair\onyxias_lair.h" />
@@ -793,8 +808,9 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.svn/entries;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">revision.h;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Extracting revision</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cd "$(SolutionDir)"
-"$(SolutionDir)..\..\..\win\VC100\genrevision__Win32_$(Configuration)\genrevision.exe"
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">echo on
+cd "$(SolutionDir)..\src\bindings\ScriptDev2"
+"..\..\..\win\VC100\genrevision__$(PlatformName)_$(ConfigurationName)\genrevision.exe"
 </Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.svn/entries;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">revision.h;%(Outputs)</Outputs>

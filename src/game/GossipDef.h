@@ -212,7 +212,7 @@ class MANGOS_DLL_SPEC GossipMenu
         WorldSession* m_session;
 };
 
-class QuestMenu
+class MANGOS_DLL_SPEC QuestMenu
 {
     public:
         QuestMenu();

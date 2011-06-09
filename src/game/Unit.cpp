@@ -1049,7 +1049,7 @@ uint32 Unit::DealDamage(Unit *pVictim, uint32 damage, CleanDamage const* cleanDa
 
             MANGOS_ASSERT(he->duel);
 
-            he->SetHealth(1);
+            he->SetHealthPercent(100.0f);
 
             he->duel->opponent->CombatStopWithPets(true);
             he->CombatStopWithPets(true);

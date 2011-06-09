@@ -448,6 +448,12 @@
     <ClCompile Include="..\..\src\game\vmap\WorldModel.cpp">
       <Filter>vmaps</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\game\LevelCustom.cpp">
+      <Filter>Chat Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\game\LevelVIP.cpp">
+      <Filter>Chat Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\game\AccountMgr.h">
