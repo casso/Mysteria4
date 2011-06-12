@@ -2354,6 +2354,9 @@ class MANGOS_DLL_SPEC Player : public Unit
         time_t m_resetTalentsTime;
         uint32 m_usedTalentCount;
 
+        // Leveling zone positon check
+        uint32 m_timerposition;
+
         // Social
         PlayerSocial *m_social;
 

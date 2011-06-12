@@ -568,6 +568,7 @@ class ChatHandler
         bool HandleBanMailCommand(char* args);
         bool HandleReloadDBCCommand(char* args);
         bool HandlePlaySoundToAllCommand(char* args);
+        bool HandleFlyMountCommand(char* args);
 
         //! Development Commands
         bool HandleSaveAllCommand(char* args);

@@ -451,6 +451,7 @@ void WorldSession::HandleMovementOpcodes( WorldPacket & recv_data )
             GetPlayer()->GetMapId()!=530 &&
             !movementInfo.HasMovementFlag(MOVEFLAG_SWIMMING) &&
             (movementInfo.HasMovementFlag(MOVEFLAG_CAN_FLY) || movementInfo.HasMovementFlag(MOVEFLAG_FLYING) || movementInfo.HasMovementFlag(MOVEFLAG_FLYING2)) &&
+            (uint32) GetSecurity() < sWorld.getConfig(CONFIG_UINT32_AZEROTH_GMLEVEL_FLY) &&
             !GetPlayer()->GetTerrain()->IsUnderWater(movementInfo.GetTransportPos()->x, movementInfo.GetTransportPos()->y, movementInfo.GetTransportPos()->z-5.0f) &&
             (Anti__MapZ==INVALID_HEIGHT || Anti__MapZ+5.0f < GetPlayer()->GetPositionZ()) && Anti__MapZ >= -199900.0f)
         {

@@ -25,6 +25,7 @@
 #include "Chat.h"
 #include "Spell.h"
 #include "BattleGroundMgr.h"
+#include "Language.h"
 
 SpellMgr::SpellMgr()
 {
@@ -3199,19 +3200,71 @@ void SpellMgr::LoadSpellAreas()
     sLog.outString( ">> Loaded %u spell area requirements", count );
 }
 
-SpellCastResult SpellMgr::GetSpellAllowedInLocationError(SpellEntry const *spellInfo, uint32 map_id, uint32 zone_id, uint32 area_id, Player const* player)
+SpellCastResult SpellMgr::GetSpellAllowedInLocationError(SpellEntry const *spellInfo, uint32 map_id, uint32 zone_id, uint32 area_id, Player * player)
 {
     // normal case
     if (spellInfo->AreaId > 0 && spellInfo->AreaId != zone_id && spellInfo->AreaId != area_id)
         return SPELL_FAILED_REQUIRES_AREA;
 
     // continent limitation (virtual continent), ignore for GM
-    if ((spellInfo->AttributesEx4 & SPELL_ATTR_EX4_CAST_ONLY_IN_OUTLAND) && !(player && player->isGameMaster()))
+    if ((spellInfo->AttributesEx4 & SPELL_ATTR_EX4_CAST_ONLY_IN_OUTLAND) && (player && !player->isGameMaster() && ((uint32)(player->GetSession()->GetSecurity()) < sWorld.getConfig(CONFIG_UINT32_AZEROTH_GMLEVEL_FLY)) || player->GetMap()->Instanceable()))
     {
         uint32 v_map = GetVirtualMapForMapAndZone(map_id, zone_id);
         MapEntry const* mapEntry = sMapStore.LookupEntry(v_map);
         if (!mapEntry || mapEntry->addon < 1 || !mapEntry->IsContinent())
             return SPELL_FAILED_REQUIRES_AREA;
+    }
+
+    try
+    {
+        // zakaz fly mounta v urcitych zonach
+        if (spellInfo->AttributesEx4 & SPELL_ATTR_EX4_CAST_ONLY_IN_OUTLAND && player && !player->isGameMaster())
+        {
+            if(player->GetMapId() != 0 && player->GetMapId() != 1 && player->GetMapId() != 530)
+                return SPELL_FAILED_REQUIRES_AREA;
+
+            switch(player->GetAreaId())
+            {
+                case 1637: // Orgrimmar
+                case 3487: // Silvermoon City
+                    if(player->GetTeam() == ALLIANCE)
+                    {
+                        ChatHandler(player).SendSysMessage("Flying not allowed here! Teleporting...");
+                        player->TeleportTo(1, 7333.01f, -1590.69f, 164.543f, 1.533f);
+                    }
+                    return SPELL_FAILED_REQUIRES_AREA;
+
+                case 1519: // Stormwind
+                    if(player->GetTeam() == HORDE)
+                    {
+                        ChatHandler(player).SendSysMessage("Flying not allowed here! Teleporting...");
+                        player->TeleportTo(1, 7333.01f, -1590.69f, 164.543f, 1.533f);
+                    }
+                    return SPELL_FAILED_REQUIRES_AREA;
+
+                case 168:  // Tirisfal glades sea
+                case 1256: // Azshara sea
+                    return SPELL_FAILED_REQUIRES_AREA;
+            }
+
+            // ioqd dismount
+            if(player->GetZoneId() == 4080)
+                return SPELL_FAILED_REQUIRES_AREA;
+
+            // Dire Maul - port
+            if(player->GetZoneId() == 2557)
+            {
+                ChatHandler(player).SendSysMessage("Flying not allowed here! Teleporting...");
+                player->TeleportTo(1, 7333.01f, -1590.69f, 164.543f, 1.533f);
+                return SPELL_FAILED_REQUIRES_AREA;
+            }
+        }
+    }
+    catch(...)
+    {
+         sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_ANTICRASH_NOTIFY, "SpellMgr::GetSpellAllowedInLocationError");
+         sLog.outError("### Casso: SpellMgr::GetSpellAllowedInLocationError: Pokus o zamedzenie crashu aktivovany ###");
+         sLog.outInterest("### Casso: SpellMgr::GetSpellAllowedInLocationError: Pokus o zamedzenie crashu aktivovany ###");
     }
 
     // raid instance limitation

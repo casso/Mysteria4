@@ -750,6 +750,8 @@ void World::LoadConfigSettings(bool reload)
 
     setConfigMinMax(CONFIG_UINT32_SIGN_MINLEVEL,   "Sign.MinLevel",   1,      1, 255);
 
+    setConfigMinMax(CONFIG_UINT32_AZEROTH_GMLEVEL_FLY, "Azeroth.GMLevel.Fly", SECURITY_MODERATOR, SECURITY_PLAYER, SECURITY_ADMINISTRATOR);
+
     m_VisibleUnitGreyDistance = sConfig.GetFloatDefault("Visibility.Distance.Grey.Unit", 1);
     if(m_VisibleUnitGreyDistance >  MAX_VISIBILITY_DISTANCE)
     {

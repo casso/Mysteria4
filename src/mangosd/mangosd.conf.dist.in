@@ -1629,6 +1629,9 @@ Duel.Restore = 1
 #
 #    Sign.MinLevel
 #        Minimalny level potrebny na podpisanie peticie
+#
+#    Azeroth.GMLevel.Fly
+#        Minimalny gmlevel, s ktorym je mozne lietat nad azerothom 
 #  
 ###################################################################################################################
 
@@ -1640,3 +1643,6 @@ Arena.Wintrade.WeekendStart = 0
 Arena.Wintrade.WeekendEnd = 24
 
 Sign.MinLevel = 1
+
+Azeroth.GMLevel.Fly = 2
+  

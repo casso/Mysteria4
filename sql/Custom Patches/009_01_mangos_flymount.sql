@@ -1,0 +1,1 @@
+REPLACE INTO `command` (`name`,`security`,`help`) VALUES ('flymount',1,'Syntax: .flymount');

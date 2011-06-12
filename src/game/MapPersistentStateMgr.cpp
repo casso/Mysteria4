@@ -35,6 +35,7 @@
 #include "Group.h"
 #include "InstanceData.h"
 #include "ProgressBar.h"
+#include "Language.h"
 
 INSTANTIATE_SINGLETON_1( MapPersistentStateManager );
 
@@ -122,10 +123,19 @@ void MapPersistentState::SetGORespawnTime( uint32 loguid, time_t t )
 
 void MapPersistentState::ClearRespawnTimes()
 {
-    m_goRespawnTimes.clear();
-    m_creatureRespawnTimes.clear();
+    try
+    {
+        m_goRespawnTimes.clear();
+        m_creatureRespawnTimes.clear();
 
-    UnloadIfEmpty();
+        UnloadIfEmpty();
+    }
+    catch(...)
+    {
+        sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_ANTICRASH_NOTIFY, "MapPersistentState::ClearRespawnTimes");
+		sLog.outError("### Casso: MapPersistentState::ClearRespawnTimes: Pokus o zamedzenie crashu aktivovany ###");
+		sLog.outInterest("### Casso: MapPersistentState::ClearRespawnTimes: Pokus o zamedzenie crashu aktivovany ###");
+    }
 }
 
 void MapPersistentState::AddCreatureToGrid( uint32 guid, CreatureData const* data )

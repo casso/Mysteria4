@@ -567,6 +567,8 @@ Player::Player (WorldSession *session): Unit(), m_reputationMgr(this), m_mover(t
 
     m_lastFallTime = 0;
     m_lastFallZ = 0;
+
+    m_timerposition=0;
 }
 
 Player::~Player ()
@@ -1027,6 +1029,9 @@ void Player::HandleDrowning(uint32 time_diff)
     // In dark water
     if (m_MirrorTimerFlags & UNDERWATER_INDARKWATER)
     {
+        // dismount
+        RemoveSpellsCausingAura(SPELL_AURA_MOUNTED);
+
         // Fatigue timer not activated - activate it
         if (m_MirrorTimer[FATIGUE_TIMER] == DISABLED_MIRROR_TIMER)
         {
@@ -1433,6 +1438,55 @@ void Player::Update( uint32 update_diff, uint32 p_time )
 
     if (IsHasDelayedTeleport())
         TeleportTo(m_teleport_dest, m_teleport_options);
+
+    try
+    {
+        // kontrola lvl zon
+        m_timerposition += update_diff;
+
+        if(m_timerposition >= 5000) // kazdych 5 sekund
+        {
+            m_timerposition = 0;
+
+            if(isAlive() && !IsBeingTeleported() && !IsTaxiFlying() && m_session->GetSecurity() <= SECURITY_VIP)
+            {
+                bool port = false;
+
+                // Alik v hyjale
+                if(m_team == ALLIANCE && GetZoneId() == 616 && GetAreaId() == 616)
+                {
+                    // horda 1-50
+                    if(GetPositionX() > 5153.0f && GetPositionX() < 5352.0f && GetPositionY() > -2214.0f && GetPositionY() < -1790.0f)
+                        port = true;
+
+                    // horda 50-70
+                    if(GetPositionX() > 4521.0f && GetPositionX() < 4822.0f && GetPositionY() > -2051.0f && GetPositionY() < -1633.0f)
+                        port = true;
+                }
+
+                // hordak vo wetlands
+                if(m_team == HORDE && GetZoneId() == 11)
+                {
+                    // ali 1-50 a 50-70
+                    if(GetPositionX() > -4198.0f && GetPositionX() < -3732.0f && GetPositionY() > -2033.0f && GetPositionY() < -1006.0f)
+                        port = true;
+                }
+
+                // Zabitie
+                if(port)
+                {
+                    ChatHandler(this).SendSysMessage("Zone not allowed for you! Teleporting...");
+                    TeleportTo(1, 7333.01f, -1590.69f, 164.543f, 1.533f);
+                }
+            }
+        }
+    }
+    catch (...)
+    {
+         sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_ANTICRASH_NOTIFY, "Player::Update");
+         sLog.outError("### Casso: Player::Update: Pokus o zamedzenie crashu aktivovany ###");
+         sLog.outInterest("### Casso: Player::Update: Pokus o zamedzenie crashu aktivovany ###");
+    }
 }
 
 void Player::SetDeathState(DeathState s)
