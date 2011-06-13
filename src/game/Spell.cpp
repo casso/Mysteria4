@@ -4455,8 +4455,8 @@ SpellCastResult Spell::CheckCast(bool strict)
                     return SPELL_FAILED_TRY_AGAIN;
 
                 float caster_pos_z = m_caster->GetPositionZ();
-                // Control the caster to not climb or drop when +-fz > 8
-                if(!(fz <= caster_pos_z + 8 && fz >= caster_pos_z - 8))
+                // Control the caster to not climb or drop when +-fz > 16
+                if(!(fz <= caster_pos_z + 16.0f && fz >= caster_pos_z - 16.0f))
                     return SPELL_FAILED_TRY_AGAIN;
 
                 // not allow use this effect at battleground until battleground start

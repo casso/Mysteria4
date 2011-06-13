@@ -1618,13 +1618,15 @@ bool SpellMgr::canStackSpellRanksInSpellBook(SpellEntry const *spellInfo) const
 
 bool SpellMgr::IsNoStackSpellDueToSpell(uint32 spellId_1, uint32 spellId_2) const
 {
+    // Jedna instancia spellu 2x >> False
+    if(spellId_1 == spellId_2)
+        return false;
+
     SpellEntry const *spellInfo_1 = sSpellStore.LookupEntry(spellId_1);
     SpellEntry const *spellInfo_2 = sSpellStore.LookupEntry(spellId_2);
 
+    // Chyba ziskania informacii o spelle >> false
     if(!spellInfo_1 || !spellInfo_2)
-        return false;
-
-    if(spellId_1 == spellId_2)
         return false;
 
     //I think we don't check this correctly because i need a exception for spell:
@@ -1813,6 +1815,11 @@ bool SpellMgr::IsNoStackSpellDueToSpell(uint32 spellId_1, uint32 spellId_2) cons
                 if (((spellInfo_1->SpellIconID == 313 || spellInfo_1->SpellIconID == 2039) && (spellInfo_2->SpellIconID == 544  || spellInfo_2->SpellIconID == 91)) ||
                     ((spellInfo_2->SpellIconID == 313 || spellInfo_2->SpellIconID == 2039) && (spellInfo_1->SpellIconID == 544  || spellInfo_1->SpellIconID == 91)))
                     return false;
+
+                // Fear a Death coil >> no Stack
+                if((spellInfo_1->Attributes == 0x10000 && spellInfo_1->SpellFamilyFlags == UI64LIT(0x80000) && spellInfo_2->Attributes == 0x40010000 && spellInfo_2->SpellFamilyFlags == UI64LIT(0x40000000000)) ||
+                   (spellInfo_2->Attributes == 0x10000 && spellInfo_2->SpellFamilyFlags == UI64LIT(0x80000) && spellInfo_1->Attributes == 0x40010000 && spellInfo_1->SpellFamilyFlags == UI64LIT(0x40000000000)))
+                    return true;
             }
             // Detect Invisibility and Mana Shield (multi-family check)
             if (spellInfo_1->Id == 132 && spellInfo_2->SpellIconID == 209 && spellInfo_2->SpellVisual == 968)

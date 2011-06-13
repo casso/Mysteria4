@@ -205,18 +205,10 @@ bool ChatHandler::HandleFlyMountCommand(char* /*args*/)
 {
     Player *chr = m_session->GetPlayer();
 
-    // Osetrenie aby sa nemountovali za letu
-    if(chr->IsFlying())
-    {
-        SendSysMessage(LANG_YOU_IN_FLIGHT);
-        SetSentErrorMessage(true);
-        return false;
-    }
-
-    // zakaz
-    if( chr->isInCombat()		// Pocas combatu
-     || chr->GetMap()->Instanceable()  // V instancii
-     || !chr->CanFreeMove() )         // ak sa nemoze volne pohybovat (sap, taxi ...)
+                                      // Zakaz:
+    if( chr->isInCombat()		      // - Pocas combatu
+     || chr->GetMap()->Instanceable() // - V instancii
+     || !chr->CanFreeMove() )         // - Ak sa nemoze volne pohybovat (sap, taxi ...)
     {
         SendSysMessage(LANG_YOU_IN_COMBAT);
         SetSentErrorMessage(true);
@@ -268,15 +260,22 @@ bool ChatHandler::HandleFlyMountCommand(char* /*args*/)
         return false;
     }
 
+    // dismount
+    chr->RemoveSpellsCausingAura(SPELL_AURA_MOUNTED);       
+
     Item * firstpositem = chr->GetItemByPos(INVENTORY_SLOT_BAG_0, 23);
     if(firstpositem && (        
         firstpositem->GetProto()->RequiredSkill == 762 && firstpositem->GetProto()->RequiredSkill > 150 || // 762 = riding skill
         firstpositem->GetProto()->ItemId == 34060 || // Flying Machine Control
         firstpositem->GetProto()->ItemId == 34061 ))  // Turbo-Charged Flying Machine Control
         chr->CastSpell(chr, firstpositem->GetProto()->Spells[0].SpellId, false);
-    // Druidi dostanu switft flight form
     else if(chr->getClass() == CLASS_DRUID)
+    {
+        // odstranenie formy
+        chr->RemoveSpellsCausingAura(SPELL_AURA_MOD_SHAPESHIFT);
+        // swift flight form
         chr->CastSpell(chr, 40120, false);
+    }
     // alici grifina
     else if (chr->GetTeam() == ALLIANCE)
         chr->CastSpell(chr, 32290, false);
