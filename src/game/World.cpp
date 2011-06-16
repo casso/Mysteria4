@@ -461,6 +461,7 @@ void World::LoadConfigSettings(bool reload)
     setConfig(CONFIG_FLOAT_RATE_REST_OFFLINE_IN_WILDERNESS,     "Rate.Rest.Offline.InWilderness", 1.0f);
     setConfigPos(CONFIG_FLOAT_RATE_DAMAGE_FALL,  "Rate.Damage.Fall", 1.0f);
     setConfigPos(CONFIG_FLOAT_RATE_DAMAGE_FALL_INSTANCE,  "Rate.Damage.FallInstance", 1.0f);
+    setConfigPos(CONFIG_FLOAT_RATE_DAMAGE_FALL_TEST,  "Rate.Damage.FallTest", 0.0f);
     setConfigPos(CONFIG_FLOAT_RATE_AUCTION_TIME, "Rate.Auction.Time", 1.0f);
     setConfig(CONFIG_FLOAT_RATE_AUCTION_DEPOSIT, "Rate.Auction.Deposit", 1.0f);
     setConfig(CONFIG_FLOAT_RATE_AUCTION_CUT,     "Rate.Auction.Cut", 1.0f);

@@ -3212,14 +3212,22 @@ SpellCastResult SpellMgr::GetSpellAllowedInLocationError(SpellEntry const *spell
     // normal case
     if (spellInfo->AreaId > 0 && spellInfo->AreaId != zone_id && spellInfo->AreaId != area_id)
         return SPELL_FAILED_REQUIRES_AREA;
-
-    // continent limitation (virtual continent), ignore for GM
-    if ((spellInfo->AttributesEx4 & SPELL_ATTR_EX4_CAST_ONLY_IN_OUTLAND) && (player && !player->isGameMaster() && ((uint32)(player->GetSession()->GetSecurity()) < sWorld.getConfig(CONFIG_UINT32_AZEROTH_GMLEVEL_FLY)) || player->GetMap()->Instanceable()))
+    try
     {
-        uint32 v_map = GetVirtualMapForMapAndZone(map_id, zone_id);
-        MapEntry const* mapEntry = sMapStore.LookupEntry(v_map);
-        if (!mapEntry || mapEntry->addon < 1 || !mapEntry->IsContinent())
-            return SPELL_FAILED_REQUIRES_AREA;
+        // continent limitation (virtual continent), ignore for GM
+        if ((spellInfo->AttributesEx4 & SPELL_ATTR_EX4_CAST_ONLY_IN_OUTLAND) && (player && !player->isGameMaster() && ((uint32)(player->GetSession()->GetSecurity()) < sWorld.getConfig(CONFIG_UINT32_AZEROTH_GMLEVEL_FLY)) || player->GetMap()->Instanceable()))
+        {
+            uint32 v_map = GetVirtualMapForMapAndZone(map_id, zone_id);
+            MapEntry const* mapEntry = sMapStore.LookupEntry(v_map);
+            if (!mapEntry || mapEntry->addon < 1 || !mapEntry->IsContinent())
+                return SPELL_FAILED_REQUIRES_AREA;
+        }
+    }
+    catch(...)
+    {
+         sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_ANTICRASH_NOTIFY, "SpellMgr::GetSpellAllowedInLocationError 2");
+         sLog.outError("### Casso: SpellMgr::GetSpellAllowedInLocationError 2: Pokus o zamedzenie crashu aktivovany ###");
+         sLog.outInterest("### Casso: SpellMgr::GetSpellAllowedInLocationError 2: Pokus o zamedzenie crashu aktivovany ###");
     }
 
     try

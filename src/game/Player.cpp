@@ -19976,6 +19976,9 @@ void Player::HandleFall(MovementInfo & movementInfo)
             // Fall dmg v instanciach
             if(GetMap()->Instanceable())
                 damage = (uint32)(damageperc * GetMaxHealth()*sWorld.getConfig(CONFIG_FLOAT_RATE_DAMAGE_FALL_INSTANCE));
+            // Fall v test zone (na encyho ziadost)
+            else if(GetMapId() == 13)
+                damage = (uint32)(damageperc * GetMaxHealth()*sWorld.getConfig(CONFIG_FLOAT_RATE_DAMAGE_FALL_TEST));
 
             float height = movementInfo.GetPos()->z;
             UpdateAllowedPositionZ(movementInfo.GetPos()->x, movementInfo.GetPos()->y, height);

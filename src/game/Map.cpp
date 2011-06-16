@@ -1082,33 +1082,42 @@ void Map::RemoveAllObjectsInRemoveList()
     //DEBUG_LOG("Object remover 1 check.");
     while(!i_objectsToRemove.empty())
     {
-        WorldObject* obj = *i_objectsToRemove.begin();
-        i_objectsToRemove.erase(i_objectsToRemove.begin());
-
-        switch(obj->GetTypeId())
+        try
         {
-            case TYPEID_CORPSE:
+            WorldObject* obj = *i_objectsToRemove.begin();
+            i_objectsToRemove.erase(i_objectsToRemove.begin());
+
+            switch(obj->GetTypeId())
             {
-                // ??? WTF
-                Corpse* corpse = GetCorpse(obj->GetGUID());
-                if (!corpse)
-                    sLog.outError("Try delete corpse/bones %u that not in map", obj->GetGUIDLow());
-                else
-                    Remove(corpse,true);
-                break;
+                case TYPEID_CORPSE:
+                {
+                    // ??? WTF
+                    Corpse* corpse = GetCorpse(obj->GetGUID());
+                    if (!corpse)
+                        sLog.outError("Try delete corpse/bones %u that not in map", obj->GetGUIDLow());
+                    else
+                        Remove(corpse,true);
+                    break;
+                }
+                case TYPEID_DYNAMICOBJECT:
+                    Remove((DynamicObject*)obj,true);
+                    break;
+                case TYPEID_GAMEOBJECT:
+                    Remove((GameObject*)obj,true);
+                    break;
+                case TYPEID_UNIT:
+                    Remove((Creature*)obj,true);
+                    break;
+                default:
+                    sLog.outError("Non-grid object (TypeId: %u) in grid object removing list, ignored.",obj->GetTypeId());
+                    break;
             }
-            case TYPEID_DYNAMICOBJECT:
-                Remove((DynamicObject*)obj,true);
-                break;
-            case TYPEID_GAMEOBJECT:
-                Remove((GameObject*)obj,true);
-                break;
-            case TYPEID_UNIT:
-                Remove((Creature*)obj,true);
-                break;
-            default:
-                sLog.outError("Non-grid object (TypeId: %u) in grid object removing list, ignored.",obj->GetTypeId());
-                break;
+        }
+        catch(...)
+        {
+            sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_ANTICRASH_NOTIFY, "Map::RemoveAllObjectsInRemoveList");
+            sLog.outError("### Casso: Map::RemoveAllObjectsInRemoveList: Pokus o zamedzenie crashu aktivovany ###");
+            sLog.outInterest("### Casso: Map::RemoveAllObjectsInRemoveList: Pokus o zamedzenie crashu aktivovany ###");
         }
     }
     //DEBUG_LOG("Object remover 2 check.");

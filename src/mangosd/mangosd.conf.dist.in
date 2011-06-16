@@ -1148,6 +1148,9 @@ Visibility.Distance.Grey.Object = 10
 #    Rate.Damage.FallInstance
 #        Damage after fall in instance rate. (1 - standard, 2 - double damage, 0.5 - half damage, etc)
 #
+#    Rate.Damage.FallTest
+#        Damage after fall in test zone rate. (1 - standard, 2 - double damage, 0.5 - half damage, etc)
+#
 #    Rate.Auction.Time
 #    Rate.Auction.Deposit
 #    Rate.Auction.Cut
@@ -1286,6 +1289,7 @@ Rate.Rest.Offline.InTavernOrCity = 1
 Rate.Rest.Offline.InWilderness = 1
 Rate.Damage.Fall = 1
 Rate.Damage.FallInstance = 1
+Rate.Damage.FallTest = 0
 Rate.Auction.Time = 1
 Rate.Auction.Deposit = 1
 Rate.Auction.Cut = 1
