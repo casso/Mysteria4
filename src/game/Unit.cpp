@@ -494,6 +494,29 @@ void Unit::RemoveSpellsCausingAura(AuraType auraType, Aura* except)
     }
 }
 
+void Unit::RemovePositiveSpellsCausingAura(AuraType auraType, Aura* except)
+{
+    for (AuraList::const_iterator iter = m_modAuras[auraType].begin(); iter != m_modAuras[auraType].end();)
+    {
+        // skip `except` aura
+        if (*iter == except)
+        {
+            ++iter;
+            continue;
+        }
+
+        // Skip negative
+        if(!(*iter)->IsPositive())
+        {
+            ++iter;
+            continue;
+        }
+
+        RemoveAurasDueToSpell((*iter)->GetId(), except);
+        iter = m_modAuras[auraType].begin();
+    }
+}
+
 bool Unit::HasAuraType(AuraType auraType) const
 {
     return (!m_modAuras[auraType].empty());

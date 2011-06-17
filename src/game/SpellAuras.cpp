@@ -2878,6 +2878,9 @@ void Aura::HandleAuraModShapeshift(bool apply, bool Real)
         case FORM_FLIGHT:
         case FORM_MOONKIN:
         {
+            // Odstranenie vsetkych transform spellov
+            target->RemovePositiveSpellsCausingAura(SPELL_AURA_TRANSFORM, this);
+
             // remove movement affects
             target->RemoveSpellsCausingAura(SPELL_AURA_MOD_ROOT, this);
             Unit::AuraList const& slowingAuras = target->GetAurasByType(SPELL_AURA_MOD_DECREASE_SPEED);
