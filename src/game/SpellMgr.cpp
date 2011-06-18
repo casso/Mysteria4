@@ -3241,11 +3241,18 @@ SpellCastResult SpellMgr::GetSpellAllowedInLocationError(SpellEntry const *spell
             switch(player->GetAreaId())
             {
                 case 1637: // Orgrimmar
+                    if(player->GetTeam() == ALLIANCE)
+                    {
+                        ChatHandler(player).SendSysMessage("Flying not allowed here! Teleporting...");
+                        player->TeleportTo(1, 1000.78f, -4446.22f, 11.21f, 0.208f);
+                        return SPELL_CAST_OK;
+                    }
                 case 3487: // Silvermoon City
                     if(player->GetTeam() == ALLIANCE)
                     {
                         ChatHandler(player).SendSysMessage("Flying not allowed here! Teleporting...");
-                        player->TeleportTo(1, 7333.01f, -1590.69f, 164.543f, 1.533f);
+                        player->TeleportTo(530, 9079.92f, -7193.23f, 55.61f, 5.946f);
+                        return SPELL_CAST_OK;
                     }
                     return SPELL_FAILED_REQUIRES_AREA;
 
@@ -3253,10 +3260,11 @@ SpellCastResult SpellMgr::GetSpellAllowedInLocationError(SpellEntry const *spell
                     if(player->GetTeam() == HORDE)
                     {
                         ChatHandler(player).SendSysMessage("Flying not allowed here! Teleporting...");
-                        player->TeleportTo(1, 7333.01f, -1590.69f, 164.543f, 1.533f);
+                        player->TeleportTo(0, -9617.06f, -288.95f, 57.31f, 1.235f);
+                        return SPELL_CAST_OK;
                     }
                     return SPELL_FAILED_REQUIRES_AREA;
-
+                // GH positions
                 case 168:  // Tirisfal glades sea
                 case 1256: // Azshara sea
                     return SPELL_FAILED_REQUIRES_AREA;
@@ -3270,8 +3278,8 @@ SpellCastResult SpellMgr::GetSpellAllowedInLocationError(SpellEntry const *spell
             if(player->GetZoneId() == 2557)
             {
                 ChatHandler(player).SendSysMessage("Flying not allowed here! Teleporting...");
-                player->TeleportTo(1, 7333.01f, -1590.69f, 164.543f, 1.533f);
-                return SPELL_FAILED_REQUIRES_AREA;
+                player->TeleportTo(1, -4841.19f, 1309.44f, 81.3937f, 0.008f);
+                return SPELL_CAST_OK;
             }
         }
     }
