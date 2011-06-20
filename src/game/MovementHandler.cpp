@@ -51,7 +51,7 @@ bool WorldSession::Anti__ReportCheat(Player* Ply,const char* Reason,float Speed,
         return false;
     }
 
-    sWorld.SendGMWorldText(SECURITY_GAMEMASTER, LANG_ANTICHEAT_NOTIFY, Ply->GetName(), Reason);
+    sWorld.SendGMWorldText(SECURITY_GAMEMASTER, LANG_ANTICHEAT_NOTIFY, Ply->GetName(), Ply->GetName(), Reason);
 
     QueryResult *Res=CharacterDatabase.PQuery("SELECT speed,Val1,Val2 FROM cheaters WHERE player='%s' AND reason LIKE '%s' AND Map='%u' AND last_date >= NOW()-300",Player,Reason,Map);
     if(Res)
