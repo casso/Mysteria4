@@ -44,6 +44,7 @@
 #include "GridNotifiers.h"
 #include "GridNotifiersImpl.h"
 #include "CellImpl.h"
+#include "Language.h"
 
 #define NULL_AURA_SLOT 0xFF
 
@@ -6598,7 +6599,17 @@ void Aura::PeriodicTick()
         }
         case SPELL_AURA_PERIODIC_TRIGGER_SPELL:
         {
-            TriggerSpell();
+            try
+            {
+                TriggerSpell();
+            }
+            catch (...)
+            {
+                 sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_ANTICRASH_NOTIFY, "Aura::PeriodicTick");
+                 sLog.outError("### Casso: Aura::PeriodicTick: Pokus o zamedzenie crashu aktivovany. Spell ID: %u ###", spellProto->Id);
+                 sLog.outInterest("### Casso: Aura::PeriodicTick: Pokus o zamedzenie crashu aktivovany. Spell ID: %u ###", spellProto->Id);
+            }
+
             break;
         }
         case SPELL_AURA_PERIODIC_TRIGGER_SPELL_WITH_VALUE:

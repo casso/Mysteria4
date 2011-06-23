@@ -5522,17 +5522,38 @@ void Spell::EffectLeapForward(SpellEffectIndex eff_idx)
 
         // before caster
         float fx, fy, fz;
-        unitTarget->GetClosePoint(fx, fy, fz, unitTarget->GetObjectBoundingRadius(), dis);
+        unitTarget->GetClosePoint(fx, fy, fz, unitTarget->GetObjectBoundingRadius(), dis, 0.0f, NULL, 2.0f);
         float ox, oy, oz;
         unitTarget->GetPosition(ox, oy, oz);
 
         float fx2, fy2, fz2;                                // getObjectHitPos overwrite last args in any result case
-        if(VMAP::VMapFactory::createOrGetVMapManager()->getObjectHitPos(unitTarget->GetMapId(), ox,oy,oz+0.5f, fx,fy,oz+0.5f,fx2,fy2,fz2, -0.5f))
+        if(VMAP::VMapFactory::createOrGetVMapManager()->getObjectHitPos(unitTarget->GetMapId(), ox,oy,oz+1.0f, fx,fy,fz+1.0f,fx2,fy2,fz2, -0.5f))
         {
             fx = fx2;
             fy = fy2;
             fz = fz2;
             unitTarget->UpdateAllowedPositionZ(fx, fy, fz);
+        }
+
+        
+        float diffx = (fx - ox) / 10.0f;
+        float diffy = (fy - oy) / 10.0f;
+        float diffz = (fz - oz) / 10.0f;
+
+        for(int i = 10 ; i >= 0 ; i--)
+        {
+            float tempx = ox + diffx*i;
+            float tempy = oy + diffy*i;
+            float tempz = oz + diffz*i;
+
+            if(unitTarget->GetTerrain()->GetHeight(tempx, tempy, tempz, true, 30.0f) < INVALID_HEIGHT ||
+                !unitTarget->IsWithinLOS(tempx, tempy, tempz) )
+                continue;
+ 
+            fx = ox + diffx * i;
+            fy = oy + diffy * i;
+            fz = unitTarget->GetTerrain()->GetHeight(ox + diffx*i, oy + diffy*i, oz + diffz*i, true, 30.0f);
+            break;
         }
 
         unitTarget->NearTeleportTo(fx, fy, fz, unitTarget->GetOrientation(), unitTarget == m_caster);

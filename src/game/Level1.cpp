@@ -426,11 +426,7 @@ bool ChatHandler::HandleNamegoCommand(char* args)
         else
             target->SaveRecallPosition();
 
-        // before GM
-        float x,y,z;
-        //m_session->GetPlayer()->GetClosePoint(x, y, z, target->GetObjectBoundingRadius());
-        target->GetClosePoint(x, y, z, 1.0f);
-        target->TeleportTo(m_session->GetPlayer()->GetMapId(),x,y,z,target->GetOrientation());
+        target->TeleportTo(_player->GetMapId(),_player->GetPositionX(),_player->GetPositionY(),_player->GetPositionZ()+0.5f,target->GetOrientation());
     }
     else
     {
@@ -1856,13 +1852,14 @@ bool ChatHandler::HandleGroupgoCommand(char* args)
         return false;
     }
 
-    Map* gmMap = m_session->GetPlayer()->GetMap();
+    Player *_player = m_session->GetPlayer();
+    Map* gmMap = _player->GetMap();
     bool to_instance =  gmMap->Instanceable();
 
     // we are in instance, and can summon only player in our group with us as lead
     if ( to_instance && (
-        !m_session->GetPlayer()->GetGroup() || (grp->GetLeaderGuid() != m_session->GetPlayer()->GetObjectGuid()) ||
-        (m_session->GetPlayer()->GetGroup()->GetLeaderGuid() != m_session->GetPlayer()->GetObjectGuid()) ) )
+        !_player->GetGroup() || (grp->GetLeaderGuid() != _player->GetObjectGuid()) ||
+        (_player->GetGroup()->GetLeaderGuid() != _player->GetObjectGuid()) ) )
         // the last check is a bit excessive, but let it be, just in case
     {
         SendSysMessage(LANG_CANNOT_SUMMON_TO_INST);
@@ -1917,11 +1914,7 @@ bool ChatHandler::HandleGroupgoCommand(char* args)
         else
             pl->SaveRecallPosition();
 
-        // before GM
-        float x,y,z;
-        //m_session->GetPlayer()->GetClosePoint(x, y, z, pl->GetObjectBoundingRadius());
-        target->GetClosePoint(x, y, z, 1.0f);
-        pl->TeleportTo(m_session->GetPlayer()->GetMapId(),x,y,z,pl->GetOrientation());
+        pl->TeleportTo(_player->GetMapId(), _player->GetPositionX(), _player->GetPositionY(), _player->GetPositionZ()+0.5f, pl->GetOrientation());
     }
 
     return true;

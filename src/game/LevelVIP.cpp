@@ -265,7 +265,7 @@ bool ChatHandler::HandleFlyMountCommand(char* /*args*/)
 
     Item * firstpositem = chr->GetItemByPos(INVENTORY_SLOT_BAG_0, 23);
     if(firstpositem && (        
-        firstpositem->GetProto()->RequiredSkill == 762 && firstpositem->GetProto()->RequiredSkill > 150 || // 762 = riding skill
+        firstpositem->GetProto()->RequiredSkill == 762 && firstpositem->GetProto()->RequiredSkillRank > 150 || // 762 = riding skill
         firstpositem->GetProto()->ItemId == 34060 || // Flying Machine Control
         firstpositem->GetProto()->ItemId == 34061 ))  // Turbo-Charged Flying Machine Control
         chr->CastSpell(chr, firstpositem->GetProto()->Spells[0].SpellId, false);

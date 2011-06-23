@@ -1714,10 +1714,10 @@ void WorldObject::GetNearPoint2D(float &x, float &y, float distance2d, float abs
     MaNGOS::NormalizeMapCoord(y);
 }
 
-void WorldObject::GetNearPoint(WorldObject const* searcher, float &x, float &y, float &z, float searcher_bounding_radius, float distance2d, float absAngle) const
+void WorldObject::GetNearPoint(WorldObject const* searcher, float &x, float &y, float &z, float searcher_bounding_radius, float distance2d, float absAngle, float lift) const
 {
     GetNearPoint2D(x, y, distance2d+searcher_bounding_radius, absAngle);
-    z = GetPositionZ();
+    z = GetPositionZ() + lift;
 
     // if detection disabled, return first point
     if(!sWorld.getConfig(CONFIG_BOOL_DETECT_POS_COLLISION))
@@ -1765,7 +1765,7 @@ void WorldObject::GetNearPoint(WorldObject const* searcher, float &x, float &y, 
     if(selector.FirstAngle(angle))
     {
         GetNearPoint2D(x,y,distance2d,absAngle+angle);
-        z = GetPositionZ();
+        z = GetPositionZ() + lift;
 
         if (searcher)
             searcher->UpdateAllowedPositionZ(x,y,z);        // update to LOS height if available
@@ -1783,7 +1783,7 @@ void WorldObject::GetNearPoint(WorldObject const* searcher, float &x, float &y, 
     while(selector.NextAngle(angle))                        // angle for free pos
     {
         GetNearPoint2D(x,y,distance2d,absAngle+angle);
-        z = GetPositionZ();
+        z = GetPositionZ() + lift;
 
         if (searcher)
             searcher->UpdateAllowedPositionZ(x,y,z);        // update to LOS height if available
@@ -1834,7 +1834,7 @@ void WorldObject::GetNearPoint(WorldObject const* searcher, float &x, float &y, 
     while(selector.NextUsedAngle(angle))                    // angle for used pos but maybe without LOS problem
     {
         GetNearPoint2D(x,y,distance2d,absAngle+angle);
-        z = GetPositionZ();
+        z = GetPositionZ() + lift;
 
         if (searcher)
             searcher->UpdateAllowedPositionZ(x,y,z);        // update to LOS height if available

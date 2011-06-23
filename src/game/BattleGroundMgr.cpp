@@ -989,59 +989,65 @@ void BattleGroundQueue::Update(BattleGroundTypeId bgTypeId, BattleGroundBracketI
                 return;
             }
 
-            // Antiwintrade
-            for(std::map<uint64,PlayerQueueInfo*>::iterator itr1 = (*itr_team[BG_TEAM_ALLIANCE])->Players.begin(); itr1 != (*itr_team[BG_TEAM_ALLIANCE])->Players.end(); ++itr1)
-            {
-                for(std::map<uint64,PlayerQueueInfo*>::iterator itr2 = (*itr_team[BG_TEAM_HORDE])->Players.begin(); itr2 != (*itr_team[BG_TEAM_HORDE])->Players.end(); ++itr2)
-                {
-                    // ziskanie hracov z guid
-                    Player *plr1 = sObjectMgr.GetPlayer(itr1->first);
-                    Player *plr2 = sObjectMgr.GetPlayer(itr2->first);
 
-                    // Porovnanie IP adries
-                    if(plr1->GetSession()->GetRemoteAddress().compare(plr2->GetSession()->GetRemoteAddress()) == 0)
+            // Antiwintrade
+
+            // Spojenie hracov do jedneho vektoru
+            std::vector<Player *> plrs;
+            
+            for(std::map<uint64,PlayerQueueInfo*>::iterator itr = (*itr_team[BG_TEAM_ALLIANCE])->Players.begin(); itr != (*itr_team[BG_TEAM_ALLIANCE])->Players.end(); ++itr)
+                plrs.push_back(sObjectMgr.GetPlayer(itr->first));
+            for(std::map<uint64,PlayerQueueInfo*>::iterator itr = (*itr_team[BG_TEAM_HORDE])->Players.begin(); itr != (*itr_team[BG_TEAM_HORDE])->Players.end(); ++itr)
+                plrs.push_back(sObjectMgr.GetPlayer(itr->first));
+
+            // slot typu areny
+            int slot=0;
+                if     (arenaType == ARENA_TYPE_2v2)
+                    slot = 0;
+                else if(arenaType == ARENA_TYPE_3v3)
+                    slot = 1;
+                else if(arenaType == ARENA_TYPE_5v5)
+                    slot = 2;
+                else
+                    sLog.outError("BattleGroundQueue::Uprade() : WTF error");
+
+            // 1/2 Maticove porovnavanie
+            for(std::vector<Player *>::iterator itr1 = plrs.begin(); itr1 != plrs.end(); itr1++)
+            {
+                for(std::vector<Player *>::iterator itr2 = itr1; itr2 != plrs.end(); itr2++)
+                {
+                    Player *plr1 = *itr1;
+                    Player *plr2 = *itr2;
+
+                    // Vylucenie diagonaly matice
+                    if(plr1 == plr2)
+                        continue;
+
+                    // Porovnanie IP adries a teamov
+                    if(plr1->GetSession()->GetRemoteAddress().compare(plr2->GetSession()->GetRemoteAddress()) == 0 &&
+                         plr1->GetArenaTeamId(slot) != plr2->GetArenaTeamId(slot) )
                     {
                         arena->setPossibleWintrade();
                         sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_WINTRADE_NOTIFY, plr1->GetName(), plr1->GetName(), plr2->GetName(), plr2->GetName() );
-
-                        break; // Ukoncenie for cyklu
+                        break; // Koniec vnutorneho cyklu
                     }
                 }
-
+                
                 if(arena->isPossibleWintrade())
                 {
-
-                    // Typ areny
-                    int slot=0;
-                    if(arenaType == ARENA_TYPE_2v2)
-                        slot = 0;
-                    else if(arenaType == ARENA_TYPE_3v3)
-                        slot = 1;
-                    else if(arenaType == ARENA_TYPE_5v5)
-                        slot = 2;
-                    else
-                        sLog.outError("BattleGroundQueue::Uprade() : WTF error");
-
                     sLog.outInterest("###### Wintrade ######");
-
-                    // Vypis 1. teamu
-                    for(std::map<uint64,PlayerQueueInfo*>::iterator itr3 = (*itr_team[BG_TEAM_ALLIANCE])->Players.begin(); itr3 != (*itr_team[BG_TEAM_ALLIANCE])->Players.end(); ++itr3)
+                    for(std::vector<Player *>::iterator itr = plrs.begin(); itr != plrs.end(); itr++)
                     {
-                        Player *plr3 = sObjectMgr.GetPlayer(itr3->first);
-                        sLog.outInterest("# Account: %u Team: %u Player: %s (%u) IP: %s", plr3->GetSession()->GetAccountId(), plr3->GetArenaTeamId(slot), plr3->GetName(), plr3->GetGUIDLow(), plr3->GetSession()->GetRemoteAddress().c_str());
-                    }
+                        Player *plr = *itr;
 
-                    // Vypis 2. teamu
-                    for(std::map<uint64,PlayerQueueInfo*>::iterator itr4 = (*itr_team[BG_TEAM_ALLIANCE])->Players.begin(); itr4 != (*itr_team[BG_TEAM_ALLIANCE])->Players.end(); ++itr4)
-                    {
-                        Player *plr4= sObjectMgr.GetPlayer(itr4->first);
-                        sLog.outInterest("# Account: %u Team: %u Player: %s (%u) IP: %s", plr4->GetSession()->GetAccountId(), plr4->GetArenaTeamId(slot), plr4->GetName(), plr4->GetGUIDLow(), plr4->GetSession()->GetRemoteAddress().c_str());
+                        sLog.outInterest("# Account: %u Team: %u Player: %s (%u) IP: %s", plr->GetSession()->GetAccountId(), plr->GetArenaTeamId(slot), plr->GetName(), plr->GetGUIDLow(), plr->GetSession()->GetRemoteAddress().c_str());
                     }
                     sLog.outInterest("######################");
 
-                    break; // Ukoncenie for cyklu
-                } 
-            }          
+                    break; // Koniec vonkajsieho cyklu
+                }
+            }
+            
             //////////////////
             
 
