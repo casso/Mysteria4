@@ -211,6 +211,7 @@ BattleGround::BattleGround()
     m_Status            = STATUS_NONE;
     m_ClientInstanceID  = 0;
     m_EndTime           = 0;
+    m_LastResurrectTime = 0;
     m_BracketId         = MAX_BATTLEGROUND_BRACKETS;        // use as mark bg template
     m_InvitedAlliance   = 0;
     m_InvitedHorde      = 0;
@@ -333,6 +334,62 @@ void BattleGround::Update(uint32 diff)
                 //do not use itr for anything, because it is erased in RemovePlayerAtLeave()
             }
         }
+    }
+
+    /*********************************************************/
+    /***        BATTLEGROUND RESSURECTION SYSTEM           ***/
+    /*********************************************************/
+
+    //this should be handled by spell system
+    m_LastResurrectTime += diff;
+    if (m_LastResurrectTime >= RESURRECTION_INTERVAL)
+    {
+        if (GetReviveQueueSize())
+        {
+            for(std::map<ObjectGuid, std::vector<ObjectGuid> >::iterator itr = m_ReviveQueue.begin(); itr != m_ReviveQueue.end(); ++itr)
+            {
+                Creature *sh = NULL;
+                for(std::vector<ObjectGuid>::const_iterator itr2 = (itr->second).begin(); itr2 != (itr->second).end(); ++itr2)
+                {
+                    Player *plr = sObjectMgr.GetPlayer(*itr2);
+                    if (!plr)
+                        continue;
+
+                    if (!sh && plr->IsInWorld())
+                    {
+                        sh = plr->GetMap()->GetCreature(itr->first);
+                        // only for visual effect
+                        if (sh)
+                            // Spirit Heal, effect 117
+                            sh->CastSpell(sh, SPELL_SPIRIT_HEAL, true);
+                    }
+
+                    // Resurrection visual
+                    plr->CastSpell(plr, SPELL_RESURRECTION_VISUAL, true);
+                    m_ResurrectQueue.push_back(*itr2);
+                }
+                (itr->second).clear();
+            }
+
+            m_ReviveQueue.clear();
+            m_LastResurrectTime = 0;
+        }
+        else
+            // queue is clear and time passed, just update last resurrection time
+            m_LastResurrectTime = 0;
+    }
+    else if (m_LastResurrectTime > 500)    // Resurrect players only half a second later, to see spirit heal effect on NPC
+    {
+        for(std::vector<ObjectGuid>::const_iterator itr = m_ResurrectQueue.begin(); itr != m_ResurrectQueue.end(); ++itr)
+        {
+            Player *plr = sObjectMgr.GetPlayer(*itr);
+            if (!plr)
+                continue;
+            plr->ResurrectPlayer(1.0f);
+            plr->CastSpell(plr, SPELL_SPIRIT_HEAL_MANA, true);
+            ObjectAccessor::Instance().ConvertCorpseForPlayer(*itr);
+        }
+        m_ResurrectQueue.clear();
     }
 
     /*********************************************************/
@@ -996,6 +1053,8 @@ void BattleGround::RemovePlayerAtLeave(ObjectGuid guid, bool Transport, bool Sen
         m_PlayerScores.erase(itr2);
     }
 
+    RemovePlayerFromResurrectQueue(guid);
+
     Player *plr = sObjectMgr.GetPlayer(guid);
 
     // should remove spirit of redemption
@@ -1110,6 +1169,7 @@ void BattleGround::Reset()
     SetStartTime(0);
     SetEndTime(0);
     SetArenaType(0);
+    SetLastResurrectTime(0);
     SetRated(false);
 
     m_Events = 0;
@@ -1582,6 +1642,13 @@ void BattleGround::SpawnBGCreature(uint64 const& guid, uint32 respawntime)
         obj->SetDeathState(JUST_DIED);
         obj->RemoveCorpse();
     }
+
+    // Efekt okolo spirit guide-ov
+    if(obj->GetEntry() == 13116 || obj->GetEntry() == 13117 )
+    {
+        obj->SetUInt32Value(UNIT_FIELD_AURA, SPELL_SPIRIT_HEAL_CHANNEL);
+        obj->SetUInt32Value(UNIT_CHANNEL_SPELL, SPELL_SPIRIT_HEAL_CHANNEL);
+    }
 }
 
 bool BattleGround::DelObject(uint32 type)
@@ -1808,4 +1875,37 @@ void BattleGround::SetBgRaid(Team team, Group *bg_raid)
 WorldSafeLocsEntry const* BattleGround::GetClosestGraveYard( Player* player )
 {
     return sObjectMgr.GetClosestGraveYard(player->GetPositionX(), player->GetPositionY(), player->GetPositionZ(), player->GetMapId(), player->GetTeam());
+}
+
+void BattleGround::AddPlayerToResurrectQueue(ObjectGuid npc_guid, ObjectGuid player_guid)
+{
+    m_ReviveQueue[npc_guid].push_back(player_guid);
+
+    Player *plr = sObjectMgr.GetPlayer(player_guid);
+    if (!plr)
+        return;
+
+    plr->CastSpell(plr, SPELL_WAITING_FOR_RESURRECT, true);
+}
+
+void BattleGround::RemovePlayerFromResurrectQueue(ObjectGuid player_guid)
+{
+    for(std::map<ObjectGuid, std::vector<ObjectGuid> >::iterator itr = m_ReviveQueue.begin(); itr != m_ReviveQueue.end(); ++itr)
+    {
+        for(std::vector<ObjectGuid>::iterator itr2 =(itr->second).begin(); itr2 != (itr->second).end(); ++itr2)
+        {
+            if (*itr2 == player_guid)
+            {
+                (itr->second).erase(itr2);
+
+                Player *plr = sObjectMgr.GetPlayer(player_guid);
+                if (!plr)
+                    return;
+
+                plr->RemoveAurasDueToSpell(SPELL_WAITING_FOR_RESURRECT);
+
+                return;
+            }
+        }
+    }
 }

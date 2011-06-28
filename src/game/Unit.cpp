@@ -8509,6 +8509,18 @@ void Unit::ApplySpellDispelImmunity(const SpellEntry * spellProto, DispelType ty
 {
     ApplySpellImmune(spellProto->Id,IMMUNITY_DISPEL, type, apply);
 
+    // Stoneform
+    if(spellProto->Id == 20594)
+    {
+        // Disease
+        ApplySpellImmune(spellProto->Id, IMMUNITY_DISPEL, DISPEL_DISEASE, apply);
+        RemoveAurasWithDispelType(DISPEL_DISEASE);
+
+        // Bleed
+        ApplySpellImmune(spellProto->Id, IMMUNITY_MECHANIC, MECHANIC_BLEED, apply);
+        RemoveAurasAtMechanicImmunity(1<<(MECHANIC_BLEED-1), spellProto->Id);
+    }
+
     if (apply && spellProto->AttributesEx & SPELL_ATTR_EX_DISPEL_AURAS_ON_IMMUNITY)
         RemoveAurasWithDispelType(type);
 }

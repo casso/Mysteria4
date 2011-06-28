@@ -222,7 +222,6 @@
     <ClCompile Include="..\scripts\battlegrounds\alterac_valley\boss_drekthar.cpp" />
     <ClCompile Include="..\scripts\battlegrounds\alterac_valley\boss_galvangar.cpp" />
     <ClCompile Include="..\scripts\battlegrounds\alterac_valley\boss_vanndar.cpp" />
-    <ClCompile Include="..\scripts\battlegrounds\battleground.cpp" />
     <ClCompile Include="..\scripts\custom\barber.cpp" />
     <ClCompile Include="..\scripts\custom\MysteriaGuard.cpp" />
     <ClCompile Include="..\scripts\custom\npc_mysteria_changer.cpp" />

@@ -1456,7 +1456,7 @@ void Player::Update( uint32 update_diff, uint32 p_time )
                 if(m_team == ALLIANCE && GetZoneId() == 616 && GetAreaId() == 616)
                 {
                     // horda 1-50
-                    if(GetPositionX() > 5153.0f && GetPositionX() < 5352.0f && GetPositionY() > -2214.0f && GetPositionY() < -1790.0f)
+                    if(GetPositionX() > 5153.0f && GetPositionX() < 5473.0f && GetPositionY() > -2214.0f && GetPositionY() < -1790.0f)
                         port = true;
 
                     // horda 50-70

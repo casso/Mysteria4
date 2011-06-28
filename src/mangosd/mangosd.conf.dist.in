@@ -1607,35 +1607,12 @@ PvPToken.ItemID = 10663
 PvPToken.ItemCount = 1
 
 ###################################################################################################################
-# Mysteria Custom
-#    BGRotate.Enable
-#        Zapnutie rotacie BGcok (0-Vypnute (default), 1-Zapnute)
-#    BGRotate.Hours
-#        Pocet hodin pre jeden bg (Default:2)
-#
-#    Duel.Restore
-#        Obnovenie HP, Many a reset cooldownov po skonceni duelu (0-Vypnute (default), 1-Zapnute)
-#
-###################################################################################################################
-
-BGRotate.Enable = 1
-BGRotate.Hours = 2
-
-Duel.Restore = 1
-
-###################################################################################################################
 # Rated Arena AntiWintrade
 #    Arena.Wintrade.Enable 
 #        Zapnutie blokovania rated aren v urcitom case (0-Vypnute (default), 1-Zapnute)
 #
 #    Arena.Wintrade.Week*
 #        Hodina zaciatku a konca blokovania aren cez tyzden a vikend (vratane)
-#
-#    Sign.MinLevel
-#        Minimalny level potrebny na podpisanie peticie
-#
-#    Azeroth.GMLevel.Fly
-#        Minimalny gmlevel, s ktorym je mozne lietat nad azerothom 
 #  
 ###################################################################################################################
 
@@ -1646,7 +1623,30 @@ Arena.Wintrade.WeekdayEnd = 24
 Arena.Wintrade.WeekendStart = 0
 Arena.Wintrade.WeekendEnd = 24
 
+###################################################################################################################
+# Mysteria Custom
+#    BGRotate.Enable
+#        Zapnutie rotacie BGcok (0-Vypnute (default), 1-Zapnute)
+#
+#    BGRotate.Hours
+#        Pocet hodin pre jeden bg (Default:2)
+#
+#    Duel.Restore
+#        Obnovenie HP, Many a reset cooldownov po skonceni duelu (0-Vypnute (default), 1-Zapnute)
+#
+#    Sign.MinLevel
+#        Minimalny level potrebny na podpisanie peticie
+#
+#    Azeroth.GMLevel.Fly
+#        Minimalny gmlevel, s ktorym je mozne lietat nad azerothom 
+#
+###################################################################################################################
+
+BGRotate.Enable = 1
+BGRotate.Hours = 2
+
+Duel.Restore = 1
+
 Sign.MinLevel = 1
 
 Azeroth.GMLevel.Fly = 2
-  

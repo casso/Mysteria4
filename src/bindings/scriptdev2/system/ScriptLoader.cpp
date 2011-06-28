@@ -5,7 +5,6 @@
 #include "precompiled.h"
 
 // battlegrounds
-extern void AddSC_battleground();
 
 //Alterac Valley
 extern void AddSC_boss_balinda();
@@ -379,7 +378,6 @@ extern void AddSC_zangarmarsh();
 void AddScripts()
 {
     // battlegrounds
-    AddSC_battleground();
 
     //Alterac Valley
     AddSC_boss_balinda();

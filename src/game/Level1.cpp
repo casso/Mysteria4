@@ -564,12 +564,7 @@ bool ChatHandler::HandleGonameCommand(char* args)
         else
             _player->SaveRecallPosition();
 
-        // to point to see at target with same orientation
-        float x,y,z;
-        //target->GetContactPoint(_player,x,y,z);
-        target->GetClosePoint(x, y, z, 1.0f);
-
-        _player->TeleportTo(target->GetMapId(), x, y, z, _player->GetAngle(target), TELE_TO_GM_MODE);
+        _player->TeleportTo(target->GetMapId(), target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), target->GetOrientation(), TELE_TO_GM_MODE);
     }
     else
     {
@@ -1793,6 +1788,8 @@ bool ChatHandler::HandleTeleGroupCommand(char * args)
 
     for(GroupReference *itr = grp->GetFirstMember(); itr != NULL; itr = itr->next())
     {
+    try
+    {
         Player *pl = itr->getSource();
 
         if(!pl || !pl->GetSession() )
@@ -1825,6 +1822,13 @@ bool ChatHandler::HandleTeleGroupCommand(char * args)
             pl->SaveRecallPosition();
 
         pl->TeleportTo(tele->mapId, tele->position_x, tele->position_y, tele->position_z, tele->orientation);
+    }
+    catch(...)
+    {
+         sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_ANTICRASH_NOTIFY, "ChatHandler::HandleTeleGroupCommand");
+         sLog.outError("### Casso: ChatHandler::HandleTeleGroupCommand: Pokus o zamedzenie crashu aktivovany ###");
+         sLog.outInterest("### Casso: ChatHandler::HandleTeleGroupCommand: Pokus o zamedzenie crashu aktivovany ###");
+    }
     }
 
     return true;
@@ -1868,6 +1872,8 @@ bool ChatHandler::HandleGroupgoCommand(char* args)
     }
 
     for(GroupReference *itr = grp->GetFirstMember(); itr != NULL; itr = itr->next())
+    {
+    try
     {
         Player *pl = itr->getSource();
 
@@ -1915,6 +1921,13 @@ bool ChatHandler::HandleGroupgoCommand(char* args)
             pl->SaveRecallPosition();
 
         pl->TeleportTo(_player->GetMapId(), _player->GetPositionX(), _player->GetPositionY(), _player->GetPositionZ()+0.5f, pl->GetOrientation());
+    }
+    catch(...)
+    {
+         sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_ANTICRASH_NOTIFY, "ChatHandler::HandleGroupgoCommand");
+         sLog.outError("### Casso: ChatHandler::HandleGroupgoCommand: Pokus o zamedzenie crashu aktivovany ###");
+         sLog.outInterest("### Casso: ChatHandler::HandleGroupgoCommand: Pokus o zamedzenie crashu aktivovany ###");
+    }
     }
 
     return true;

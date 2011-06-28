@@ -2322,6 +2322,14 @@ void Aura::HandleAuraDummy(bool apply, bool Real)
 
         switch(GetId())
         {
+            case 2584:                                      // Waiting to Resurrect
+            {
+                // Waiting to resurrect spell cancel, we must remove player from resurrect queue
+                if(m_target->GetTypeId() == TYPEID_PLAYER)
+                    if(BattleGround *bg = ((Player*)m_target)->GetBattleGround())
+                        bg->RemovePlayerFromResurrectQueue(m_target->GetGUID());
+                return;
+            }
             case 10255:                                     // Stoned
             {
                 if (Unit* caster = GetCaster())
