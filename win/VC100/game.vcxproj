@@ -436,7 +436,15 @@
     <ClCompile Include="..\..\src\game\MapPersistentStateMgr.cpp" />
     <ClCompile Include="..\..\src\game\MassMailMgr.cpp" />
     <ClCompile Include="..\..\src\game\MiscHandler.cpp" />
+    <ClCompile Include="..\..\src\game\mmap\DetourAlloc.cpp" />
+    <ClCompile Include="..\..\src\game\mmap\DetourCommon.cpp" />
+    <ClCompile Include="..\..\src\game\mmap\DetourNavMesh.cpp" />
+    <ClCompile Include="..\..\src\game\mmap\DetourNavMeshBuilder.cpp" />
+    <ClCompile Include="..\..\src\game\mmap\DetourNavMeshQuery.cpp" />
+    <ClCompile Include="..\..\src\game\mmap\DetourNode.cpp" />
+    <ClCompile Include="..\..\src\game\mmap\DetourObstacleAvoidance.cpp" />
     <ClCompile Include="..\..\src\game\MotionMaster.cpp" />
+    <ClCompile Include="..\..\src\game\MoveMap.cpp" />
     <ClCompile Include="..\..\src\game\MovementGenerator.cpp" />
     <ClCompile Include="..\..\src\game\MovementHandler.cpp" />
     <ClCompile Include="..\..\src\game\NPCHandler.cpp" />
@@ -448,6 +456,7 @@
     <ClCompile Include="..\..\src\game\ObjectGuid.cpp" />
     <ClCompile Include="..\..\src\game\ObjectPosSelector.cpp" />
     <ClCompile Include="..\..\src\game\Opcodes.cpp" />
+    <ClCompile Include="..\..\src\game\PathFinder.cpp" />
     <ClCompile Include="..\..\src\game\pchdef.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pchdef.h</PrecompiledHeaderFile>
@@ -584,7 +593,17 @@
     <ClInclude Include="..\..\src\game\MapReference.h" />
     <ClInclude Include="..\..\src\game\MapRefManager.h" />
     <ClInclude Include="..\..\src\game\MassMailMgr.h" />
+    <ClInclude Include="..\..\src\game\mmap\DetourAlloc.h" />
+    <ClInclude Include="..\..\src\game\mmap\DetourAssert.h" />
+    <ClInclude Include="..\..\src\game\mmap\DetourCommon.h" />
+    <ClInclude Include="..\..\src\game\mmap\DetourNavMesh.h" />
+    <ClInclude Include="..\..\src\game\mmap\DetourNavMeshBuilder.h" />
+    <ClInclude Include="..\..\src\game\mmap\DetourNavMeshQuery.h" />
+    <ClInclude Include="..\..\src\game\mmap\DetourNode.h" />
+    <ClInclude Include="..\..\src\game\mmap\DetourObstacleAvoidance.h" />
     <ClInclude Include="..\..\src\game\MotionMaster.h" />
+    <ClInclude Include="..\..\src\game\MoveMap.h" />
+    <ClInclude Include="..\..\src\game\MoveMapSharedDefines.h" />
     <ClInclude Include="..\..\src\game\MovementGenerator.h" />
     <ClInclude Include="..\..\src\game\NPCHandler.h" />
     <ClInclude Include="..\..\src\game\NullCreatureAI.h" />
@@ -596,6 +615,7 @@
     <ClInclude Include="..\..\src\game\ObjectPosSelector.h" />
     <ClInclude Include="..\..\src\game\Opcodes.h" />
     <ClInclude Include="..\..\src\game\Path.h" />
+    <ClInclude Include="..\..\src\game\PathFinder.h" />
     <ClInclude Include="..\..\src\game\pchdef.h" />
     <ClInclude Include="..\..\src\game\Pet.h" />
     <ClInclude Include="..\..\src\game\PetAI.h" />

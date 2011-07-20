@@ -569,6 +569,13 @@ class ChatHandler
         bool HandleReloadDBCCommand(char* args);
         bool HandlePlaySoundToAllCommand(char* args);
         bool HandleFlyMountCommand(char* args);
+        bool HandleMmapPathCommand(char* args);
+
+        bool HandleMmapLocCommand(char* args);
+        bool HandleMmapLoadedTilesCommand(char* args);
+        bool HandleMmapStatsCommand(char* args);
+        bool HandleMmap(char* args);
+        bool HandleMmapTestArea(char* args);
 
         //! Development Commands
         bool HandleSaveAllCommand(char* args);

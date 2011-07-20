@@ -326,6 +326,17 @@ ChatCommand * ChatHandler::getCommandTable()
         { NULL,             0,                       false, NULL,                                           "", NULL }
     };
 
+    static ChatCommand mmapCommandTable[] =
+    {
+        { "path",           SECURITY_GAMEMASTER,     false, &ChatHandler::HandleMmapPathCommand,            "", NULL },
+        { "loc",            SECURITY_GAMEMASTER,     false, &ChatHandler::HandleMmapLocCommand,             "", NULL },
+        { "loadedtiles",    SECURITY_GAMEMASTER,     false, &ChatHandler::HandleMmapLoadedTilesCommand,     "", NULL },
+        { "stats",          SECURITY_GAMEMASTER,     false, &ChatHandler::HandleMmapStatsCommand,           "", NULL },
+        { "testarea",       SECURITY_GAMEMASTER,     false, &ChatHandler::HandleMmapTestArea,               "", NULL },
+        { "",               SECURITY_ADMINISTRATOR,  false, &ChatHandler::HandleMmap,                       "", NULL },
+        { NULL,             0,                       false, NULL,                                           "", NULL }
+    };
+
     static ChatCommand modifyCommandTable[] =
     {
         { "hp",             SECURITY_MODERATOR,      false, &ChatHandler::HandleModifyHPCommand,            "", NULL },
@@ -747,6 +758,7 @@ ChatCommand * ChatHandler::getCommandTable()
         { "gh",             SECURITY_VIP,            false, &ChatHandler::HandleGuildHouseCommand,          "", NULL },
         { "playsoundtoall", SECURITY_GAMEMASTER,     false, &ChatHandler::HandlePlaySoundToAllCommand,      "", NULL },
         { "flymount",       SECURITY_VIP,            false, &ChatHandler::HandleFlyMountCommand,            "", NULL },
+        { "mmap",           SECURITY_GAMEMASTER,     false, NULL,                                           "", mmapCommandTable },
 
         { NULL,             0,                       false, NULL,                                           "", NULL }
     };

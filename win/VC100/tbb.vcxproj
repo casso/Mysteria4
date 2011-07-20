@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_NoPCH|Win32">
@@ -166,7 +166,7 @@
       <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/nologo /DLL /MAP /DEBUG /fixed:no /INCREMENTAL:NO  /DEF:$(IntDir)tbb.def %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/DLL /MAP /DEBUG /fixed:no /INCREMENTAL:NO  /DEF:$(IntDir)tbb.def %(AdditionalOptions)</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -190,7 +190,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/nologo /DLL /MAP /DEBUG /fixed:no /INCREMENTAL:NO  /DEF:$(IntDir)tbb.def %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/DLL /MAP /DEBUG /fixed:no /INCREMENTAL:NO  /DEF:$(IntDir)tbb.def %(AdditionalOptions)</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -216,7 +216,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/nologo /DLL /MAP /DEBUG /fixed:no /INCREMENTAL:NO /DEF:$(IntDir)tbb.def %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/DLL /MAP /DEBUG /fixed:no /INCREMENTAL:NO /DEF:$(IntDir)tbb.def %(AdditionalOptions)</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -270,7 +270,7 @@
       <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
-      <AdditionalOptions>/nologo /DLL /MAP /DEBUG /fixed:no /INCREMENTAL:NO  /DEF:$(IntDir)tbb.def %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/DLL /MAP /DEBUG /fixed:no /INCREMENTAL:NO  /DEF:$(IntDir)tbb.def %(AdditionalOptions)</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -319,30 +319,30 @@
   <ItemGroup>
     <CustomBuild Include="..\..\dep\tbb\src\tbb\win32-tbb-export.def">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">generating tbb.def file</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cl /nologo /TC /EP ../../dep/tbb/src/tbb/win32-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 /I../../dep/tbb/src /I../../dep/tbb/include &gt;$(IntDir)tbb.def
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cl /TC /EP ../../dep/tbb/src/tbb/win32-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 /I../../dep/tbb/src /I../../dep/tbb/include &gt;$(IntDir)tbb.def
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\tbb__$(Platform)_$(Configuration)\tbb.def;%(Outputs)</Outputs>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">true</ExcludedFromBuild>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">generating tbb.def file</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">cl /nologo /TC /EP ../../src/tbb/win32-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 &gt;$(IntDir)tbb.def
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">cl /TC /EP ../../src/tbb/win32-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 &gt;$(IntDir)tbb.def
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">$(IntDir)tbb.def;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">generating tbb.def file</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cl /nologo /TC /EP ../../dep/tbb/src/tbb/win32-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 /I../../dep/tbb/src /I../../dep/tbb/include &gt;$(IntDir)tbb.def
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cl /TC /EP ../../dep/tbb/src/tbb/win32-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 /I../../dep/tbb/src /I../../dep/tbb/include &gt;$(IntDir)tbb.def
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\tbb__$(Platform)_$(Configuration)\tbb.def;%(Outputs)</Outputs>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|X64'">true</ExcludedFromBuild>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|X64'">generating tbb.def file</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">cl /nologo /TC /EP ../../src/tbb/win32-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 &gt;$(IntDir)tbb.def
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">cl /TC /EP ../../src/tbb/win32-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 &gt;$(IntDir)tbb.def
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">$(IntDir)tbb.def;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">generating tbb.def file</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">cl /nologo /TC /EP ../../dep/tbb/src/tbb/win32-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 /I../../dep/tbb/src /I../../dep/tbb/include &gt;$(IntDir)tbb.def
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">cl /TC /EP ../../dep/tbb/src/tbb/win32-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 /I../../dep/tbb/src /I../../dep/tbb/include &gt;$(IntDir)tbb.def
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">.\tbb__$(Platform)_$(Configuration)\tbb.def;%(Outputs)</Outputs>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">true</ExcludedFromBuild>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">generating tbb.def file</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">cl /nologo /TC /EP ../../src/tbb/win32-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 &gt;$(IntDir)tbb.def
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">cl /TC /EP ../../src/tbb/win32-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 &gt;$(IntDir)tbb.def
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">$(IntDir)tbb.def;%(Outputs)</Outputs>
     </CustomBuild>
@@ -351,29 +351,29 @@
     <CustomBuild Include="..\..\dep\tbb\src\tbb\win64-tbb-export.def">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">generating tbb.def file</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cl /nologo /TC /EP ../../src/tbb/win64-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 &gt;$(IntDir)tbb.def
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cl /TC /EP ../../src/tbb/win64-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 &gt;$(IntDir)tbb.def
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)tbb.def;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">generating tbb.def file</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">cl /nologo /TC /EP ../../dep/tbb/src/tbb/win64-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 /I../../dep/tbb/src /I../../dep/tbb/include &gt;$(IntDir)tbb.def
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">cl /TC /EP ../../dep/tbb/src/tbb/win64-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 /I../../dep/tbb/src /I../../dep/tbb/include &gt;$(IntDir)tbb.def
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">..\..\bin\$(Platform)_$(Configuration)\tbb.def;%(Outputs)</Outputs>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">generating tbb.def file</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cl /nologo /TC /EP ../../src/tbb/win64-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 &gt;$(IntDir)tbb.def
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">cl /TC /EP ../../src/tbb/win64-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 &gt;$(IntDir)tbb.def
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)tbb.def;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|X64'">generating tbb.def file</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">cl /nologo /TC /EP ../../dep/tbb/src/tbb/win64-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 /I../../dep/tbb/src /I../../dep/tbb/include &gt;$(IntDir)tbb.def
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|X64'">cl /TC /EP ../../dep/tbb/src/tbb/win64-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 /I../../dep/tbb/src /I../../dep/tbb/include &gt;$(IntDir)tbb.def
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|X64'">..\..\bin\$(Platform)_$(Configuration)\tbb.def;%(Outputs)</Outputs>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">true</ExcludedFromBuild>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">generating tbb.def file</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">cl /nologo /TC /EP ../../src/tbb/win64-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 &gt;$(IntDir)tbb.def
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">cl /TC /EP ../../src/tbb/win64-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 &gt;$(IntDir)tbb.def
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">$(IntDir)tbb.def;%(Outputs)</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">generating tbb.def file</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">cl /nologo /TC /EP ../../dep/tbb/src/tbb/win64-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 /I../../dep/tbb/src /I../../dep/tbb/include &gt;$(IntDir)tbb.def
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">cl /TC /EP ../../dep/tbb/src/tbb/win64-tbb-export.def /DTBB_USE_DEBUG /DDO_ITT_NOTIFY /DUSE_WINTHREAD /D_CRT_SECURE_NO_DEPRECATE /D_WIN32_WINNT=0x0400 /D__TBB_BUILD=1 /I../../dep/tbb/src /I../../dep/tbb/include &gt;$(IntDir)tbb.def
 </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|X64'">..\..\bin\$(Platform)_$(Configuration)\tbb.def;%(Outputs)</Outputs>
     </CustomBuild>

@@ -25,12 +25,13 @@
 #include "DBCStores.h"
 #include "GridMap.h"
 #include "VMapFactory.h"
+#include "MoveMap.h"
 #include "World.h"
 #include "Policies/SingletonImp.h"
 #include "Util.h"
 
 char const* MAP_MAGIC         = "MAPS";
-char const* MAP_VERSION_MAGIC = "w0.5";
+char const* MAP_VERSION_MAGIC = "w0.6";
 char const* MAP_AREA_MAGIC    = "AREA";
 char const* MAP_HEIGHT_MAGIC  = "MHGT";
 char const* MAP_LIQUID_MAGIC  = "MLIQ";
@@ -643,6 +644,7 @@ TerrainInfo::~TerrainInfo()
             delete m_GridMaps[i][k];
 
     VMAP::VMapFactory::createOrGetVMapManager()->unloadMap(m_mapId);
+    MMAP::MMapFactory::createOrGetMMapManager()->unloadMap(m_mapId);
 }
 
 GridMap * TerrainInfo::Load(const uint32 x, const uint32 y)
@@ -1056,6 +1058,9 @@ GridMap * TerrainInfo::LoadMapAndVMap( const uint32 x, const uint32 y )
                 DEBUG_LOG("Ignored VMAP name:%s, id:%d, x:%d, y:%d (vmap rep.: x:%d, y:%d)", mapName, m_mapId, x,y,x,y);
                 break;
             }
+
+            // load navmesh
+            MMAP::MMapFactory::createOrGetMMapManager()->loadMap(m_mapId, x, y);
         }
     }
 

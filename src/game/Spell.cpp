@@ -4274,6 +4274,8 @@ SpellCastResult Spell::CheckCast(bool strict)
                     }
                 }
 
+                // todo: mozno by sa zisla kontrola pathfinging trasy, ak sa to vobec da zistit
+
                 break;
             }
             case SPELL_EFFECT_SKINNING:
