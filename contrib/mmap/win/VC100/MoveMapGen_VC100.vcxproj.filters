@@ -7,6 +7,9 @@
     <Filter Include="vmap">
       <UniqueIdentifier>{8c2c5f18-4147-4fdb-bd45-aa9664476e6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="mmap">
+      <UniqueIdentifier>{5b279e65-b714-4da9-9dba-5651981040a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\generator.cpp">
@@ -44,6 +47,27 @@
     </ClCompile>
     <ClCompile Include="..\..\src\IntermediateValues.cpp">
       <Filter>generator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\game\mmap\DetourAlloc.cpp">
+      <Filter>mmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\game\mmap\DetourCommon.cpp">
+      <Filter>mmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\game\mmap\DetourNavMesh.cpp">
+      <Filter>mmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\game\mmap\DetourNavMeshBuilder.cpp">
+      <Filter>mmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\game\mmap\DetourNavMeshQuery.cpp">
+      <Filter>mmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\game\mmap\DetourNode.cpp">
+      <Filter>mmap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\game\mmap\DetourObstacleAvoidance.cpp">
+      <Filter>mmap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +118,30 @@
     </ClInclude>
     <ClInclude Include="..\..\src\TerrainBuilder.h">
       <Filter>generator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\game\mmap\DetourAlloc.h">
+      <Filter>mmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\game\mmap\DetourAssert.h">
+      <Filter>mmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\game\mmap\DetourCommon.h">
+      <Filter>mmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\game\mmap\DetourNavMesh.h">
+      <Filter>mmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\game\mmap\DetourNavMeshBuilder.h">
+      <Filter>mmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\game\mmap\DetourNavMeshQuery.h">
+      <Filter>mmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\game\mmap\DetourNode.h">
+      <Filter>mmap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\game\mmap\DetourObstacleAvoidance.h">
+      <Filter>mmap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

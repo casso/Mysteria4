@@ -79,7 +79,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\src\;..\..\..\..\dep\recastnavigation\Detour\Include\;..\..\..\..\dep\recastnavigation\Recast\Include\;..\..\..\..\src\game\vmap;..\..\..\..\dep\include\g3dlite;..\..\..\..\src\framework\;..\..\..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\src\;D:\src\wow emuls\Mysteria_4\src\game\mmap\;..\..\..\..\dep\Recast\Include\;..\..\..\..\src\game\vmap;..\..\..\..\dep\include\g3dlite;..\..\..\..\src\framework\;..\..\..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <PreprocessorDefinitions>WIN32;NDEBUG;MMAP_GENERATOR;_CRT_SECURE_NO_WARNINGS;NO_CORE_FUNCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -104,6 +104,13 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\src\game\mmap\DetourAlloc.cpp" />
+    <ClCompile Include="..\..\..\..\src\game\mmap\DetourCommon.cpp" />
+    <ClCompile Include="..\..\..\..\src\game\mmap\DetourNavMesh.cpp" />
+    <ClCompile Include="..\..\..\..\src\game\mmap\DetourNavMeshBuilder.cpp" />
+    <ClCompile Include="..\..\..\..\src\game\mmap\DetourNavMeshQuery.cpp" />
+    <ClCompile Include="..\..\..\..\src\game\mmap\DetourNode.cpp" />
+    <ClCompile Include="..\..\..\..\src\game\mmap\DetourObstacleAvoidance.cpp" />
     <ClCompile Include="..\..\..\..\src\game\vmap\BIH.cpp" />
     <ClCompile Include="..\..\..\..\src\game\vmap\MapTree.cpp" />
     <ClCompile Include="..\..\..\..\src\game\vmap\ModelInstance.cpp" />
@@ -118,6 +125,14 @@
     <ClCompile Include="..\..\src\IntermediateValues.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\src\game\mmap\DetourAlloc.h" />
+    <ClInclude Include="..\..\..\..\src\game\mmap\DetourAssert.h" />
+    <ClInclude Include="..\..\..\..\src\game\mmap\DetourCommon.h" />
+    <ClInclude Include="..\..\..\..\src\game\mmap\DetourNavMesh.h" />
+    <ClInclude Include="..\..\..\..\src\game\mmap\DetourNavMeshBuilder.h" />
+    <ClInclude Include="..\..\..\..\src\game\mmap\DetourNavMeshQuery.h" />
+    <ClInclude Include="..\..\..\..\src\game\mmap\DetourNode.h" />
+    <ClInclude Include="..\..\..\..\src\game\mmap\DetourObstacleAvoidance.h" />
     <ClInclude Include="..\..\..\..\src\game\vmap\BIH.h" />
     <ClInclude Include="..\..\..\..\src\game\vmap\IVMapManager.h" />
     <ClInclude Include="..\..\..\..\src\game\vmap\MapTree.h" />
@@ -136,10 +151,7 @@
     <ClInclude Include="..\..\src\IntermediateValues.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\dep\recastnavigation\Detour\win\VC100\Detour.vcxproj">
-      <Project>{72bdf975-4d4a-42c7-b2c4-f9ed90a2abb6}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\dep\recastnavigation\Recast\win\VC100\Recast.vcxproj">
+    <ProjectReference Include="..\..\..\..\dep\Recast\win\VC100\Recast.vcxproj">
       <Project>{00b9dc66-96a6-465d-a6c1-5dff94e48a64}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\win\VC100\g3dlite.vcxproj">
