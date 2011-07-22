@@ -90,7 +90,7 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mangosscript</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Mysteria4_script</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mangosscript</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mangosscript</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Mysteria4_script</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

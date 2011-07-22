@@ -1059,6 +1059,10 @@ bool ChatHandler::HandleMmapTestArea(char* args)
     {
         PSendSysMessage("No creatures in %f yard range.", radius);
     }
-    */
     return true;
+    */
+
+    PSendSysMessage("Not implemented yet.");
+
+    return false;
 }
