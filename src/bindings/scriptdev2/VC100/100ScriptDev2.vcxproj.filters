@@ -1318,6 +1318,12 @@
     <ClCompile Include="..\scripts\eastern_kingdoms\naxxramas\instance_naxxramas.cpp">
       <Filter>scripts\eastern_kingdoms\naxxramas</Filter>
     </ClCompile>
+    <ClCompile Include="..\scripts\eastern_kingdoms\sunwell_plateau\boss_entropius.cpp">
+      <Filter>scripts\eastern_kingdoms\sunwell_plateau</Filter>
+    </ClCompile>
+    <ClCompile Include="..\scripts\eastern_kingdoms\sunwell_plateau\npc_hand_of_the_deceiver.cpp">
+      <Filter>scripts\eastern_kingdoms\sunwell_plateau</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\base\escort_ai.h">

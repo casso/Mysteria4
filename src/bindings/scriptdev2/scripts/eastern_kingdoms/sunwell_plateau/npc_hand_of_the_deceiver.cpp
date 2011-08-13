@@ -15,7 +15,7 @@
  */
 
 /* ScriptData
-SDName: boss_felmyst
+SDName: npc_hand_of_the_deceiver
 SD%Complete:
 SDComment:
 SDCategory: Sunwell Plateau
@@ -24,11 +24,11 @@ EndScriptData */
 #include "precompiled.h"
 #include "sunwell_plateau.h"
 
-struct MANGOS_DLL_DECL boss_felmystAI : public ScriptedAI
+struct MANGOS_DLL_DECL npc_hand_of_the_deceiverAI : public ScriptedAI
 {
     ScriptedInstance* m_pInstance;
 
-    boss_felmystAI(Creature* pCreature) : ScriptedAI(pCreature)
+    npc_hand_of_the_deceiverAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
         m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
 
@@ -39,15 +39,9 @@ struct MANGOS_DLL_DECL boss_felmystAI : public ScriptedAI
     {
     }
 
-    void Aggro(Unit* who)
-    {
-        if (m_pInstance)
-            m_pInstance->SetData(TYPE_FELMYST, IN_PROGRESS);
-    }
-
     void JustDied(Unit* killer)
     {
-        m_pInstance->SetData(TYPE_FELMYST, DONE);
+        m_pInstance->SetData(TYPE_HAND_OF_THE_DECEIVER, DONE);
     }
 
     void UpdateAI(const uint32 diff)
@@ -59,17 +53,17 @@ struct MANGOS_DLL_DECL boss_felmystAI : public ScriptedAI
     }
 };
 
-CreatureAI* GetAI_boss_felmyst(Creature* pCreature)
+CreatureAI* GetAI_npc_hand_of_the_deceiverAI(Creature* pCreature)
 {
-    return new boss_felmystAI(pCreature);
+    return new npc_hand_of_the_deceiverAI(pCreature);
 }
 
-void AddSC_boss_felmyst()
+void AddSC_npc_hand_of_the_deceiverAI()
 {
     Script* newscript;
 
     newscript = new Script;
-    newscript->GetAI = &GetAI_boss_felmyst;
-    newscript->Name = "boss_felmyst";
+    newscript->GetAI = &GetAI_npc_hand_of_the_deceiverAI;
+    newscript->Name = "npc_hand_of_the_deceiver";
     newscript->RegisterSelf();
 }

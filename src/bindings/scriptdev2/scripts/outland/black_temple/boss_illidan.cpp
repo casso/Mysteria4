@@ -206,8 +206,8 @@ static Yells MaievTaunts[]=
 #define CENTER_Y            305.297f
 #define CENTER_Z            353.192f
 
-#define EQUIP_ID_MAIN_HAND  32837
-#define EQUIP_ID_OFF_HAND   32838
+#define EQUIP_ID_MAIN_HAND  45479
+#define EQUIP_ID_OFF_HAND   45481
 
 /*** Phase Names ***/
 enum Phase
@@ -513,7 +513,7 @@ struct MANGOS_DLL_DECL npc_akama_illidanAI : public ScriptedAI
         {
             float x,y,z;
             pGate->GetPosition(x, y, z);
-            Creature* Channel = m_creature->SummonCreature(ILLIDAN_DOOR_TRIGGER, x, y, z+5, 0, TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 360000);
+            Creature* Channel = m_creature->SummonCreature(ILLIDAN_DOOR_TRIGGER, x, y, z+7, 0, TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 360000);
             if (Channel)
             {
                 ChannelGUID = Channel->GetGUID();

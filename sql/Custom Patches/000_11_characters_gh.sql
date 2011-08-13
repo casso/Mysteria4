@@ -7,4 +7,4 @@ CREATE TABLE `guildhouse_position` (
   `mapid` int(11) unsigned NOT NULL,
   `comment` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`guildid`)
-)
+);

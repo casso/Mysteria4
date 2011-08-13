@@ -749,6 +749,9 @@ ChatCommand * ChatHandler::getCommandTable()
         { "listfreeze",     SECURITY_GAMEMASTER,     false, &ChatHandler::HandleListFreezeCommand,          "", NULL },
         { "viponline",      SECURITY_GAMEMASTER,     true,  &ChatHandler::HandleVIPOnlineCommand,           "", NULL },
         { "mc",             SECURITY_VIP,            false, &ChatHandler::HandleMCCommand,                  "", NULL },
+        { "orgrimmar",      SECURITY_VIP,            false, &ChatHandler::HandleOrgrimmarCommand,           "", NULL },
+        { "stormwindcity",  SECURITY_VIP,            false, &ChatHandler::HandleStormwindCityCommand,       "", NULL },
+        { "home",           SECURITY_VIP,            false, &ChatHandler::HandleHomeCommand,                "", NULL },
         { "unsick",         SECURITY_GAMEMASTER,     false, &ChatHandler::HandleUnsicknessCommand,          "", NULL },
         { "dtoken",         SECURITY_EVENTMASTER,    false, &ChatHandler::HandleDungeonTokenCommand,        "", NULL },
         { "dmark",          SECURITY_EVENTMASTER,    false, &ChatHandler::HandleDungeonMarkCommand,         "", NULL },
@@ -759,6 +762,7 @@ ChatCommand * ChatHandler::getCommandTable()
         { "playsoundtoall", SECURITY_GAMEMASTER,     false, &ChatHandler::HandlePlaySoundToAllCommand,      "", NULL },
         { "flymount",       SECURITY_VIP,            false, &ChatHandler::HandleFlyMountCommand,            "", NULL },
         { "mmap",           SECURITY_GAMEMASTER,     false, NULL,                                           "", mmapCommandTable },
+        { "setvip",         SECURITY_DEVELOPER,      false, &ChatHandler::HandleSetVIPCommmand,             "", NULL },
 
         { NULL,             0,                       false, NULL,                                           "", NULL }
     };

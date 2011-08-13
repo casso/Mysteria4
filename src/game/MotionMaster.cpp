@@ -303,7 +303,7 @@ void MotionMaster::MovePoint(uint32 id, float x, float y, float z, bool usePathf
     if (m_owner->GetTypeId() == TYPEID_PLAYER)
         Mutate(new PointMovementGenerator<Player>(id,x,y,z,usePathfinding));
     else
-        Mutate(new PointMovementGenerator<Player>(id,x,y,z,usePathfinding));
+        Mutate(new PointMovementGenerator<Creature>(id,x,y,z,usePathfinding));
 }
 
 void MotionMaster::MoveSeekAssistance(float x, float y, float z)

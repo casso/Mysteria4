@@ -142,7 +142,7 @@ void SendDefaultMenu_Teleporter(Player *player, Creature *_Creature, uint32 acti
             // Neutral
             player->ADD_GOSSIP_ITEM( GOSSIP_ICON_TAXI,    "Dark Portal",         GOSSIP_SENDER_MAIN, 5003);
         }
-        player->ADD_GOSSIP_ITEM( GOSSIP_ICON_TAXI,    "Mysteria Centrum",    GOSSIP_SENDER_MAIN, 5004);
+        // player->ADD_GOSSIP_ITEM( GOSSIP_ICON_TAXI,    "Mysteria Centrum",    GOSSIP_SENDER_MAIN, 5004);
 
         player->ADD_GOSSIP_ITEM( GOSSIP_ICON_TABARD, "Guild House",      GOSSIP_SENDER_MAIN, 5005);
 
@@ -398,10 +398,10 @@ void SendDefaultMenu_Teleporter(Player *player, Creature *_Creature, uint32 acti
         player->TeleportTo(0, -11888.9f, -3206.47f, -15.12f, 3.323f);
         break;
 
-    case 5004: // Mysteria Centrum
-        player->CLOSE_GOSSIP_MENU();
-        player->TeleportTo(1, 7333.12f, -1592.5f, 164.542f, 1.521f);
-        break;
+    // case 5004: // Mysteria Centrum
+    //     player->CLOSE_GOSSIP_MENU();
+    //     player->TeleportTo(1, 7333.12f, -1592.5f, 164.542f, 1.521f);
+    //     break;
 
     case 5005: // GuildHouse
         if(player->TeleportToGuildHouse())

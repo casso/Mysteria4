@@ -87,7 +87,7 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mangosscript</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Mysteria4_script</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Mysteria4_script</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mangosscript</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Mysteria4_script</TargetName>
@@ -262,6 +262,8 @@
     <ClCompile Include="..\scripts\eastern_kingdoms\silverpine_forest.cpp" />
     <ClCompile Include="..\scripts\eastern_kingdoms\stormwind_city.cpp" />
     <ClCompile Include="..\scripts\eastern_kingdoms\stranglethorn_vale.cpp" />
+    <ClCompile Include="..\scripts\eastern_kingdoms\sunwell_plateau\boss_entropius.cpp" />
+    <ClCompile Include="..\scripts\eastern_kingdoms\sunwell_plateau\npc_hand_of_the_deceiver.cpp" />
     <ClCompile Include="..\scripts\eastern_kingdoms\swamp_of_sorrows.cpp" />
     <ClCompile Include="..\scripts\eastern_kingdoms\tirisfal_glades.cpp" />
     <ClCompile Include="..\scripts\eastern_kingdoms\undercity.cpp" />
@@ -651,8 +653,9 @@
     <ClInclude Include="..\config.h" />
     <CustomBuild Include="..\revision.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Extracting revision</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">cd "$(SolutionDir)"
-"$(SolutionDir)..\..\..\win\VC100\genrevision__$(PlatformName)_$(Configuration)\genrevision.exe"
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">echo on
+cd "$(SolutionDir)..\src\bindings\ScriptDev2"
+"..\..\..\win\VC100\genrevision__$(PlatformName)_$(ConfigurationName)\genrevision.exe"
 </Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.svn/entries;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">revision.h;%(Outputs)</Outputs>

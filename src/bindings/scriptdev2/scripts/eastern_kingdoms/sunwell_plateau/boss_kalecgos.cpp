@@ -1,4 +1,4 @@
-/* Copyright (C) 2006 - 2011 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
+/* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -75,6 +75,24 @@ uint32 WildMagic[]= { 44978, 45001, 45002, 45004, 45006, 45010 };
 const float KALECGOS_ARENA[3] = { 1704.34f, 928.17f, 53.08f };
 
 //#define NOTIFY_SPECTRALLY_EXHAUSTED      "Your body is too exhausted to travel to the Spectral Realm."
+
+void SendToInnerVeil(Unit* pTarget)
+{
+    //just a hack for not implemented spell effect 144
+    ((Player*)pTarget)->TeleportTo(pTarget->GetMapId(), pTarget->GetPositionX(), pTarget->GetPositionY(), pTarget->GetPositionZ()-127.0f, pTarget->GetOrientation());
+
+    //pTarget->CastSpell(pTarget, SPELL_SPECTRAL_REALM_FORCE_FACTION, true);
+    //pTarget->CastSpell(pTarget, SPELL_SPECTRAL_REALM, true);
+}
+
+void SendFromInnerVeil(Unit* pTarget)
+{
+    //just a hack for not implemented spell effect 144
+    ((Player*)pTarget)->TeleportTo(pTarget->GetMapId(), pTarget->GetPositionX(), pTarget->GetPositionY(), pTarget->GetPositionZ()+133.0f, pTarget->GetOrientation());
+
+    //pTarget->CastSpell(pTarget, SPELL_SPECTRAL_REALM_FORCE_FACTION, true);
+    //pTarget->CastSpell(pTarget, SPELL_SPECTRAL_REALM, true);
+}
 
 struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
 {
@@ -168,20 +186,6 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
         DoScriptText(urand(0, 1) ? SAY_EVIL_SLAY1 : SAY_EVIL_SLAY2, m_creature);
     }
 
-    void SendToInnerVeil(Unit* pTarget)
-    {
-        if (m_pInstance)
-        {
-            //just a hack for not implemented spell effect 144
-            ((Player*)pTarget)->TeleportTo(pTarget->GetMapId(), pTarget->GetPositionX(), pTarget->GetPositionY(), pTarget->GetPositionZ()-125.0f, pTarget->GetOrientation());
-
-            pTarget->CastSpell(pTarget, SPELL_SPECTRAL_REALM_FORCE_FACTION, true);
-            pTarget->CastSpell(pTarget, SPELL_SPECTRAL_REALM, true);
-
-            m_pInstance->SetData64(DATA_PLAYER_SPECTRAL_REALM, pTarget->GetGUID());
-        }
-    }
-
     void SpellHitTarget(Unit* pTarget, const SpellEntry* pSpell)
     {
         if (pSpell->Id == SPELL_SPECTRAL_BLAST_DUMMY && !m_bHasSpectralTarget)
@@ -262,7 +266,7 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
             m_bEnraged = true;
         }
 
-        if (!m_bChecked && m_creature->GetHealthPercent() < 1.0f)
+        if (!m_bChecked && m_creature->GetHealthPercent() < 5.0f)
         {
             m_bChecked = true;
 
@@ -271,6 +275,14 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
                 m_bBanished = true;
                 DoCastSpellIfCan(m_creature, SPELL_BANISH, true);
                 m_creature->GetMotionMaster()->MoveIdle();
+
+                Map::PlayerList const& lPlayers = m_pInstance->instance->GetPlayers();
+                for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
+                {
+                    Player* pPlayer = itr->getSource();
+                    if (pPlayer && !pPlayer->isGameMaster())
+                        SendToInnerVeil(pPlayer);
+                }
             }
             else
                 BeginOutro();
@@ -368,7 +380,12 @@ struct MANGOS_DLL_DECL boss_sathrovarrAI : public ScriptedAI
         m_bBanished = false;
         m_bEnraged  = false;
 
-        m_creature->CastSpell(m_creature, SPELL_SPECTRAL_INVIS, true);
+        //m_creature->CastSpell(m_creature, SPELL_SPECTRAL_INVIS, true);
+    }
+
+    void JustDied(Unit* killer)
+    {
+        m_pInstance->SetData(TYPE_KALECGOS, DONE);
     }
 
     void Aggro(Unit* who)
@@ -539,6 +556,8 @@ struct MANGOS_DLL_DECL boss_kalecgos_humanoidAI : public ScriptedAI
 
 bool GOUse_go_spectral_rift(Player* pPlayer, GameObject* pGo)
 {
+    SendToInnerVeil(pPlayer);
+    /*
     if (pGo->GetGoType() != GAMEOBJECT_TYPE_GOOBER)
         return true;
 
@@ -549,11 +568,11 @@ bool GOUse_go_spectral_rift(Player* pPlayer, GameObject* pGo)
 
         // Make them able to see Sathrovarr (he's invisible for some reason). Also, when this buff wears off, they get teleported back to Normal Realm (this is handled by Instance Script)
         pPlayer->CastSpell(pPlayer, SPELL_TELEPORT_TO_SPECTRAL_REALM, true);
-        pPlayer->CastSpell(pPlayer, SPELL_SPECTRAL_REALM_FORCE_FACTION, true);
-        pPlayer->CastSpell(pPlayer, SPELL_SPECTRAL_REALM, true);
+        //pPlayer->CastSpell(pPlayer, SPELL_SPECTRAL_REALM_FORCE_FACTION, true);
+        //pPlayer->CastSpell(pPlayer, SPELL_SPECTRAL_REALM, true);
 
         // Add player to pSath's threat list
-        /*if (Creature* pSath = pInstance->instance->GetCreature(pInstance->GetData64(DATA_KALECGOS_DRAGON)))
+        if (Creature* pSath = pInstance->instance->GetCreature(pInstance->GetData64(DATA_KALECGOS_DRAGON)))
         {
             if (pSath->isAlive())
             {
@@ -562,21 +581,31 @@ bool GOUse_go_spectral_rift(Player* pPlayer, GameObject* pGo)
             }
         }
 
+        
         // Remove player from Sathrovarr's threat list
-        if (Creature* pKalecgos = pInstance->instance->GetCreature(pInstance->GetData64(DATA_SATHROVARR)))
-        {
-            if (pKalecgos->isAlive())
-            {
-                if (HostileReference* pRef = pKalecgos->getThreatManager().getOnlineContainer().getReferenceByTarget(pPlayer))
-                {
-                    pRef->removeReference();
-                    debug_log("SD2: Deleting %s from pKalecgos's threatlist", pPlayer->GetName());
-                }
-            }
-        }*/
-
+        //if (Creature* pKalecgos = pInstance->instance->GetCreature(pInstance->GetData64(DATA_SATHROVARR)))
+        //{
+        //    if (pKalecgos->isAlive())
+        //    {
+        //        if (HostileReference* pRef = pKalecgos->getThreatManager().getOnlineContainer().getReferenceByTarget(pPlayer))
+        //        {
+        //            pRef->removeReference();
+        //            debug_log("SD2: Deleting %s from pKalecgos's threatlist", pPlayer->GetName());
+        //        }
+        //    }
+        //}
+        
+        
         pInstance->SetData64(DATA_PLAYER_SPECTRAL_REALM, pPlayer->GetGUID());
+        
     }
+    */
+    return true;
+}
+
+bool GOUse_go_spectral_rift_back(Player* pPlayer, GameObject* pGo)
+{
+    SendFromInnerVeil(pPlayer);
 
     return true;
 }
@@ -618,5 +647,10 @@ void AddSC_boss_kalecgos()
     newscript = new Script;
     newscript->pGOUse = &GOUse_go_spectral_rift;
     newscript->Name = "go_spectral_rift";
+    newscript->RegisterSelf();
+
+    newscript = new Script;
+    newscript->pGOUse = &GOUse_go_spectral_rift_back;
+    newscript->Name = "go_spectral_rift_back";
     newscript->RegisterSelf();
 }

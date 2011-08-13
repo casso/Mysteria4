@@ -5,6 +5,7 @@
 #include "Language.h"
 #include "BattleGround.h"
 #include "BattleGroundMgr.h"
+#include "Database/DatabaseEnv.h"
 
 bool ChatHandler::HandleWSGCommand(char* args)
 {
@@ -136,6 +137,89 @@ bool ChatHandler::HandleEOSCommand(char* args)
 
     return true;
 }
+
+bool ChatHandler::HandleOrgrimmarCommand(char * args)
+{
+    Player *chr = m_session->GetPlayer();
+
+    if(chr->GetTeam() != HORDE && !chr->isGameMaster())
+    {
+        SendSysMessage("Avaiable only for the horde!");
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    // Osetrenie aby sa neportovali za letu
+    if(chr->IsFlying())
+    {
+        SendSysMessage(LANG_YOU_IN_FLIGHT);
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    //Zakaz portovania
+    if( chr->isInCombat()		// Pocas combatu
+     || chr->InBattleGround()   // V BattleGrounde (aj arene)
+     || chr->HasStealthAura()   // Pocas stealth-u
+     || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH)) // S Feign Death (hunter)
+    {
+        SendSysMessage(LANG_YOU_IN_COMBAT);
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    // Suradnice Orgrimmaru
+    chr->TeleportTo(1, 1629.36f, -4373.39f, 31.2564f, 3.54839f);
+
+    // sicko tak jak ma byc
+    return true;
+}
+
+bool ChatHandler::HandleStormwindCityCommand(char * args)
+{
+    Player *chr = m_session->GetPlayer();
+
+    if(chr->GetTeam() != ALLIANCE && !chr->isGameMaster())
+    {
+        SendSysMessage("Avaiable only for the alliance!");
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    // Osetrenie aby sa neportovali za letu
+    if(chr->IsFlying())
+    {
+        SendSysMessage(LANG_YOU_IN_FLIGHT);
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    //Zakaz portovania
+    if( chr->isInCombat()		// Pocas combatu
+     || chr->InBattleGround()   // V BattleGrounde (aj arene)
+     || chr->HasStealthAura()   // Pocas stealth-u
+     || chr->HasFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_FEIGN_DEATH)) // S Feign Death (hunter)
+    {
+        SendSysMessage(LANG_YOU_IN_COMBAT);
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    // Suradnice Stormwind City
+    chr->TeleportTo(0, -8833.38f, 628.628f, 94.0066f, 1.06535f);
+
+    // sicko tak jak ma byc
+    return true;
+}
+
+bool ChatHandler::HandleHomeCommand(char * args)
+{
+    if(m_session->GetPlayer()->GetTeam() == ALLIANCE)
+        return HandleStormwindCityCommand(args);
+    else
+        return HandleOrgrimmarCommand(args);
+}
+
 
 bool ChatHandler::HandleMCCommand(char* /*args*/)
 {

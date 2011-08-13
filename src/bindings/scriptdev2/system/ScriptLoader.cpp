@@ -168,6 +168,8 @@ extern void AddSC_boss_felmyst();
 extern void AddSC_boss_kalecgos();
 extern void AddSC_boss_kiljaeden();
 extern void AddSC_boss_muru();
+extern void AddSC_boss_entropius();
+extern void AddSC_npc_hand_of_the_deceiverAI();
 extern void AddSC_instance_sunwell_plateau();
 extern void AddSC_boss_archaedas();                         // uldaman
 extern void AddSC_instance_uldaman();
@@ -541,6 +543,8 @@ void AddScripts()
     AddSC_boss_kalecgos();
     AddSC_boss_kiljaeden();
     AddSC_boss_muru();
+    AddSC_boss_entropius();
+    AddSC_npc_hand_of_the_deceiverAI();
     AddSC_instance_sunwell_plateau();
     AddSC_boss_archaedas();                                 // uldaman
     AddSC_instance_uldaman();

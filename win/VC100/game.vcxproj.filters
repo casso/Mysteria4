@@ -93,9 +93,6 @@
     <ClCompile Include="..\..\src\game\AccountMgr.cpp">
       <Filter>World</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\game\ChatHandler.cpp">
-      <Filter>World</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\game\GameEventMgr.cpp">
       <Filter>World</Filter>
     </ClCompile>
@@ -545,6 +542,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\game\PathFinder.cpp">
       <Filter>Map System\Movement maps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\game\ChatHandler.cpp">
+      <Filter>Chat System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

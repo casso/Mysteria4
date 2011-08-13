@@ -22,6 +22,7 @@ SDCategory: Sunwell Plateau
 EndScriptData */
 
 #include "precompiled.h"
+#include "sunwell_plateau.h"
 
 void AddSC_boss_muru()
 {

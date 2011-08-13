@@ -15,7 +15,7 @@
  */
 
 /* ScriptData
-SDName: boss_felmyst
+SDName: boss_entropius
 SD%Complete:
 SDComment:
 SDCategory: Sunwell Plateau
@@ -24,11 +24,11 @@ EndScriptData */
 #include "precompiled.h"
 #include "sunwell_plateau.h"
 
-struct MANGOS_DLL_DECL boss_felmystAI : public ScriptedAI
+struct MANGOS_DLL_DECL boss_entropiusAI : public ScriptedAI
 {
     ScriptedInstance* m_pInstance;
 
-    boss_felmystAI(Creature* pCreature) : ScriptedAI(pCreature)
+    boss_entropiusAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
         m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
 
@@ -42,12 +42,12 @@ struct MANGOS_DLL_DECL boss_felmystAI : public ScriptedAI
     void Aggro(Unit* who)
     {
         if (m_pInstance)
-            m_pInstance->SetData(TYPE_FELMYST, IN_PROGRESS);
+            m_pInstance->SetData(TYPE_MURU, IN_PROGRESS);
     }
 
     void JustDied(Unit* killer)
     {
-        m_pInstance->SetData(TYPE_FELMYST, DONE);
+        m_pInstance->SetData(TYPE_MURU, DONE);
     }
 
     void UpdateAI(const uint32 diff)
@@ -59,17 +59,17 @@ struct MANGOS_DLL_DECL boss_felmystAI : public ScriptedAI
     }
 };
 
-CreatureAI* GetAI_boss_felmyst(Creature* pCreature)
+CreatureAI* GetAI_boss_entropius(Creature* pCreature)
 {
-    return new boss_felmystAI(pCreature);
+    return new boss_entropiusAI(pCreature);
 }
 
-void AddSC_boss_felmyst()
+void AddSC_boss_entropius()
 {
     Script* newscript;
 
     newscript = new Script;
-    newscript->GetAI = &GetAI_boss_felmyst;
-    newscript->Name = "boss_felmyst";
+    newscript->GetAI = &GetAI_boss_entropius;
+    newscript->Name = "boss_entropius";
     newscript->RegisterSelf();
 }

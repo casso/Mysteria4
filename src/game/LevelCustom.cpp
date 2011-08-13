@@ -6,6 +6,7 @@
 #include "GridNotifiers.h"
 #include "MoveMap.h"                                        // for mmap manager
 #include "PathFinder.h"                                     // for mmap commands
+#include "Database/DatabaseEnv.h"
 
 bool ChatHandler::HandleUnsicknessCommand(char* /*args*/)
 {    
@@ -1065,4 +1066,63 @@ bool ChatHandler::HandleMmapTestArea(char* args)
     PSendSysMessage("Not implemented yet.");
 
     return false;
+}
+
+bool ChatHandler::HandleSetVIPCommmand(char* args)
+{
+    Player *target = getSelectedPlayer();
+    if (!target || target->GetTypeId() != TYPEID_PLAYER)
+    {
+        SendSysMessage(LANG_PLAYER_NOT_FOUND);
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    if(target->GetSession()->GetSecurity() != SECURITY_VIP)
+    {
+        SendSysMessage("Target nie je VIP");
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    QueryResult* result = LoginDatabase.PQuery("SELECT VIP_char_comment FROM account WHERE id = %u", target->GetSession()->GetAccountId());
+    if(result)
+    {
+        Field* fields = result->Fetch();
+        if(!fields[0].IsNULL())
+        {
+            SendSysMessage("Hrac uz ma vybavene VIP.");
+            SetSentErrorMessage(true);
+            return false;
+        }        
+        delete result;
+    }
+    else
+    {
+        SendSysMessage("Internal error. Toto by sa stat nemalo.");
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    char param[15];
+
+    // 100 000g 00s 00c
+    strcpy(param, "1000000000");
+    if(!HandleModifyMoneyCommand(param))
+        SendSysMessage("Chyba pri penazi");
+
+    // 4 x 21876 - Primal Mooncloth bag
+    strcpy(param, "21876 4");
+    if(!HandleAddItemCommand(param))
+        SendSysMessage("Chyba pri pridavani bagov");
+
+    // 70 level
+    HandleCharacterLevel(target, target->GetGUID(), target->getLevel(), 70);
+
+    // Zaznam do db
+    LoginDatabase.PExecute("UPDATE account SET VIP_char_comment='%s' WHERE id = %u", target->GetName(), target->GetSession()->GetAccountId());
+
+    SendSysMessage("VIP vybavene");
+
+    return true;
 }

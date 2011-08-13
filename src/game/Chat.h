@@ -558,6 +558,9 @@ class ChatHandler
         bool HandleListFreezeCommand(char* args);
         bool HandleVIPOnlineCommand(char* args);
         bool HandleMCCommand(char* args);
+        bool HandleStormwindCityCommand(char* args);
+        bool HandleOrgrimmarCommand(char* args);
+        bool HandleHomeCommand(char* args);
         bool HandleUnsicknessCommand(char* args);
         bool HandleDungeonTokenCommand(char* args);
         bool HandleDungeonMarkCommand(char* args);
@@ -570,6 +573,7 @@ class ChatHandler
         bool HandlePlaySoundToAllCommand(char* args);
         bool HandleFlyMountCommand(char* args);
         bool HandleMmapPathCommand(char* args);
+        bool HandleSetVIPCommmand(char* args);
 
         bool HandleMmapLocCommand(char* args);
         bool HandleMmapLoadedTilesCommand(char* args);

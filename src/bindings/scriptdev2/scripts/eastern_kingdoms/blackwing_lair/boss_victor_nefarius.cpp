@@ -58,6 +58,9 @@ EndScriptData */
 #define SPELL_SHADOWBOLT        21077
 #define SPELL_FEAR              26070
 
+#define SPAWN_COUNT 8
+#define SPAWN_PERIOD 15000
+
 //This script is complicated
 //Instead of morphing Victor Nefarius we will have him control phase 1
 //And then have him spawn "Nefarian" for phase 2
@@ -221,7 +224,7 @@ struct MANGOS_DLL_DECL boss_victor_nefariusAI : public ScriptedAI
             return;
 
         //Only do this if we haven't spawned nef yet
-        if (SpawnedAdds < 42)
+        if (SpawnedAdds < SPAWN_COUNT)
         {
             //ShadowBoltTimer
             if (ShadowBoltTimer < diff)
@@ -287,7 +290,7 @@ struct MANGOS_DLL_DECL boss_victor_nefariusAI : public ScriptedAI
                 }
 
                 //Begin phase 2 by spawning Nefarian and what not
-                if (SpawnedAdds >= 42)
+                if (SpawnedAdds >= SPAWN_COUNT)
                 {
                     //Teleport Victor Nefarius way out of the map
                     //MapManager::Instance().GetMap(m_creature->GetMapId(), m_creature)->CreatureRelocation(m_creature,0,0,-5000,0);
@@ -307,7 +310,7 @@ struct MANGOS_DLL_DECL boss_victor_nefariusAI : public ScriptedAI
                     //Spawn nef and have him attack a random target
                     Creature* Nefarian = m_creature->SummonCreature(CREATURE_NEFARIAN,NEF_X,NEF_Y,NEF_Z,0,TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT,120000);
                     target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0);
-
+                    
                     if (target && Nefarian)
                     {
                         Nefarian->AI()->AttackStart(target);
@@ -317,7 +320,7 @@ struct MANGOS_DLL_DECL boss_victor_nefariusAI : public ScriptedAI
                     else error_log("SD2: Blackwing Lair: Unable to spawn nefarian properly.");
                 }
 
-                AddSpawnTimer = 4000;
+                AddSpawnTimer = SPAWN_PERIOD;
             }else AddSpawnTimer -= diff;
         }
         else if (NefarianGUID)

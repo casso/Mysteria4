@@ -15,6 +15,7 @@ enum InstanceSWP
     TYPE_EREDAR_TWINS           = 3,
     TYPE_MURU                   = 4,
     TYPE_KILJAEDEN              = 5,
+    TYPE_HAND_OF_THE_DECEIVER   = 27,
 
     DATA_KALECGOS_DRAGON        = 6,
     DATA_KALECGOS_HUMAN         = 7,
