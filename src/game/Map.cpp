@@ -1121,7 +1121,7 @@ void Map::RemoveAllObjectsInRemoveList()
         {
             sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_ANTICRASH_NOTIFY, "Map::RemoveAllObjectsInRemoveList");
             sLog.outError("### Casso: Map::RemoveAllObjectsInRemoveList: Pokus o zamedzenie crashu aktivovany ###");
-            //sLog.outInterest("### Casso: Map::RemoveAllObjectsInRemoveList: Pokus o zamedzenie crashu aktivovany ###");
+            sLog.outInterest("### Casso: Map::RemoveAllObjectsInRemoveList: Pokus o zamedzenie crashu aktivovany ###");
         }
     }
     //DEBUG_LOG("Object remover 2 check.");
@@ -3005,7 +3005,7 @@ void Map::SendObjectUpdates()
 		{
 			sWorld.SendGMWorldText(SECURITY_MODERATOR, LANG_ANTICRASH_NOTIFY, "Map::SendObjectUpdates");
 			sLog.outError("### Casso: Map::SendObjectUpdates: Pokus o zamedzenie crashu aktivovany ###");
-			//sLog.outInterest("### Casso: Map::SendObjectUpdates: Pokus o zamedzenie crashu aktivovany ###");
+			sLog.outInterest("### Casso: Map::SendObjectUpdates: Pokus o zamedzenie crashu aktivovany ###");
 			return;
 		}
     }

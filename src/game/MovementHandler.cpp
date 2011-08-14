@@ -423,7 +423,7 @@ void WorldSession::HandleMovementOpcodes( WorldPacket & recv_data )
             }
         }
 
-        if(delta>80.0f && !GetPlayer()->GetTransport())
+        if(delta>80.0f && !GetPlayer()->GetTransport() && !GetPlayer()->HasAura(1002))
         {
             Anti__ReportCheat(GetPlayer(),"Tele hack",delta,LookupOpcodeName(opcode));
         }

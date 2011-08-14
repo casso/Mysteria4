@@ -22,7 +22,7 @@
 # Top-level generic files
 #
 bin
-build
+objdir
 tags
 TAGS
 !.gitignore

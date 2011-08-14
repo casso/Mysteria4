@@ -1452,7 +1452,8 @@ void Pet::_SaveAuras()
                     for (i = 0; i < MAX_EFFECT_INDEX; ++i)
                         if (spellInfo->EffectApplyAuraName[i] == SPELL_AURA_MOD_STEALTH ||
                             spellInfo->Effect[i] == SPELL_EFFECT_APPLY_AREA_AURA_OWNER ||
-                            spellInfo->Effect[i] == SPELL_EFFECT_APPLY_AREA_AURA_PET )
+                            spellInfo->Effect[i] == SPELL_EFFECT_APPLY_AREA_AURA_PET ||
+                            spellInfo->EffectApplyAuraName[i] == SPELL_AURA_MOD_POSSESS_PET)
                             break;
 
                     if (i == 3)
