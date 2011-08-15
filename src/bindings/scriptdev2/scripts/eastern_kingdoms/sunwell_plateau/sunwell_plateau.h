@@ -16,7 +16,7 @@ enum InstanceSWP
     TYPE_MURU                   = 4,
     TYPE_KILJAEDEN              = 5,
     TYPE_HAND_OF_THE_DECEIVER   = 27,
-
+    
     DATA_KALECGOS_DRAGON        = 6,
     DATA_KALECGOS_HUMAN         = 7,
     DATA_SATHROVARR             = 8,
@@ -29,6 +29,7 @@ enum InstanceSWP
     DATA_KILJAEDEN_CONTROLLER   = 15,
     DATA_ANVEENA                = 16,
     DATA_KALECGOS               = 17,
+    DATA_MADRIGOSA              = 28,
 
     DATA_GO_FORCEFIELD          = 18,
     DATA_GO_FIRE_BARRIER        = 19,
@@ -45,6 +46,9 @@ enum InstanceSWP
     SPELL_TELEPORT_NORMAL_REALM         = 46020,
     SPELL_TELEPORT_TO_SPECTRAL_REALM    = 46019,
     SPELL_SPECTRAL_EXHAUSTION           = 44867,
-    SPELL_SPECTRAL_REALM_FORCE_FACTION  = 44852
+    SPELL_SPECTRAL_REALM_FORCE_FACTION  = 44852,
+    
+    // used by ALOT of mobs and bosses in sunwell plateau
+    SPELL_SUNWELL_RADIANCE_AURA = 45769,
 };
 #endif

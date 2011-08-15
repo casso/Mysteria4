@@ -41,6 +41,7 @@ struct MANGOS_DLL_DECL instance_sunwell_plateau : public ScriptedInstance
     uint64 m_uiKilJaedenControllerGUID;
     uint64 m_uiAnveenaGUID;
     uint64 m_uiKalecgosGUID;
+    uint64 m_uiMadrigosaGUID;
 
     // GameObjects
     uint64 m_uiForceFieldGUID;                                      // Kalecgos Encounter
@@ -77,6 +78,7 @@ struct MANGOS_DLL_DECL instance_sunwell_plateau : public ScriptedInstance
         m_uiKilJaedenControllerGUID     = 0;
         m_uiAnveenaGUID                 = 0;
         m_uiKalecgosGUID                = 0;
+        m_uiMadrigosaGUID               = 0;
 
         // GameObjects
         m_uiForceFieldGUID              = 0;
@@ -121,6 +123,7 @@ struct MANGOS_DLL_DECL instance_sunwell_plateau : public ScriptedInstance
             case 25608: m_uiKilJaedenControllerGUID = pCreature->GetGUID(); break;
             case 26046: m_uiAnveenaGUID             = pCreature->GetGUID(); break;
             case 25319: m_uiKalecgosGUID            = pCreature->GetGUID(); break;
+            case 25160: m_uiMadrigosaGUID           = pCreature->GetGUID(); break;
             case 25588: // Hand of the Deceiver
                 if(pCreature->isAlive())
                     m_hands_alive++;
@@ -229,6 +232,7 @@ struct MANGOS_DLL_DECL instance_sunwell_plateau : public ScriptedInstance
             case DATA_ANVEENA:              return m_uiAnveenaGUID;
             case DATA_KALECGOS:             return m_uiKalecgosGUID;
             case DATA_GO_FORCEFIELD:        return m_uiForceFieldGUID;
+            case DATA_MADRIGOSA:            return m_uiMadrigosaGUID;
         }
 
         error_log("Sunwell:GetData64 error on type %u", id);

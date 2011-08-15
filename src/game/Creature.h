@@ -630,6 +630,7 @@ class MANGOS_DLL_SPEC Creature : public Unit
         void SetActiveObjectState(bool on);
 
         void SetNeedNotify() { m_needNotify = true; }
+        void SetLevitate(bool enable);
 
     protected:
         bool CreateFromProto(uint32 guidlow,uint32 Entry, Team team, const CreatureData *data = NULL, GameEventCreatureData const* eventData =NULL);

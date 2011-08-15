@@ -2402,3 +2402,10 @@ bool Creature::HasStaticDBSpawnData() const
 {
     return sObjectMgr.GetCreatureData(GetGUIDLow()) != NULL;
 }
+
+void Creature::SetLevitate(bool enable)
+{
+    WorldPacket data(enable ? 0x4D3 : 0x4D4, 9);
+    data << GetPackGUID();
+    SendMessageToSet(&data, true);
+}
