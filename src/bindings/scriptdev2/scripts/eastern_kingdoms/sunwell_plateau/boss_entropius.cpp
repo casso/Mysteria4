@@ -15,7 +15,7 @@
  */
 
 /* ScriptData
-SDName: boss_entropius
+SDName: boss_entropius_custom
 SD%Complete:
 SDComment:
 SDCategory: Sunwell Plateau
@@ -24,11 +24,11 @@ EndScriptData */
 #include "precompiled.h"
 #include "sunwell_plateau.h"
 
-struct MANGOS_DLL_DECL boss_entropiusAI : public ScriptedAI
+struct MANGOS_DLL_DECL boss_entropius_customAI : public ScriptedAI
 {
     ScriptedInstance* m_pInstance;
 
-    boss_entropiusAI(Creature* pCreature) : ScriptedAI(pCreature)
+    boss_entropius_customAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
         m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
 
@@ -59,17 +59,17 @@ struct MANGOS_DLL_DECL boss_entropiusAI : public ScriptedAI
     }
 };
 
-CreatureAI* GetAI_boss_entropius(Creature* pCreature)
+CreatureAI* GetAI_boss_entropius_custom(Creature* pCreature)
 {
-    return new boss_entropiusAI(pCreature);
+    return new boss_entropius_customAI(pCreature);
 }
 
-void AddSC_boss_entropius()
+void AddSC_boss_entropius_custom()
 {
     Script* newscript;
 
     newscript = new Script;
-    newscript->GetAI = &GetAI_boss_entropius;
-    newscript->Name = "boss_entropius";
+    newscript->GetAI = &GetAI_boss_entropius_custom;
+    newscript->Name = "boss_entropius_custom";
     newscript->RegisterSelf();
 }

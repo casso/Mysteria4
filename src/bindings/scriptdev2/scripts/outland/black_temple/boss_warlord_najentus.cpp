@@ -64,16 +64,16 @@ struct MANGOS_DLL_DECL boss_najentusAI : public ScriptedAI
     uint32 m_uiTidalShieldTimer;
     uint32 m_uiImpalingSpineTimer;
 
-    bool m_bIsShielded;
+    //bool m_bIsShielded;
 
     void Reset()
     {
-        m_bIsShielded = false;
+        //m_bIsShielded = false;
 
         m_uiNeedleSpineTimer = 10000;
         m_uiEnrageTimer = MINUTE*8*IN_MILLISECONDS;
         m_uiSpecialYellTimer = urand(45000, 120000);
-        m_uiTidalShieldTimer = 60000;
+        //m_uiTidalShieldTimer = 60000;
         m_uiImpalingSpineTimer = 20000;
     }
 
@@ -98,6 +98,7 @@ struct MANGOS_DLL_DECL boss_najentusAI : public ScriptedAI
 
     void SpellHit(Unit *caster, const SpellEntry *spell)
     {
+        /*
         if (m_bIsShielded)
         {
             if (spell->Id == SPELL_HURL_SPINE)
@@ -108,7 +109,7 @@ struct MANGOS_DLL_DECL boss_najentusAI : public ScriptedAI
                 DoCastSpellIfCan(m_creature->getVictim(), SPELL_TIDAL_BURST);
                 m_bIsShielded = false;
             }
-        }
+        }*/
     }
 
     void Aggro(Unit* pWho)
@@ -134,13 +135,13 @@ struct MANGOS_DLL_DECL boss_najentusAI : public ScriptedAI
             m_uiEnrageTimer = MINUTE*8*IN_MILLISECONDS;
         }else m_uiEnrageTimer -= diff;
 
-        if (m_bIsShielded)
+        /*if (m_bIsShielded)
         {
             m_creature->GetMotionMaster()->Clear(false);
             m_creature->GetMotionMaster()->MoveIdle();
 
             return;                                         // Don't cast or do anything while Shielded
-        }
+        }*/
 
         // Needle
         if (m_uiNeedleSpineTimer < diff)
@@ -181,6 +182,7 @@ struct MANGOS_DLL_DECL boss_najentusAI : public ScriptedAI
             }
         }else m_uiImpalingSpineTimer -= diff;
 
+        /*
         if (m_uiTidalShieldTimer < diff)
         {
             m_creature->InterruptNonMeleeSpells(false);
@@ -191,7 +193,7 @@ struct MANGOS_DLL_DECL boss_najentusAI : public ScriptedAI
 
             m_bIsShielded = true;
             m_uiTidalShieldTimer = 60000;
-        }else m_uiTidalShieldTimer -= diff;
+        }else m_uiTidalShieldTimer -= diff;*/
 
         DoMeleeAttackIfReady();
     }

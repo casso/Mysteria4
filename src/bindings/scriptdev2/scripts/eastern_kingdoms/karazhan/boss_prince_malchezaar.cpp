@@ -90,7 +90,7 @@ static InfernalPoint InfernalPoints[] =
 #define INFERNAL_MODEL_INVISIBLE    11686                   //Infernal Effects
 #define SPELL_INFERNAL_RELAY        30834
 
-#define EQUIP_ID_AXE                33542                   //Axes info
+#define EQUIP_ID_AXE                40066                   //Axes info
 
 //---------Infernal code first
 struct MANGOS_DLL_DECL netherspite_infernalAI : public ScriptedAI

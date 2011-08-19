@@ -78,9 +78,13 @@ const float KALECGOS_ARENA[3] = { 1704.34f, 928.17f, 53.08f };
 
 void SendToInnerVeil(Unit* pTarget)
 {
-    //just a hack for not implemented spell effect 144
-    ((Player*)pTarget)->TeleportTo(pTarget->GetMapId(), pTarget->GetPositionX(), pTarget->GetPositionY(), pTarget->GetPositionZ()-127.0f, pTarget->GetOrientation());
+    // maximalne 60ft od kalecovho spawnu
+    if(pTarget->GetDistanceSqr(1704.22f, 924.758f, 53.1608f) > 3600.0f)
+        return;
 
+    //just a hack for not implemented spell effect 144
+    ((Player*)pTarget)->TeleportTo(pTarget->GetMapId(), frand(1701.0f, 1717.0f), frand(942.0f, 958.0f), -74.0f, pTarget->GetOrientation());
+    
     //pTarget->CastSpell(pTarget, SPELL_SPECTRAL_REALM_FORCE_FACTION, true);
     //pTarget->CastSpell(pTarget, SPELL_SPECTRAL_REALM, true);
 }
@@ -88,6 +92,7 @@ void SendToInnerVeil(Unit* pTarget)
 void SendFromInnerVeil(Unit* pTarget)
 {
     //just a hack for not implemented spell effect 144
+    
     ((Player*)pTarget)->TeleportTo(pTarget->GetMapId(), pTarget->GetPositionX(), pTarget->GetPositionY(), pTarget->GetPositionZ()+133.0f, pTarget->GetOrientation());
 
     //pTarget->CastSpell(pTarget, SPELL_SPECTRAL_REALM_FORCE_FACTION, true);

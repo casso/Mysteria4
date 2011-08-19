@@ -7,7 +7,7 @@
 
 enum InstanceSWP
 {
-    MAX_ENCOUNTER               = 6,
+    MAX_ENCOUNTER               = 8,
 
     TYPE_KALECGOS               = 0,
     TYPE_BRUTALLUS              = 1,
@@ -30,6 +30,8 @@ enum InstanceSWP
     DATA_ANVEENA                = 16,
     DATA_KALECGOS               = 17,
     DATA_MADRIGOSA              = 28,
+    DATA_DECIVER                = 29,
+    DATA_KILJAEDEN_EVENT        = 30,
 
     DATA_GO_FORCEFIELD          = 18,
     DATA_GO_FIRE_BARRIER        = 19,

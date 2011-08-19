@@ -202,12 +202,14 @@ struct MANGOS_DLL_DECL instance_sunwell_plateau : public ScriptedInstance
     {
         switch(uiType)
         {
-            case TYPE_KALECGOS:     return m_auiEncounter[0];
-            case TYPE_BRUTALLUS:    return m_auiEncounter[1];
-            case TYPE_FELMYST:      return m_auiEncounter[2];
-            case TYPE_EREDAR_TWINS: return m_auiEncounter[3];
-            case TYPE_MURU:         return m_auiEncounter[4];
-            case TYPE_KILJAEDEN:    return m_auiEncounter[5];
+            case TYPE_KALECGOS:        return m_auiEncounter[0];
+            case TYPE_BRUTALLUS:       return m_auiEncounter[1];
+            case TYPE_FELMYST:         return m_auiEncounter[2];
+            case TYPE_EREDAR_TWINS:    return m_auiEncounter[3];
+            case TYPE_MURU:            return m_auiEncounter[4];
+            case TYPE_KILJAEDEN:       return m_auiEncounter[5];
+            case DATA_DECIVER:         return m_auiEncounter[6];
+            case DATA_KILJAEDEN_EVENT: return m_auiEncounter[7];
         }
 
         error_log("Sunwell:GetData error on type %u", uiType);
@@ -233,6 +235,7 @@ struct MANGOS_DLL_DECL instance_sunwell_plateau : public ScriptedInstance
             case DATA_KALECGOS:             return m_uiKalecgosGUID;
             case DATA_GO_FORCEFIELD:        return m_uiForceFieldGUID;
             case DATA_MADRIGOSA:            return m_uiMadrigosaGUID;
+            case DATA_DECIVER:              return m_uiKilJaedenControllerGUID;
         }
 
         error_log("Sunwell:GetData64 error on type %u", id);
@@ -281,7 +284,8 @@ struct MANGOS_DLL_DECL instance_sunwell_plateau : public ScriptedInstance
             case TYPE_KILJAEDEN: m_auiEncounter[5] = uiData; break;
             case DATA_SET_SPECTRAL_CHECK:  m_uiSpectralRealmTimer = uiData; break;
             case TYPE_HAND_OF_THE_DECEIVER: OnKillHandOfTheDeceiver(); break;
-
+            case DATA_DECIVER: m_auiEncounter[6] = uiData; break;
+            case DATA_KILJAEDEN_EVENT: m_auiEncounter[7] = uiData; break;
         }
 
         if (uiData == DONE)
@@ -290,7 +294,7 @@ struct MANGOS_DLL_DECL instance_sunwell_plateau : public ScriptedInstance
 
             std::ostringstream saveStream;
             saveStream << m_auiEncounter[0] << " " << m_auiEncounter[1] << " " << m_auiEncounter[2] << " "
-                << m_auiEncounter[3] << " " << m_auiEncounter[4] << " " << m_auiEncounter[5];
+                << m_auiEncounter[3] << " " << m_auiEncounter[4] << " " << m_auiEncounter[5] << " " << m_auiEncounter[6] << " " << m_auiEncounter[7];
 
             strInstData = saveStream.str();
 
@@ -389,7 +393,7 @@ struct MANGOS_DLL_DECL instance_sunwell_plateau : public ScriptedInstance
 
         std::istringstream loadStream(in);
         loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >>
-            m_auiEncounter[3] >> m_auiEncounter[4] >> m_auiEncounter[5];
+            m_auiEncounter[3] >> m_auiEncounter[4] >> m_auiEncounter[5] >> m_auiEncounter[6] >> m_auiEncounter[7];
 
         for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         {
