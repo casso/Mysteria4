@@ -748,6 +748,7 @@ ChatCommand * ChatHandler::getCommandTable()
         { "unfreeze",       SECURITY_GAMEMASTER,     false, &ChatHandler::HandleUnFreezeCommand,            "", NULL },
         { "listfreeze",     SECURITY_GAMEMASTER,     false, &ChatHandler::HandleListFreezeCommand,          "", NULL },
         { "viponline",      SECURITY_GAMEMASTER,     true,  &ChatHandler::HandleVIPOnlineCommand,           "", NULL },
+        { "nevybaveneviponline",SECURITY_DEVELOPER,  true,  &ChatHandler::HandleNevybaveneVIPOnlineCommand, "", NULL },
         { "mc",             SECURITY_VIP,            false, &ChatHandler::HandleMCCommand,                  "", NULL },
         { "orgrimmar",      SECURITY_VIP,            false, &ChatHandler::HandleOrgrimmarCommand,           "", NULL },
         { "stormwindcity",  SECURITY_VIP,            false, &ChatHandler::HandleStormwindCityCommand,       "", NULL },

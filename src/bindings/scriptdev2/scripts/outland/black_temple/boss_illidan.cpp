@@ -1803,7 +1803,8 @@ struct MANGOS_DLL_DECL boss_illidan_stormrageAI : public ScriptedAI
             {
                 m_creature->InterruptNonMeleeSpells(false);
                 Creature* ShadowDemon = NULL;
-                for(uint8 i = 0; i < 4; ++i)
+                //for(uint8 i = 0; i < 4; ++i)
+                for(uint8 i = 0; i < 2; ++i) // nerf...
                 {
                     Unit* target = NULL;
                     target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0);

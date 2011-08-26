@@ -17,7 +17,7 @@
 /* ScriptData
 SDName: npc_hand_of_the_deceiver
 SD%Complete:
-SDComment:
+SDComment: Deprecated
 SDCategory: Sunwell Plateau
 EndScriptData */
 

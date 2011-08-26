@@ -55,8 +55,6 @@ struct MANGOS_DLL_DECL instance_sunwell_plateau : public ScriptedInstance
     uint64 m_uiDoorRaid_Gate_08GUID;                                // Muru Encounter
     uint64 m_uiDoorTheThirdGateGUID;                                // Entropius Encounter
 
-    uint64 m_hands_alive;
-
     // Misc
     uint32 m_uiSpectralRealmTimer;
     std::list<uint64> SpectralRealmList;
@@ -94,8 +92,6 @@ struct MANGOS_DLL_DECL instance_sunwell_plateau : public ScriptedInstance
 
         // Misc
         m_uiSpectralRealmTimer = 5000;
-
-        m_hands_alive = 0;
     }
 
     bool IsEncounterInProgress() const
@@ -124,30 +120,7 @@ struct MANGOS_DLL_DECL instance_sunwell_plateau : public ScriptedInstance
             case 26046: m_uiAnveenaGUID             = pCreature->GetGUID(); break;
             case 25319: m_uiKalecgosGUID            = pCreature->GetGUID(); break;
             case 25160: m_uiMadrigosaGUID           = pCreature->GetGUID(); break;
-            case 25588: // Hand of the Deceiver
-                if(pCreature->isAlive())
-                    m_hands_alive++;
                 break;
-        }
-    }
-
-    void OnKillHandOfTheDeceiver(void)
-    {
-        if(m_hands_alive != 0)
-        {
-            m_hands_alive--;
-
-            if( m_hands_alive == 0 && !m_uiKilJaedenGUID )
-            {
-                Creature* pKJC = instance->GetCreature(m_uiKilJaedenControllerGUID);
-
-                Creature* pKJ = pKJC->SummonCreature(25315, pKJC->GetPositionX(), pKJC->GetPositionY(), pKJC->GetPositionZ(), 3.94f, TEMPSUMMON_DEAD_DESPAWN, 0);
-                pKJ->CastSpell(pKJ, 44200, false);
-            }
-        }
-        else
-        {
-            error_log("Hands of the Deceiver sa posrali.");
         }
     }
 
@@ -283,7 +256,6 @@ struct MANGOS_DLL_DECL instance_sunwell_plateau : public ScriptedInstance
                 break;
             case TYPE_KILJAEDEN: m_auiEncounter[5] = uiData; break;
             case DATA_SET_SPECTRAL_CHECK:  m_uiSpectralRealmTimer = uiData; break;
-            case TYPE_HAND_OF_THE_DECEIVER: OnKillHandOfTheDeceiver(); break;
             case DATA_DECIVER: m_auiEncounter[6] = uiData; break;
             case DATA_KILJAEDEN_EVENT: m_auiEncounter[7] = uiData; break;
         }

@@ -207,7 +207,7 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
             m_bHasSpectralTarget = true;
             pTarget->CastSpell(pTarget, SPELL_SPECTRAL_BLAST, true);
 
-            SendToInnerVeil(pTarget);
+            //SendToInnerVeil(pTarget);
         }
     }
 

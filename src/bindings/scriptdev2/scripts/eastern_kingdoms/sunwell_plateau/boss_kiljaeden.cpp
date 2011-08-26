@@ -112,15 +112,12 @@ enum spells
     SPELL_FLAMEDARTS            = 45737, // 100%
     SPELL_LEGION_LIGHTING       = 45664, // 100%
 
-    SPELL_SHADOWSPIKE           = 46680, // NOT WORKING -> WorkArround 99%
-    SPELL_SHADOWSPIKE_EXP       = 45885, // 100% damage -> target self cast long range
-    SPELL_SHADOWSPIKE_DEV       = 60851, // aoe 6k dmg
-    SPELL_SHADOWSPIKE_VIS       = 33125, // visual effect
-
-    SPELL_ARMAGEDDON_EXPLOSION  = 45909, // 100% Damage
     SPELL_ARMAGEDDON_EFFECT     = 24207, // 100% Visual
+    SPELL_ARMAGEDDON_TRIGGER    = 45909, // Meteor spell trigger missile should cast Creature on himself
+    SPELL_ARMAGEDDON_VISUAL     = 45911, // Does the hellfire visual to indicate where the meteor missle lands
+    SPELL_ARMAGEDDON_VISUAL2    = 45914, // Does the light visual to indicate where the meteor missle lands
 
-    SPELL_SINISTER_REFLECTION   = 45892, // NOT WORKING -> WorkArround 99%
+    //SPELL_SINISTER_REFLECTION   = 45892, // NOT WORKING -> WorkArround 99%
     SPELL_SACRIFICE_OF_ANVEENA  = 46474, // 100%
 
     SPELL_KNOCKBACK             = 0,     // ?
@@ -137,17 +134,17 @@ enum spells
     // SPELL_ORB_BOLT              = 53086, // 100%
 
     //Reflections Spells
-    SPELL_PRIEST                = 47077, // 100%
-    SPELL_PALADIN               = 37369, // 100%
-    SPELL_PALADIN2              = 37369, // 100%
-    SPELL_WARLOCK               = 46190, // 100%
-    SPELL_WARLOCK2              = 47076, // 100%
-    SPELL_MAGE                  = 47074, // 100%
-    SPELL_ROGUE                 = 45897, // 100%
-    SPELL_WARRIOR               = 17207, // 100%
-    SPELL_DRUID                 = 47072, // 100%
-    SPELL_SHAMAN                = 47071, // 100%
-    SPELL_HUNTER                = 48098, // 100%
+    // SPELL_PRIEST                = 47077, // 100%
+    // SPELL_PALADIN               = 37369, // 100%
+    // SPELL_PALADIN2              = 37369, // 100%
+    // SPELL_WARLOCK               = 46190, // 100%
+    // SPELL_WARLOCK2              = 47076, // 100%
+    // SPELL_MAGE                  = 47074, // 100%
+    // SPELL_ROGUE                 = 45897, // 100%
+    // SPELL_WARRIOR               = 17207, // 100%
+    // SPELL_DRUID                 = 47072, // 100%
+    // SPELL_SHAMAN                = 47071, // 100%
+    // SPELL_HUNTER                = 48098, // 100%
 
     //Orbs of DragonFligth
     SPELL_REVITALIZE            = 45027, // 100%
@@ -167,15 +164,14 @@ enum creature_ids
     ID_LIADRIN      = 26247, // outro
 
     IF_KILJAEDEN_CONTROLLER = 25608,
-	ID_KILJADEN		= 25315,
+    ID_KILJADEN     = 25315,
     ID_DECIVER      = 25588,
     ID_SHIELDORB    = 25502,
-    ID_SINISTER     = 25708, // Sinister Reflection
+    //ID_SINISTER     = 25708, // Sinister Reflection
     ID_ARMAGEDON    = 25735,
     ID_IMP          = 25598,
     ID_PORTAL       = 25603, //Imp Portal
     ID_DRAGON       = 25653,
-    ID_SHADOWSPIKE  = 30598,
 
     ID_THE_CORE_OF_ENTROPIUS  = 26262, // Used in the ending cinematic?
 };
@@ -196,11 +192,11 @@ float DragonSpawnCoord[4][2] =
     (1653.12f, 635.41f),
 };
 
-float DeceiverPos[3][4] =
+float DeceiverPos[12] =
 {
-    (1684.70f, 614.42f, 28.0580f, 0.698392f),
-    (1682.95f, 637.75f, 27.9231f, 5.717090f),
-    (1707.61f, 612.15f, 27.7946f, 1.990370f),
+    1705.20f, 607.20f, 28.5500f, 1.990370f, // vpravo
+    1684.70f, 614.42f, 28.0580f, 0.698392f, // v strede
+    1682.95f, 637.75f, 27.9231f, 5.717090f, // vlavo
 };
 
 #define GAMEOBJECT_ORB_OF_THE_BLUE_DRAGONFLIGHT 188415
@@ -211,7 +207,7 @@ float DeceiverPos[3][4] =
 #define GOSSIP_ITEM_4 "Blink"
 #define GOSSIP_ITEM_5 "Fight"
 
-/* --- Kiljaden --- */
+// --- Kiljaden --- 
 struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
 {
     boss_kiljadenAI(Creature *c) : Scripted_NoMovementAI(c)
@@ -260,13 +256,9 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
 
     //Phase3
     bool m_bPhase3;
-    uint32 m_uiShadowSpikeTimer;
     uint32 m_uiFlameDartTimer;
     uint32 m_uiDarknessOfSoulsTimer;
     uint32 m_uiDarknessExplosionTimer;
-    uint32 m_uiShadowSpikeEndsTimer;
-    uint32 m_uiSpikesCount;
-    bool m_bShadowSpikeEnds;
 
     //Phase4
     bool m_bPhase4;
@@ -277,8 +269,8 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
     bool m_bPhase5;
 
     //Sinister Reflections
-    uint64 m_uiSinisterGUID[12][2];
-    uint32 m_uiSinnisterCastTimer;
+    //uint64 m_uiSinisterGUID[12][2];
+    //uint32 m_uiSinnisterCastTimer;
  
     void Reset()
     {
@@ -311,10 +303,6 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
         m_uiFireBloomCount      = 10;
         m_uiShieldOrbTimer      = 25000;
 
-        //Phase3
-        m_bShadowSpikeEnds     = false;
-        m_uiSpikesCount         = 9;
-
         m_bDarknessOfSoulsCasting  = false;
         m_uiDarknessExplosionTimer = 120000;
 
@@ -340,22 +328,24 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
             pInstance->SetData(DATA_KILJAEDEN_EVENT, NOT_STARTED);
         }
 
-		if(Creature* kalecc = GetClosestCreatureWithEntry(m_creature,ID_KALECGOS,100.0f))
-		{
-			kalecc->SetVisibility(VISIBILITY_OFF);
-			kalecc->DealDamage(kalecc,kalecc->GetHealth(),NULL,DIRECT_DAMAGE,SPELL_SCHOOL_MASK_NORMAL,NULL,false);
-			kalecc->ForcedDespawn();
-		}
+        if(Creature* kalecc = GetClosestCreatureWithEntry(m_creature,ID_KALECGOS,100.0f))
+        {
+            kalecc->SetVisibility(VISIBILITY_OFF);
+            kalecc->DealDamage(kalecc,kalecc->GetHealth(),NULL,DIRECT_DAMAGE,SPELL_SCHOOL_MASK_NORMAL,NULL,false);
+                kalecc->ForcedDespawn();
+        }
+        else
+        {
+            error_log("KJ::Reset : Kalecgos not found.");
+        }
 
-        /*
-        for(uint8 i=0; i<3 ; i++)
-		    m_creature->SummonCreature(ID_DECIVER, DeceiverPos[i][0], DeceiverPos[i][1], DeceiverPos[i][2], DeceiverPos[i][3], TEMPSUMMON_CORPSE_DESPAWN, 10000);
-		*/
+        for(unsigned int i = 0 ; i < 3 ; i++)
+            m_creature->SummonCreature(ID_DECIVER, DeceiverPos[i*4+0], DeceiverPos[i*4+1], DeceiverPos[i*4+2], DeceiverPos[i*4+3], TEMPSUMMON_CORPSE_DESPAWN, 10000);
 
         for(uint8 i=0; i<4; ++i)
             m_uiDragonGUID[i] = 0;
 
-		m_creature->GetMotionMaster()->MovePoint(0,1698.67f,628.028f,28.3f);
+        m_creature->GetMotionMaster()->MovePoint(0,1698.67f,628.028f,28.3f, false);
     }
     
     void Aggro(Unit *who) 
@@ -364,7 +354,7 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
         if(!after_aggro_yell)
         {
             DoPlaySoundToSet(m_creature, SAY_KJ_EMERGE);
-		    m_creature->MonsterYell("The expendible have perished... So be it! Now I shall succeed where Sargeras could not! I will bleed this wretched world and secure my place as the true master of the Burning Legion. The end has come! Let the unraveling of this world commence!",LANG_UNIVERSAL,NULL);
+            m_creature->MonsterYell("The expendible have perished... So be it! Now I shall succeed where Sargeras could not! I will bleed this wretched world and secure my place as the true master of the Burning Legion. The end has come! Let the unraveling of this world commence!",LANG_UNIVERSAL,NULL);
 
             after_aggro_yell = true;
         }
@@ -376,11 +366,12 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
     {
         switch (rand()%2)
         {  
-		case 0: DoPlaySoundToSet(m_creature, SAY_KJ_SLAY1); m_creature->MonsterYell("Another step towards destruction!",LANG_UNIVERSAL,NULL); break;
+        case 0: DoPlaySoundToSet(m_creature, SAY_KJ_SLAY1); m_creature->MonsterYell("Another step towards destruction!",LANG_UNIVERSAL,NULL); break;
         case 1: DoPlaySoundToSet(m_creature, SAY_KJ_SLAY2); m_creature->MonsterYell("Anukh-Kyrie!",LANG_UNIVERSAL,NULL); break;
         }
     }
 
+    /*
     void Sinister(Player* victim,uint8 i,uint8 k)
     {
         uint32 spell;
@@ -397,6 +388,7 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
             case CLASS_HUNTER:  spell = SPELL_HUNTER; break;
         }
 
+        
         for(i=i; i<k; ++i)
         {
             Creature* Sinister = m_creature->SummonCreature(ID_SINISTER, victim->GetPositionX()+rand()%3, victim->GetPositionY()+rand()%3, m_creature->GetPositionZ(), 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 15000);
@@ -409,11 +401,12 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
             }
         }
     }
+    */
 
     void JustDied(Unit* Killer) 
     {
         DoPlaySoundToSet(m_creature, SAY_KJ_DEATH);
-		m_creature->MonsterYell("Nooooooooooooo!",LANG_UNIVERSAL,NULL);
+        m_creature->MonsterYell("Nooooooooooooo!",LANG_UNIVERSAL,NULL);
 
         if(pInstance)
             pInstance->SetData(DATA_KILJAEDEN_EVENT, DONE);
@@ -422,41 +415,49 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
     void DamageDeal(Unit* pDoneTo, uint32& uiDamage) 
     {
         if(pDoneTo->HasAura(AURA_BLUESHIELD))
-		{
+        {
             uiDamage = uiDamage * 0.05;
-		} else {
-			if(Creature* dracek = GetClosestCreatureWithEntry(pDoneTo,25653,15.0f))
-			{
-				if(dracek->HasAura(45848))
-					uiDamage = uiDamage * 0.05;
-			}
-		}
+        } else {
+            if(Creature* dracek = GetClosestCreatureWithEntry(pDoneTo,25653,150.0f))
+            {
+                if(dracek->HasAura(45848))
+                    uiDamage = uiDamage * 0.05;
+            }
+            else
+            {
+                error_log("KJ::DealDamage : Dracek not found.");
+            }
+        }
     }
 
-	void DamageTaken(Unit* pDoneBy, uint32 &uiDamage)
-	{
+    void DamageTaken(Unit* pDoneBy, uint32 &uiDamage)
+    {
         if(pDoneBy->HasAura(AURA_BLUESHIELD))
-		{
+        {
             uiDamage = uiDamage * 0.05;
-		} else {
-			if(Creature* dracek = GetClosestCreatureWithEntry(pDoneBy,25653,15.0f))
-			{
-				if(dracek->HasAura(45848))
-					uiDamage = uiDamage * 0.05;
-			}
-		}
-	}
+        } else {
+            if(Creature* dracek = GetClosestCreatureWithEntry(pDoneBy,25653,150.0f))
+            {
+                if(dracek->HasAura(45848))
+                    uiDamage = uiDamage * 0.05;
+            }
+            else
+            {
+                error_log("KJ::DamageTaken : Dracek not found.");
+            }
+        }
+    }
 
-	void SpellHit(Unit* pCaster, const SpellEntry* spell)
-	{
-		if(spell->Id == 20271)
-		{
-			if(m_creature->FindCurrentSpellBySpellId(46680))
-			{
-				return;
-			}
-		}
-	}
+    void SpellHit(Unit* pCaster, const SpellEntry* spell)
+    {
+        if(spell->Id == 20271)
+        {
+            if(m_creature->FindCurrentSpellBySpellId(46680))
+            {
+                return;
+            }
+        }
+    }
 
     void UpdateAI(const uint32 diff)
     {
@@ -465,14 +466,14 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
         {
             if(m_uiKJOrdersTimer < diff)
             {
-		        switch (rand()%5)
-		        {
-			        case 0: DoPlaySoundToSet(m_creature, SAY_KJ_OFFCOMBAT1); break;
-			        case 1: DoPlaySoundToSet(m_creature, SAY_KJ_OFFCOMBAT2); break;
-			        case 2: DoPlaySoundToSet(m_creature, SAY_KJ_OFFCOMBAT3); break;
+                switch (rand()%5)
+                {
+                    case 0: DoPlaySoundToSet(m_creature, SAY_KJ_OFFCOMBAT1); break;
+                    case 1: DoPlaySoundToSet(m_creature, SAY_KJ_OFFCOMBAT2); break;
+                    case 2: DoPlaySoundToSet(m_creature, SAY_KJ_OFFCOMBAT3); break;
                     case 3: DoPlaySoundToSet(m_creature, SAY_KJ_OFFCOMBAT4); break;
                     case 4: DoPlaySoundToSet(m_creature, SAY_KJ_OFFCOMBAT5); break;
-		        }
+                }
                 m_uiKJOrdersTimer = 30000;
             }else m_uiKJOrdersTimer -= diff;
         }
@@ -489,9 +490,9 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
             m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
             pInstance->SetData(DATA_KILJAEDEN_EVENT, IN_PROGRESS);
             pInstance->SetData(DATA_DECIVER, NOT_STARTED);
-			Player* pTarget = pInstance->instance->GetPlayers().begin()->getSource();
-			if(pTarget)
-				Aggro(pTarget);
+            Player* pTarget = pInstance->instance->GetPlayers().begin()->getSource();
+            if(pTarget)
+                Aggro(pTarget);
         }
 
         if(!m_creature->SelectHostileTarget() || !m_creature->getVictim())
@@ -513,17 +514,17 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
         // After Each Phase Dragons Are Spawned
         if((m_uiOrbTimer < diff) && !m_bBoolOrb)
         {
-			Creature* Kalec = GetClosestCreatureWithEntry(m_creature,ID_KALECGOS,100.0f);
-			if(Kalec)
-			{
-				switch (rand()%4)
-				{
-					case 0: DoPlaySoundToSet(m_creature, SAY_KALEC_ORB_READY1); Kalec->MonsterSay("I will channel my power into the orbs, be ready!",LANG_UNIVERSAL,NULL); break;
-			        case 1: DoPlaySoundToSet(m_creature, SAY_KALEC_ORB_READY2); Kalec->MonsterSay("I have empowered another orb! Use it quickly!",LANG_UNIVERSAL,NULL); break;
-			        case 2: DoPlaySoundToSet(m_creature, SAY_KALEC_ORB_READY3); Kalec->MonsterSay("Another orb is ready! Make haste!",LANG_UNIVERSAL,NULL); break;
+            Creature* Kalec = GetClosestCreatureWithEntry(m_creature,ID_KALECGOS,100.0f);
+            if(Kalec)
+            {
+                switch (rand()%4)
+                {
+                    case 0: DoPlaySoundToSet(m_creature, SAY_KALEC_ORB_READY1); Kalec->MonsterSay("I will channel my power into the orbs, be ready!",LANG_UNIVERSAL,NULL); break;
+                    case 1: DoPlaySoundToSet(m_creature, SAY_KALEC_ORB_READY2); Kalec->MonsterSay("I have empowered another orb! Use it quickly!",LANG_UNIVERSAL,NULL); break;
+                    case 2: DoPlaySoundToSet(m_creature, SAY_KALEC_ORB_READY3); Kalec->MonsterSay("Another orb is ready! Make haste!",LANG_UNIVERSAL,NULL); break;
                     case 3: DoPlaySoundToSet(m_creature, SAY_KALEC_ORB_READY4); Kalec->MonsterSay("I have channeled all I can! The power is in your hands!",LANG_UNIVERSAL,NULL); break;
-				}
-			}
+                }
+            }
             uint8 m_uiMaxDragons = 1;
             if(m_bPhase5)
                 m_uiMaxDragons = 4;
@@ -568,14 +569,14 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
         //Kalecgos and Anvena Event
         if((m_uiKalecgosAnvenaTimer < diff) && m_bIsAnvena)
         {
-			Creature* Kalec = GetClosestCreatureWithEntry(m_creature,ID_KALECGOS,100.0f);
-			Creature* Anveena = GetClosestCreatureWithEntry(m_creature,ID_ANVEENA,100.0f);
-			if(Kalec && Anveena)
-			{
+            Creature* Kalec = GetClosestCreatureWithEntry(m_creature,ID_KALECGOS,100.0f);
+            Creature* Anveena = GetClosestCreatureWithEntry(m_creature,ID_ANVEENA,100.0f);
+            if(Kalec && Anveena)
+            {
             switch(m_uiKalecgosAnvenaCount)
             {
                 case 0:
-				DoPlaySoundToSet(m_creature, SAY_KALECGOS_AWAKEN); Kalec->MonsterSay("Anveena, you must awaken, this world needs you!",LANG_UNIVERSAL,NULL); m_uiKalecgosAnvenaTimer = 5000; break;
+                DoPlaySoundToSet(m_creature, SAY_KALECGOS_AWAKEN); Kalec->MonsterSay("Anveena, you must awaken, this world needs you!",LANG_UNIVERSAL,NULL); m_uiKalecgosAnvenaTimer = 5000; break;
                 case 1:
                 DoPlaySoundToSet(m_creature, SAY_ANVEENA_IMPRISONED); Anveena->MonsterSay("I serve only the master now.",LANG_UNIVERSAL,NULL); m_uiKalecgosAnvenaTimer = 3000; break;
                 case 2:
@@ -590,7 +591,7 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
                 DoPlaySoundToSet(m_creature, SAY_KALECGOS_FATE); Kalec->MonsterSay("Yes, Anveena! Let fate embrace you now!",LANG_UNIVERSAL,NULL); m_uiKalecgosAnvenaTimer = 5000; break;
                 case 7:
                 DoPlaySoundToSet(m_creature, SAY_ANVEENA_GOODBYE);
-				Anveena->MonsterSay("The nightmare is over, the spell is broken! Goodbye, Kalec, my love!",LANG_UNIVERSAL,NULL);
+                Anveena->MonsterSay("The nightmare is over, the spell is broken! Goodbye, Kalec, my love!",LANG_UNIVERSAL,NULL);
                 m_creature->CastSpell(m_creature, SPELL_SACRIFICE_OF_ANVEENA, false);
                 if(Unit* Anveena = pInstance->instance->GetCreature(m_uiAnveenaGUID))
                     if(Anveena && Anveena->isAlive())
@@ -602,7 +603,7 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
                 case 8:
                 DoPlaySoundToSet(m_creature, SAY_KALECGOS_ENCOURAGE); m_creature->MonsterSay("Strike now, heroes, while he is weakened! Vanquish the Deceiver!",LANG_UNIVERSAL,NULL); m_uiKalecgosAnvenaTimer = 14000; break;         
             }
-			}
+            }
             ++m_uiKalecgosAnvenaCount;
         }m_uiKalecgosAnvenaTimer -= diff;
 
@@ -612,13 +613,18 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
             DoPlaySoundToSet(m_creature, SAY_KALECGOS_JOIN);
             if(Creature* cKalecgos = m_creature->SummonCreature(ID_KALECGOS, m_creature->GetPositionX()-25, m_creature->GetPositionY()-25, m_creature->GetPositionZ(), 0.686f, TEMPSUMMON_TIMED_DESPAWN, 600000))
             {
-				cKalecgos->MonsterSay("You are not alone. The Blue Dragonflight shall help you vanquish the Deceiver.",LANG_UNIVERSAL,NULL);
+                cKalecgos->MonsterSay("You are not alone. The Blue Dragonflight shall help you vanquish the Deceiver.",LANG_UNIVERSAL,NULL);
                 m_uiKalecgosGUID = cKalecgos->GetGUID();
                 cKalecgos->setFaction(35);
                 cKalecgos->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
             //Kalecgos need to start shhooting arcane bolt into Kiljaeden
             //Dragon->AI()->AttackStart(m_creature);
             }
+            else
+            {
+                error_log("KJ::UpdateAI : Kalecgos not found.");
+            }
+
             m_bIsKalecgosSpawned = true;
         }m_uiKalecgosTimer -= diff;
 
@@ -639,7 +645,8 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
             
             m_uiShieldOrbTimer = 50000; 
         }else m_uiShieldOrbTimer -= diff;
-
+        
+        /*
         //Sinister Reflects Attack
         if(m_uiSinnisterCastTimer < diff)
         {
@@ -651,25 +658,26 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
             if(m_bPhase5)
                 m_uiSinisterCount = 12;
             for(uint8 i=0; i<m_uiSinisterCount; ++i)
-			{
+            {
                 if(Unit* Sinister = pInstance->instance->GetCreature(m_uiSinisterGUID[i][0]))
-				{
-					if(!Sinister->isDead())
-					{
-						if(Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
-							Sinister->CastSpell(target, m_uiSinisterGUID[i][1], true);
-					}
-				}
-			}
+                {
+                    if(!Sinister->isDead())
+                    {
+                        if(Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
+                            Sinister->CastSpell(target, m_uiSinisterGUID[i][1], true);
+                    }
+                }
+            }
             m_uiSinnisterCastTimer = 8000;
         }else m_uiSinnisterCastTimer -= diff;
+        */
 
         //Phase4
         if((m_uiAramageddonTimer < diff) && m_bPhase4)
         {
             uint8 h=3;
             if(m_bPhase5)
-                h=5;
+                h=5; // TODO pocet armagedonov
             if(!m_bPhase5 && m_bDarknessOfSoulsCasting)
                 h=0;
             
@@ -680,27 +688,6 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
             }
             m_uiAramageddonTimer = 14000;
         }else m_uiAramageddonTimer -= diff;
-
-        if((m_uiShadowSpikeEndsTimer < diff) && m_bShadowSpikeEnds && m_bPhase3)
-        {
-            if(Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
-            {
-                if(Creature* cShadowSpike = m_creature->SummonCreature(ID_SHADOWSPIKE, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), 0, TEMPSUMMON_TIMED_DESPAWN, 6000))
-                {
-                    cShadowSpike->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
-                    cShadowSpike->setFaction(14);
-                }
-
-                target->CastSpell(target, SPELL_SHADOWSPIKE_EXP, false);
-            }
-            ++m_uiSpikesCount;
-            if(m_uiSpikesCount > 9)
-                m_bShadowSpikeEnds = false;
-            m_uiShadowSpikeEndsTimer = 3000;
-        }else m_uiShadowSpikeEndsTimer -= diff;
-
-        if(m_bShadowSpikeEnds)
-            return;
 
         if(m_uiDarknessExplosionTimer < diff && m_bDarknessOfSoulsCasting)
         {
@@ -719,11 +706,11 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
         if(m_uiDarknessOfSoulsTimer < diff && m_bPhase3)
         {
             switch (rand()%3)
-		    {
-				case 0: DoPlaySoundToSet(m_creature, SAY_KJ_DARKNESS1); m_creature->MonsterYell("Chaos!",LANG_UNIVERSAL,NULL); break;
-			    case 1: DoPlaySoundToSet(m_creature, SAY_KJ_DARKNESS2); m_creature->MonsterYell("Destruction!",LANG_UNIVERSAL,NULL); break;
-				case 2: DoPlaySoundToSet(m_creature, SAY_KJ_DARKNESS3); m_creature->MonsterYell("Oblivion!",LANG_UNIVERSAL,NULL); break;
-		    }
+            {
+                case 0: DoPlaySoundToSet(m_creature, SAY_KJ_DARKNESS1); m_creature->MonsterYell("Chaos!",LANG_UNIVERSAL,NULL); break;
+                case 1: DoPlaySoundToSet(m_creature, SAY_KJ_DARKNESS2); m_creature->MonsterYell("Destruction!",LANG_UNIVERSAL,NULL); break;
+                case 2: DoPlaySoundToSet(m_creature, SAY_KJ_DARKNESS3); m_creature->MonsterYell("Oblivion!",LANG_UNIVERSAL,NULL); break;
+            }
             m_creature->CastSpell(m_creature, SPELL_DARKNESS_OF_SOULS, false);
             m_bDarknessOfSoulsCasting = true;
             m_uiDarknessExplosionTimer = 8500;
@@ -733,17 +720,18 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
         if(((m_creature->GetHealth()*100 / m_creature->GetMaxHealth()) <= 85) && !m_bPhase3)
         {      
             DoPlaySoundToSet(m_creature, SAY_KJ_PHASE3);
-			m_creature->MonsterYell("I will not be denied! This world shall fall!",LANG_UNIVERSAL,NULL);
+            m_creature->MonsterYell("I will not be denied! This world shall fall!",LANG_UNIVERSAL,NULL);
+            
+            /*
             if(Unit* victim = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0)) 
                 if (victim && (victim->GetTypeId() == TYPEID_PLAYER))
                     Sinister(((Player*)victim),0,4);
+            */
 
             //Start Timerow  Dochodzacych w 3 Fazie
-            m_uiSinnisterCastTimer     = 10000;
-            m_uiShadowSpikeTimer       = 30000;
+            //m_uiSinnisterCastTimer     = 10000;
             m_uiFlameDartTimer         = 40000;
             m_uiDarknessOfSoulsTimer   = 45000;
-            m_bShadowSpikeEnds         = false;
             m_bDarknessOfSoulsCasting  = false;
             m_bPhase3 = true;
             //DragonsTimer
@@ -754,10 +742,13 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
         if(((m_creature->GetHealth()*100 / m_creature->GetMaxHealth()) <= 55) && !m_bPhase4)
         {
             DoPlaySoundToSet(m_creature, SAY_KJ_PHASE4);
-			m_creature->MonsterYell("Do not harbor false hope. You cannot win!",LANG_UNIVERSAL,NULL);
+            m_creature->MonsterYell("Do not harbor false hope. You cannot win!",LANG_UNIVERSAL,NULL);
+            
+            /*
             if(Unit* victim = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0)) 
                 if (victim && (victim->GetTypeId() == TYPEID_PLAYER))
                     Sinister(((Player*)victim),4,8);
+            */
 
             //Start Timerow  Dochodzacych w 4 Fazie
             m_uiAramageddonTimer       = 2000;  //100% ok
@@ -771,12 +762,15 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
         if(((m_creature->GetHealth()*100 / m_creature->GetMaxHealth()) <= 25) && !m_bPhase5)
         {
             DoPlaySoundToSet(m_creature, SAY_KJ_PHASE5);
-			m_creature->MonsterSay("Aggghh! The powers of the Sunwell... turn... against me! What have you done? What have you done???",LANG_UNIVERSAL,NULL);
+            m_creature->MonsterSay("Aggghh! The powers of the Sunwell... turn... against me! What have you done? What have you done???",LANG_UNIVERSAL,NULL);
+            
+            /*
             if(Unit* victim = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0)) 
                 if (victim && (victim->GetTypeId() == TYPEID_PLAYER))
                     Sinister(((Player*)victim),8,12);
+            */
+
             //Start Timerow  Dochodzacych w 5 Fazie
-            m_uiShadowSpikeTimer = 1000;
             m_uiDarknessOfSoulsTimer   = 45000;
             m_bPhase5 = true;
             //DragonsTimer
@@ -787,37 +781,17 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
             m_bIsAnvena = true;
             m_uiKalecgosAnvenaCount = 0;
 
-			if(Creature* cAnveena = GetClosestCreatureWithEntry(m_creature,ID_ANVEENA,100.0f))
-			{
-				m_uiAnveenaGUID = cAnveena->GetGUID();
-			} else {
-				if(Creature* cAnveena = m_creature->SummonCreature(ID_ANVEENA, m_creature->GetPositionX()+urand(20,30), m_creature->GetPositionY()+urand(20,30), m_creature->GetPositionZ(), 0, TEMPSUMMON_TIMED_DESPAWN, 120000))
-				{
-					m_uiAnveenaGUID = cAnveena->GetGUID();
-					//cAnveena->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
-					cAnveena->setFaction(35);
-		        }
-			}
-        }
-
-        //Phase3
-        if(m_bPhase3)
-        {
-            if(m_uiShadowSpikeTimer < diff)
+            if(Creature* cAnveena = GetClosestCreatureWithEntry(m_creature,ID_ANVEENA,100.0f))
             {
-                DoCast(m_creature->getVictim(), SPELL_SHADOWSPIKE);
-
-                m_bShadowSpikeEnds         = true;
-                m_uiShadowSpikeEndsTimer    = 500;
-                m_uiSpikesCount             = 0;
-                m_uiShadowSpikeTimer        = 90000;
-            }else m_uiShadowSpikeTimer -= diff;
-
-            if(m_uiFlameDartTimer < diff)
-            {
-                DoCast(m_creature->getVictim(), SPELL_FLAMEDARTS);
-                m_uiFlameDartTimer = 33000;
-            }else m_uiFlameDartTimer -= diff;
+                m_uiAnveenaGUID = cAnveena->GetGUID();
+            } else {
+                if(Creature* cAnveena = m_creature->SummonCreature(ID_ANVEENA, m_creature->GetPositionX()+urand(20,30), m_creature->GetPositionY()+urand(20,30), m_creature->GetPositionZ(), 0, TEMPSUMMON_TIMED_DESPAWN, 120000))
+                {
+                    m_uiAnveenaGUID = cAnveena->GetGUID();
+                    //cAnveena->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+                    cAnveena->setFaction(35);
+                }
+            }
         }
 
         //Phase2
@@ -881,15 +855,16 @@ struct MANGOS_DLL_DECL mob_deceiverAI : public ScriptedAI
     
     void Aggro(Unit *who) 
     {
-		if (pInstance)
+        if (pInstance)
             pInstance->SetData(DATA_KILJAEDEN_EVENT, IN_PROGRESS);
 
         if(!m_creature->getVictim())
-			m_creature->AI()->AttackStart(who);
+            m_creature->AI()->AttackStart(who);
     }
 
     void JustDied(Unit* Killer) 
     {
+        // Odpocitavanie
         if(pInstance && pInstance->GetData(DATA_DECIVER) == NOT_STARTED)
             pInstance->SetData(DATA_DECIVER, IN_PROGRESS);
         else 
@@ -897,7 +872,13 @@ struct MANGOS_DLL_DECL mob_deceiverAI : public ScriptedAI
                 pInstance->SetData(DATA_DECIVER, DONE);
             else
                 if(pInstance && pInstance->GetData(DATA_DECIVER) == DONE)
+                {
                     pInstance->SetData(DATA_DECIVER, SPECIAL);
+
+                    // Vypnutie sunwell efektu u controllera
+                    if (Creature* pController = pInstance->instance->GetCreature(pInstance->GetData64(DATA_KILJAEDEN_CONTROLLER)))
+                        pController->RemoveAurasDueToSpell(46410);
+                }
     }
 
     void KilledUnit(Unit *Victim) {}
@@ -908,9 +889,9 @@ struct MANGOS_DLL_DECL mob_deceiverAI : public ScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
         {
             // Channelovanie
-            if (!m_creature->IsNonMeleeSpellCasted(false) && !m_creature->IsInEvadeMode() && m_creature->GetVisibility() == VISIBILITY_ON)
+            if (!m_creature->IsNonMeleeSpellCasted(false) && !m_creature->IsInEvadeMode())
                 if (Creature* pController = pInstance->instance->GetCreature(pInstance->GetData64(DATA_KILJAEDEN_CONTROLLER)))
-                    m_creature->CastSpell(pController, SPELL_SHADOW_CHANNELING, false);
+                        m_creature->CastSpell(pController, SPELL_SHADOW_CHANNELING, false);
 
             return;
         }
@@ -974,29 +955,37 @@ struct MANGOS_DLL_DECL mob_orbAI : public Scripted_NoMovementAI
     void DamageDeal(Unit* pDoneTo, uint32& uiDamage) 
     {
         if(pDoneTo->HasAura(AURA_BLUESHIELD))
-		{
+        {
             uiDamage = uiDamage * 0.05;
-		} else {
-			if(Creature* dracek = GetClosestCreatureWithEntry(pDoneTo,25653,15.0f))
-			{
-				if(dracek->HasAura(45848))
-					uiDamage = uiDamage * 0.05;
-			}
-		}
+        } else {
+            if(Creature* dracek = GetClosestCreatureWithEntry(pDoneTo,25653,150.0f))
+            {
+                if(dracek->HasAura(45848))
+                    uiDamage = uiDamage * 0.05;
+            }
+            else
+            {
+                error_log("KJ mob_orb::DamageDeal : Dracek not found.");
+            }
+        }
     }
 
     void DamageTaken(Unit* pDoneBy, uint32& uiDamage) 
     {
         if(pDoneBy->HasAura(AURA_BLUESHIELD))
-		{
+        {
             uiDamage = uiDamage * 0.05;
-		} else {
-			if(Creature* dracek = GetClosestCreatureWithEntry(pDoneBy,25653,15.0f))
-			{
-				if(dracek->HasAura(45848))
-					uiDamage = uiDamage * 0.05;
-			}
-		}
+        } else {
+            if(Creature* dracek = GetClosestCreatureWithEntry(pDoneBy,25653,150.0f))
+            {
+                if(dracek->HasAura(45848))
+                    uiDamage = uiDamage * 0.05;
+            }
+            else
+            {
+                error_log("KJ mob_orb::DamageTaken : Dracek not found.");
+            }
+        }
     }
 
     void UpdateAI(const uint32 diff)
@@ -1012,135 +1001,60 @@ struct MANGOS_DLL_DECL mob_orbAI : public Scripted_NoMovementAI
                 if(Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
                     m_creature->CastSpell(target, SPELL_ORB_BOLT, true);
             }
-            m_uiSpellTimer = 1000;
+            m_uiSpellTimer = 3000;
         }else m_uiSpellTimer -= diff;
     }
 };
 
-//Armageddon AI
+
+//AI for Armageddon target
 struct MANGOS_DLL_DECL mob_armagedonAI : public Scripted_NoMovementAI
 {
-    mob_armagedonAI(Creature *c) : Scripted_NoMovementAI(c)
-    {
-        Reset();
-    }
- 
-    uint32 m_uiExplosionTimer;
-    uint32 m_uiEffectTimer;
-    bool m_bIsExplosion;
- 
+    mob_armagedonAI(Creature* c) : Scripted_NoMovementAI(c) {}
+
+    uint8 spell;
+    uint32 uiTimer;
+
     void Reset()
     {
-        m_creature->SetDisplayId(25206);
-
-        m_uiExplosionTimer = 8000;
-        m_uiEffectTimer = 100;
-        m_bIsExplosion = false;
-
-        m_creature->setFaction(14);
-        m_creature->SetVisibility(VISIBILITY_ON);
-        m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
-		m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
-    }
-
-    void DamageDeal(Unit* pDoneTo, uint32& uiDamage) 
-    {
-        if(pDoneTo->HasAura(AURA_BLUESHIELD))
-		{
-            uiDamage = uiDamage * 0.05;
-		} else {
-			if(Creature* dracek = GetClosestCreatureWithEntry(pDoneTo,25653,15.0f))
-			{
-				if(dracek->HasAura(45848))
-					uiDamage = uiDamage * 0.05;
-			}
-		}
+        spell = 0;
+        uiTimer = 0;
     }
 
     void UpdateAI(const uint32 diff)
     {
-        if(m_bIsExplosion)
-            return;
-
-        if((m_uiExplosionTimer < diff) && !m_bIsExplosion)
+        if (uiTimer <= diff)
         {
-            m_creature->CastSpell(m_creature, SPELL_ARMAGEDDON_EXPLOSION, true);
-            m_bIsExplosion = true;
-        }else m_uiExplosionTimer -= diff;
-
-        if(m_uiEffectTimer < diff && !m_bIsExplosion)
-        {
-            m_creature->CastSpell(m_creature,SPELL_ARMAGEDDON_EFFECT,false);
-            m_uiEffectTimer = 1000;
-        }else m_uiEffectTimer -= diff;
+            switch(spell)
+            {
+                case 0:
+                    DoCast(m_creature, SPELL_ARMAGEDDON_VISUAL, true);
+                    ++spell;
+                    break;
+                case 1:
+                    DoCast(m_creature, SPELL_ARMAGEDDON_VISUAL2, true);
+                    uiTimer = 9000;
+                    ++spell;
+                    break;
+                case 2:
+                    DoCast(m_creature, SPELL_ARMAGEDDON_TRIGGER, true);
+                    ++spell;
+                    uiTimer = 5000;
+                    break;
+                case 3:
+                    m_creature->DealDamage(m_creature,m_creature->GetHealth(),0,DIRECT_DAMAGE,SPELL_SCHOOL_MASK_NORMAL,0,false);
+                    m_creature->RemoveCorpse();
+                    break;
+            }
+        } else uiTimer -=diff;
     }
 };
 
-// ShadowSpike AI
-struct MANGOS_DLL_DECL mob_shadowspikeAI : public Scripted_NoMovementAI
-{
-    mob_shadowspikeAI(Creature *c) : Scripted_NoMovementAI(c)
-    {
-        Reset();
-    }
- 
-    uint32 m_uiExplosionTimer;
-    bool m_bIsExplosion;
-    uint32 m_uiEffectTimer;
- 
-    void Reset()
-    {
-        m_creature->SetDisplayId(25206);
-
-        m_uiExplosionTimer = 5000;
-        m_bIsExplosion = false;
-        m_uiEffectTimer = 500;
-
-        m_creature->setFaction(14);
-        m_creature->SetVisibility(VISIBILITY_ON);
-        m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
-		m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
-    }
-
-    void DamageDeal(Unit* pDoneTo, uint32& uiDamage) 
-    {
-        if(pDoneTo->HasAura(AURA_BLUESHIELD))
-		{
-            uiDamage = uiDamage * 0.05;
-		} else {
-			if(Creature* dracek = GetClosestCreatureWithEntry(pDoneTo,25653,15.0f))
-			{
-				if(dracek->HasAura(45848))
-					uiDamage = uiDamage * 0.05;
-			}
-		}
-    }
-
-    void UpdateAI(const uint32 diff)
-    {
-        if(m_bIsExplosion)
-            return;
-
-        if((m_uiExplosionTimer < diff) && !m_bIsExplosion)
-        {
-            m_creature->CastSpell(m_creature, SPELL_SHADOWSPIKE_DEV, true);
-            m_bIsExplosion = true;
-        }else m_uiExplosionTimer -= diff;
-
-        if(m_uiEffectTimer < diff && !m_bIsExplosion)
-        {
-            m_creature->CastSpell(m_creature,SPELL_SHADOWSPIKE_VIS,false);
-            m_uiEffectTimer = 1000;
-        }else m_uiEffectTimer -= diff;
-    }
-};
-
-// Imp AI
 struct MANGOS_DLL_DECL mob_killimpAI : public ScriptedAI
 {
     mob_killimpAI(Creature *c) : ScriptedAI(c) 
     {
-	    Reset(); 
+        Reset(); 
     }
 
     bool m_bIsReached;
@@ -1192,9 +1106,9 @@ struct MANGOS_DLL_DECL mob_kiljaeden_controllerAI : public Scripted_NoMovementAI
 {
     mob_kiljaeden_controllerAI(Creature *c) : Scripted_NoMovementAI(c) 
     {
-	    pInstance = ((ScriptedInstance*)c->GetInstanceData());
-		postevent = false;
-	    Reset(); 
+        pInstance = ((ScriptedInstance*)c->GetInstanceData());
+        postevent = false;
+        Reset(); 
     }
     ScriptedInstance* pInstance; 
 
@@ -1203,11 +1117,11 @@ struct MANGOS_DLL_DECL mob_kiljaeden_controllerAI : public Scripted_NoMovementAI
     bool m_bIsOutroEnd;
     bool m_bIsProhetSpawned;
     bool m_bIsOnce;
-	bool postevent;
+    bool postevent;
 
     void Reset() 
     {
-		if(postevent) return;
+        if(postevent) return;
         m_bIsProhetSpawned = true;
         m_bIsOutroEnd = true;
         m_creature->setFaction(14);
@@ -1217,7 +1131,7 @@ struct MANGOS_DLL_DECL mob_kiljaeden_controllerAI : public Scripted_NoMovementAI
         if(pInstance)
             pInstance->SetData(DATA_DECIVER, NOT_STARTED);
 
-		m_creature->CastSpell(m_creature,46410,false);
+        m_creature->CastSpell(m_creature,46410,false);
     }
 
     void Aggro(Unit *who)
@@ -1235,11 +1149,11 @@ struct MANGOS_DLL_DECL mob_kiljaeden_controllerAI : public Scripted_NoMovementAI
 
     void UpdateAI(const uint32 diff)
     {
-		if(pInstance && pInstance->GetData(DATA_DECIVER) == SPECIAL)
-		{
-            m_creature->RemoveAurasDueToSpell(46410);
-            m_creature->SetVisibility(VISIBILITY_OFF);
-        }
+        // if(pInstance && pInstance->GetData(DATA_KILJAEDEN_EVENT) == IN_PROGRESS)
+        // {
+        //     m_creature->RemoveAurasDueToSpell(46410);
+        //     m_creature->SetVisibility(VISIBILITY_OFF);
+        // }
 
         //Return since we have no target
         //if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
@@ -1252,13 +1166,13 @@ struct MANGOS_DLL_DECL mob_kiljaeden_controllerAI : public Scripted_NoMovementAI
             m_bIsOutroEnd = false;
             m_uiProphetsTimer = 20000;
             m_bIsOnce = false;
-			postevent = true;
+            postevent = true;
         }
 
         if(!m_bIsProhetSpawned)
         {
-			m_creature->SummonCreature(99925,0,0,0,0,TEMPSUMMON_DEAD_DESPAWN,0);
-			m_creature->DealDamage(m_creature,m_creature->GetHealth(),0,DIRECT_DAMAGE,SPELL_SCHOOL_MASK_NORMAL,0,false);
+            m_creature->SummonCreature(99925,0,0,0,0,TEMPSUMMON_DEAD_DESPAWN,0);
+            m_creature->DealDamage(m_creature,m_creature->GetHealth(),0,DIRECT_DAMAGE,SPELL_SCHOOL_MASK_NORMAL,0,false);
         }
 
         /*if((m_uiProphetsTimer < diff) && !m_bIsOutroEnd)
@@ -1291,7 +1205,7 @@ struct MANGOS_DLL_DECL mob_kiljaeden_controllerAI : public Scripted_NoMovementAI
                 DoPlaySoundToSet(m_creature, SAY_VELEN_09); break; //11
                 m_bIsOutroEnd = true; 
                 m_creature->setFaction(35); 
-				m_creature->DealDamage(m_creature,m_creature->GetHealth(),0,DIRECT_DAMAGE,SPELL_SCHOOL_MASK_NORMAL,0,false);
+                m_creature->DealDamage(m_creature,m_creature->GetHealth(),0,DIRECT_DAMAGE,SPELL_SCHOOL_MASK_NORMAL,0,false);
             }
             ++m_uiProphetsCount;
         }m_uiProphetsTimer -= diff;*/
@@ -1303,8 +1217,8 @@ struct MANGOS_DLL_DECL mob_kiljaeden_posteventAI : public Scripted_NoMovementAI
 {
     mob_kiljaeden_posteventAI(Creature *c) : Scripted_NoMovementAI(c) 
     {
-	    pInstance = ((ScriptedInstance*)c->GetInstanceData());
-	    Reset(); 
+        pInstance = ((ScriptedInstance*)c->GetInstanceData());
+        Reset(); 
     }
     ScriptedInstance* pInstance; 
 
@@ -1339,30 +1253,30 @@ struct MANGOS_DLL_DECL mob_kiljaeden_posteventAI : public Scripted_NoMovementAI
 
         if(!m_bIsProhetSpawned)
         {
-			m_creature->setFaction(35);
-			m_creature->CombatStop(true);
+            m_creature->setFaction(35);
+            m_creature->CombatStop(true);
             Creature* Velen = m_creature->SummonCreature(ID_VELEN, 1725.682007f,638.759277f,28.050213f,3.608646f, TEMPSUMMON_TIMED_DESPAWN, 360000);
-			if(Velen)
-			{
+            if(Velen)
+            {
             Velen->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
             Velen->setFaction(35);
-			}
+            }
             Creature* Liadrin = m_creature->SummonCreature(ID_LIADRIN, 1727.728760f,631.062500f,28.050213f,3.250504f, TEMPSUMMON_TIMED_DESPAWN, 360000);
-			if(Liadrin)
-			{
+            if(Liadrin)
+            {
             Liadrin->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
             Liadrin->setFaction(35);
-			}
+            }
             m_bIsProhetSpawned = true;
         }
 
         if((m_uiProphetsTimer < diff) && !m_bIsOutroEnd)
         {
-			Creature* Velen = GetClosestCreatureWithEntry(m_creature,ID_VELEN,100.0f);
-			Creature* Liadrin = GetClosestCreatureWithEntry(m_creature,ID_LIADRIN,100.0f);
+            Creature* Velen = GetClosestCreatureWithEntry(m_creature,ID_VELEN,100.0f);
+            Creature* Liadrin = GetClosestCreatureWithEntry(m_creature,ID_LIADRIN,100.0f);
 
-			if(Velen && Liadrin)
-			{
+            if(Velen && Liadrin)
+            {
             switch(m_uiProphetsCount)
             {
                 case 0:
@@ -1382,7 +1296,7 @@ struct MANGOS_DLL_DECL mob_kiljaeden_posteventAI : public Scripted_NoMovementAI
                 case 7:
                 DoPlaySoundToSet(m_creature, SAY_VELEN_06); Velen->MonsterSay("Gaze now, mortals - upon the HEART OF M'URU! Unblemished. Bathed by the ligth of Creation - just as it was at the Dawn.",LANG_UNIVERSAL,NULL); m_uiProphetsTimer = 17000; break; //7
                 case 8:
-				DoPlaySoundToSet(m_creature, SAY_VELEN_07); /*m_creature->CastSpell(m_creature,46410,false);*/ m_creature->CastSpell(m_creature,46822,false); Velen->MonsterSay("In time, the light and hope held within - will rebirth more than this mere fount of power... Mayhap, they will rebirth the soul of a nation.",LANG_UNIVERSAL,NULL); m_uiProphetsTimer = 16000; break; //8
+                DoPlaySoundToSet(m_creature, SAY_VELEN_07); /*m_creature->CastSpell(m_creature,46410,false);*/ m_creature->CastSpell(m_creature,46822,false); Velen->MonsterSay("In time, the light and hope held within - will rebirth more than this mere fount of power... Mayhap, they will rebirth the soul of a nation.",LANG_UNIVERSAL,NULL); m_uiProphetsTimer = 16000; break; //8
                 case 4:
                 DoPlaySoundToSet(m_creature, SAY_LIADRIN_03); Liadrin->MonsterSay("Our arrogance was unpardonable. We damned one of the most noble beings of all. We may never atone for this sin.",LANG_UNIVERSAL,NULL); m_uiProphetsTimer = 11000; break; //4
                 case 10:
@@ -1391,12 +1305,12 @@ struct MANGOS_DLL_DECL mob_kiljaeden_posteventAI : public Scripted_NoMovementAI
                 DoPlaySoundToSet(m_creature, SAY_VELEN_09); Velen->MonsterSay("Farewell...",LANG_UNIVERSAL,NULL);
                 m_bIsOutroEnd = true; 
                 //m_creature->setFaction(35); 
-				//m_creature->DealDamage(m_creature,m_creature->GetHealth(),0,DIRECT_DAMAGE,SPELL_SCHOOL_MASK_NORMAL,0,false); 
-				Velen->SetVisibility(VISIBILITY_OFF);
-				Liadrin->SetVisibility(VISIBILITY_OFF);
-				break; //11
+                //m_creature->DealDamage(m_creature,m_creature->GetHealth(),0,DIRECT_DAMAGE,SPELL_SCHOOL_MASK_NORMAL,0,false); 
+                Velen->SetVisibility(VISIBILITY_OFF);
+                Liadrin->SetVisibility(VISIBILITY_OFF);
+                break; //11
             }
-			}
+            }
             ++m_uiProphetsCount;
         }m_uiProphetsTimer -= diff;
     }
@@ -1417,56 +1331,56 @@ bool GossipHello_dragon(Player* pPlayer, Creature* pCreature)
 
 struct MANGOS_DLL_DECL dragon_timersAI: public ScriptedAI
 {
-	dragon_timersAI(Creature* c): ScriptedAI(c)
-	{
-		Reset();
-	}
+    dragon_timersAI(Creature* c): ScriptedAI(c)
+    {
+        Reset();
+    }
 
-	uint32 bubbletimer;
+    uint32 bubbletimer;
 
-	void Reset()
-	{
-		bubbletimer = 0;
-	}
+    void Reset()
+    {
+        bubbletimer = 0;
+    }
 
-	void Aggro(Unit* pWho)
-	{
-		return;
-	}
+    void Aggro(Unit* pWho)
+    {
+        return;
+    }
 
-	void AttackStart(Unit* pWho)
-	{
-		return;
-	}
+    void AttackStart(Unit* pWho)
+    {
+        return;
+    }
 
-	bool WillCast()
-	{
-		if(bubbletimer) return false;
+    bool WillCast()
+    {
+        if(bubbletimer) return false;
 
-		bubbletimer = 20000;
-		return true;
-	}
+        bubbletimer = 20000;
+        return true;
+    }
 
-	void UpdateAI(const uint32 diff)
-	{
-		if(bubbletimer <= diff)
-		{
-			bubbletimer = 0;
-		} else bubbletimer -= diff;
+    void UpdateAI(const uint32 diff)
+    {
+        if(bubbletimer <= diff)
+        {
+            bubbletimer = 0;
+        } else bubbletimer -= diff;
 
-		if(bubbletimer > 20000)
-			bubbletimer = 0;
+        if(bubbletimer > 20000)
+            bubbletimer = 0;
 
-		if(!m_creature->getVictim() || !m_creature->SelectHostileTarget())
-			return;
+        if(!m_creature->getVictim() || !m_creature->SelectHostileTarget())
+            return;
 
-		DoMeleeAttackIfReady();
-	}
+        DoMeleeAttackIfReady();
+    }
 };
 
 CreatureAI* GetAI_dragon_timersAI(Creature* pCreature)
 {
-	return new dragon_timersAI(pCreature);
+    return new dragon_timersAI(pCreature);
 }
 
 bool GossipSelect_dragon(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
@@ -1476,8 +1390,8 @@ bool GossipSelect_dragon(Player* pPlayer, Creature* pCreature, uint32 uiSender, 
         switch (uiAction)
         {
             case GOSSIP_ACTION_INFO_DEF+1:
-				if( ((dragon_timersAI*)pCreature->AI())->WillCast() )
-					pCreature->CastSpell(pPlayer, SPELL_SHIELD_OF_BLUE, false);
+                if( ((dragon_timersAI*)pCreature->AI())->WillCast() )
+                    pCreature->CastSpell(pPlayer, SPELL_SHIELD_OF_BLUE, false);
                 pPlayer->CLOSE_GOSSIP_MENU();
                 return true;
             case GOSSIP_ACTION_INFO_DEF+2:
@@ -1502,11 +1416,6 @@ bool GossipSelect_dragon(Player* pPlayer, Creature* pCreature, uint32 uiSender, 
 CreatureAI* GetAI_mob_killimp(Creature *_Creature)
 {
     return new mob_killimpAI(_Creature);
-}
-
-CreatureAI* GetAI_mob_shadowspike(Creature *_Creature)
-{
-    return new mob_shadowspikeAI(_Creature);
 }
 
 CreatureAI* GetAI_mob_deceiver(Creature *_Creature)
@@ -1541,32 +1450,32 @@ CreatureAI* GetAI_mob_kiljaeden_postevent(Creature *_Creature)
 
 struct MANGOS_DLL_DECL mob_anveenaAI: public ScriptedAI
 {
-	mob_anveenaAI(Creature* c): ScriptedAI(c)
-	{
-		Reset();
-	}
+    mob_anveenaAI(Creature* c): ScriptedAI(c)
+    {
+        Reset();
+    }
 
-	uint8 event_phase;
+    uint8 event_phase;
 
-	void Reset()
-	{
-		event_phase = 1;
-		m_creature->GetMotionMaster()->MovePoint(0,1695.93f,628.289f,68.5714f);
-		m_creature->CastSpell(m_creature,46367,false);
-	}
+    void Reset()
+    {
+        event_phase = 1;
+        m_creature->GetMotionMaster()->MovePoint(0,1695.93f,628.289f,68.5714f);
+        m_creature->CastSpell(m_creature,46367,false);
+    }
 
-	void UpdateAI(const uint32 diff)
-	{
-		if(event_phase == 1)
-		{
-			//outstring_log("Nemam auru");
-			if(!m_creature->HasAura(46367))
-			{
-				m_creature->CastSpell(m_creature,46367,true);
-				//outstring_log("Nahazuju to");
-			} else ++event_phase;
-		}
-	}
+    void UpdateAI(const uint32 diff)
+    {
+        if(event_phase == 1)
+        {
+            //outstring_log("Nemam auru");
+            if(!m_creature->HasAura(46367))
+            {
+                m_creature->CastSpell(m_creature,46367,true);
+                //outstring_log("Nahazuju to");
+            } else ++event_phase;
+        }
+    }
 };
 
 CreatureAI* GetAI_mob_anveena(Creature *_Creature)
@@ -1576,42 +1485,42 @@ CreatureAI* GetAI_mob_anveena(Creature *_Creature)
 
 struct MANGOS_DLL_DECL mob_kalecgos_kjAI: public ScriptedAI
 {
-	mob_kalecgos_kjAI(Creature* c): ScriptedAI(c)
-	{
-		Reset();
-	}
+    mob_kalecgos_kjAI(Creature* c): ScriptedAI(c)
+    {
+        Reset();
+    }
 
-	uint8 event_phase;
-	Creature* kiljaeden;
+    uint8 event_phase;
+    Creature* kiljaeden;
 
-	void Reset()
-	{
-		event_phase = 1;
-		kiljaeden = NULL;
-	}
+    void Reset()
+    {
+        event_phase = 1;
+        kiljaeden = NULL;
+    }
 
-	void UpdateAI(const uint32 diff)
-	{
-		if(m_creature->GetVisibility() == VISIBILITY_ON)
-			m_creature->SetVisibility(VISIBILITY_OFF);
+    void UpdateAI(const uint32 diff)
+    {
+        if(m_creature->GetVisibility() == VISIBILITY_ON)
+            m_creature->SetVisibility(VISIBILITY_OFF);
 
-		if(event_phase == 1)
-		{
-			if(!kiljaeden)
-			{
-				kiljaeden = GetClosestCreatureWithEntry(m_creature,25315,100.0f);
-			}
-			if(kiljaeden && kiljaeden->isDead())
-			{
-				++event_phase;
-			}
-			if(!kiljaeden)
-			{
-				m_creature->SetVisibility(VISIBILITY_OFF);
-				m_creature->DealDamage(m_creature, m_creature->GetHealth(),0,DIRECT_DAMAGE,SPELL_SCHOOL_MASK_NORMAL,0,false);
-			}
-		}
-	}
+        if(event_phase == 1)
+        {
+            if(!kiljaeden)
+            {
+                kiljaeden = GetClosestCreatureWithEntry(m_creature,25315,100.0f);
+            }
+            if(kiljaeden && kiljaeden->isDead())
+            {
+                ++event_phase;
+            }
+            if(!kiljaeden)
+            {
+                m_creature->SetVisibility(VISIBILITY_OFF);
+                m_creature->DealDamage(m_creature, m_creature->GetHealth(),0,DIRECT_DAMAGE,SPELL_SCHOOL_MASK_NORMAL,0,false);
+            }
+        }
+    }
 };
 
 CreatureAI* GetAI_mob_kalecgos_kj(Creature *_Creature)
@@ -1628,7 +1537,7 @@ void AddSC_boss_kiljaeden()
     newscript->GetAI = &GetAI_mob_kiljaeden_controller;
     newscript->RegisterSelf();
 
-	newscript = new Script;
+    newscript = new Script;
     newscript->Name="mob_kiljaeden_postevent";
     newscript->GetAI = &GetAI_mob_kiljaeden_postevent;
     newscript->RegisterSelf();
@@ -1636,11 +1545,6 @@ void AddSC_boss_kiljaeden()
     newscript = new Script;
     newscript->Name="boss_kiljaden";
     newscript->GetAI = &GetAI_boss_kiljaden;
-    newscript->RegisterSelf();
-
-    newscript = new Script;
-    newscript->Name="mob_shadowspike";
-    newscript->GetAI = &GetAI_mob_shadowspike;
     newscript->RegisterSelf();
 
     newscript = new Script;
@@ -1674,8 +1578,8 @@ void AddSC_boss_kiljaeden()
     newscript->RegisterSelf();
 
     newscript = new Script;
-    newscript->Name = "dragon";
-	newscript->GetAI = GetAI_dragon_timersAI;
+    newscript->Name = "npc_dragon_kj";
+    newscript->GetAI = GetAI_dragon_timersAI;
     newscript->pGossipHello = &GossipHello_dragon;
     newscript->pGossipSelect = &GossipSelect_dragon;
     newscript->RegisterSelf();

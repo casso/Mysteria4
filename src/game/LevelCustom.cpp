@@ -1126,3 +1126,36 @@ bool ChatHandler::HandleSetVIPCommmand(char* args)
 
     return true;
 }
+
+/// Zobrazi nevybavenych vip hracov, ktori su online
+bool ChatHandler::HandleNevybaveneVIPOnlineCommand(char* args)
+{
+    uint32 count=0;
+
+    HashMapHolder<Player>::MapType& m = sObjectAccessor.GetPlayers();
+    for(HashMapHolder<Player>::MapType::const_iterator itr = m.begin(); itr != m.end(); ++itr)
+        if(itr->second->GetSession()->GetSecurity() == SECURITY_VIP)
+        {
+            //                                                    0              1
+            QueryResult* result = LoginDatabase.PQuery("SELECT username, VIP_char_comment FROM account WHERE id = '%u'",itr->second->GetSession()->GetAccountId());
+            if(result)
+            {
+                Field* fields = result->Fetch();
+				
+                if(!fields[1].IsNULL())
+                    continue;
+
+                if(count++ == 0)
+                    SendSysMessage("Nevybaveni VIP hraci online:");
+
+                PSendSysMessage(" %s (Konto:'%s')", itr->second->GetName(), fields[0].GetString());
+
+                delete result;
+            }
+        }
+
+    if(count == 0)
+        SendSysMessage("V hre nie je ziadne nevybavene vip.");
+
+    return true;
+}

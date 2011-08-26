@@ -557,6 +557,7 @@ class ChatHandler
         bool HandleUnFreezeCommand(char *args);
         bool HandleListFreezeCommand(char* args);
         bool HandleVIPOnlineCommand(char* args);
+        bool HandleNevybaveneVIPOnlineCommand(char* args);
         bool HandleMCCommand(char* args);
         bool HandleStormwindCityCommand(char* args);
         bool HandleOrgrimmarCommand(char* args);
