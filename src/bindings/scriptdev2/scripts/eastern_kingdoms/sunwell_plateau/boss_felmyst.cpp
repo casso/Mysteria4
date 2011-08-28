@@ -221,8 +221,10 @@ struct MANGOS_DLL_DECL boss_felmystAI : public ScriptedAI
 
     void AttackStart(Unit* pWho)
     {
+        /*
         if (m_pInstance->GetData(TYPE_BRUTALLUS) != DONE)
             return;
+        */
 
         if (!pWho)
             return;
@@ -274,7 +276,7 @@ struct MANGOS_DLL_DECL boss_felmystAI : public ScriptedAI
         if (m_uiPhase == PHASE_IDLE)
         {
             // make boss visible & Transform after brutallus is defeated
-            if (m_pInstance && m_pInstance->GetData(TYPE_BRUTALLUS) == DONE && m_pInstance->GetData(TYPE_FELMYST) == NOT_STARTED)
+            if (m_pInstance && /* m_pInstance->GetData(TYPE_BRUTALLUS) == DONE && */ m_pInstance->GetData(TYPE_FELMYST) == NOT_STARTED)
             {
                 if (m_uiEncounterCheckTimer < uiDiff && !m_bHasChecked)
                 {
@@ -345,6 +347,7 @@ struct MANGOS_DLL_DECL boss_felmystAI : public ScriptedAI
             }
             else m_uiGasNovaTimer -= uiDiff;
 
+            /*
             if (m_uiEncapsulateTimer < uiDiff)
             {
                 if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
@@ -357,6 +360,7 @@ struct MANGOS_DLL_DECL boss_felmystAI : public ScriptedAI
                 m_uiEncapsulateTimer = 30000;
             }
             else m_uiEncapsulateTimer -= uiDiff;
+            */
 
             DoMeleeAttackIfReady();
         }

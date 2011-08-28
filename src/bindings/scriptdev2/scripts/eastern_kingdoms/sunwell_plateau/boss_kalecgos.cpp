@@ -84,7 +84,7 @@ void SendToInnerVeil(Unit* pTarget)
 
     //just a hack for not implemented spell effect 144
     ((Player*)pTarget)->TeleportTo(pTarget->GetMapId(), frand(1701.0f, 1717.0f), frand(942.0f, 958.0f), -74.0f, pTarget->GetOrientation());
-    
+
     //pTarget->CastSpell(pTarget, SPELL_SPECTRAL_REALM_FORCE_FACTION, true);
     //pTarget->CastSpell(pTarget, SPELL_SPECTRAL_REALM, true);
 }
@@ -94,7 +94,7 @@ void SendFromInnerVeil(Unit* pTarget)
     //just a hack for not implemented spell effect 144
     
     ((Player*)pTarget)->TeleportTo(pTarget->GetMapId(), pTarget->GetPositionX(), pTarget->GetPositionY(), pTarget->GetPositionZ()+133.0f, pTarget->GetOrientation());
-
+    
     //pTarget->CastSpell(pTarget, SPELL_SPECTRAL_REALM_FORCE_FACTION, true);
     //pTarget->CastSpell(pTarget, SPELL_SPECTRAL_REALM, true);
 }
@@ -148,12 +148,13 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
     {
         if (m_pInstance)
         {
+            /*
             // Reset Sathrovarr too
             if (Creature* pSath = m_pInstance->instance->GetCreature(m_pInstance->GetData64(DATA_SATHROVARR)))
             {
                 if (pSath->isAlive() && pSath->getVictim())
                     pSath->AI()->EnterEvadeMode();
-            }
+            }*/
 
             m_pInstance->SetData(TYPE_KALECGOS, NOT_STARTED);
         }
@@ -181,7 +182,7 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
             else
             {
                 damage = 0;
-                BeginOutro();
+                //BeginOutro();
             }
         }
     }
@@ -211,6 +212,7 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
         }
     }
 
+    /*
     void BeginOutro()
     {
         debug_log("SD2: KALEC: Beginning Outro");
@@ -238,7 +240,9 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
         DoScriptText(SAY_GOOD_PLRWIN, m_creature);
         m_uiExitTimer = 1000;
     }
+    */
 
+    /*
     void MovementInform(uint32 type, uint32 id)
     {
         if (type != POINT_MOTION_TYPE)
@@ -253,24 +257,36 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
             m_creature->DealDamage(m_creature, m_creature->GetHealth(), NULL, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, NULL, false);
         }
     }
+    */
 
     void UpdateAI(const uint32 diff)
     {
-        if (!m_creature->getVictim() || !m_creature->SelectHostileTarget() || m_bBanished)
+        if (m_bBanished)
             return;
+
+        if(!m_creature->getVictim() || !m_creature->SelectHostileTarget())
+        {
+            if(m_pInstance && m_pInstance->GetData(TYPE_KALECGOS) == IN_PROGRESS)
+                m_creature->AI()->EnterEvadeMode();
+
+            return;
+        }
 
         if (!m_bEnraged && m_creature->GetHealthPercent() < 10.0f)
         {
+            /*
             if (Creature* pSathrovarr = m_creature->GetMap()->GetCreature(m_pInstance->GetData64(DATA_SATHROVARR)))
             {
                 if (pSathrovarr->isAlive())
                     pSathrovarr->CastSpell(pSathrovarr, SPELL_CRAZED_RAGE, true);
-            }
+            }*/
 
+            // enrage ak ma 10%
             m_creature->CastSpell(m_creature, SPELL_CRAZED_RAGE, true);
             m_bEnraged = true;
         }
 
+        // teleport ak ma pod 5%
         if (!m_bChecked && m_creature->GetHealthPercent() < 5.0f)
         {
             m_bChecked = true;
@@ -285,12 +301,17 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
                 for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
                 {
                     Player* pPlayer = itr->getSource();
-                    if (pPlayer && !pPlayer->isGameMaster())
+                    if (pPlayer && pPlayer->isAlive() && !pPlayer->isGameMaster())
                         SendToInnerVeil(pPlayer);
                 }
+
+                // Vypnutie bariery
+                m_pInstance->SetData(TYPE_KALECGOS, DONE);
             }
+            /*
             else
                 BeginOutro();
+            */
         }
 
         if (m_uiExitTimer)
@@ -372,7 +393,7 @@ struct MANGOS_DLL_DECL boss_sathrovarrAI : public ScriptedAI
     uint32 CorruptingStrikeTimer;
     uint32 CurseOfBoundlessAgonyTimer;
     uint32 ShadowBoltVolleyTimer;
-    bool m_bBanished;
+    // bool m_bBanished;
     bool m_bEnraged;
 
     void Reset()
@@ -382,21 +403,22 @@ struct MANGOS_DLL_DECL boss_sathrovarrAI : public ScriptedAI
         CurseOfBoundlessAgonyTimer = 15000;
         ShadowBoltVolleyTimer = 10000;
 
-        m_bBanished = false;
+        // m_bBanished = false;
         m_bEnraged  = false;
 
-        //m_creature->CastSpell(m_creature, SPELL_SPECTRAL_INVIS, true);
+        // m_creature->CastSpell(m_creature, SPELL_SPECTRAL_INVIS, true);
     }
 
     void JustDied(Unit* killer)
     {
-        m_pInstance->SetData(TYPE_KALECGOS, DONE);
+        // m_pInstance->SetData(TYPE_KALECGOS, DONE);
     }
 
     void Aggro(Unit* who)
     {
         DoScriptText(SAY_SATH_AGGRO, m_creature);
 
+        /*
         if (!m_pInstance)
             return;
 
@@ -405,18 +427,20 @@ struct MANGOS_DLL_DECL boss_sathrovarrAI : public ScriptedAI
             m_creature->AddThreat(pKalec, 10000000.0f);
             pKalec->AddThreat(m_creature, 10000000.0f);
         }
+        */
     }
 
     void DamageTaken(Unit* done_by, uint32 &damage)
     {
         if (damage > m_creature->GetHealth())
         {
-            damage = 0;
-            DoCastSpellIfCan(m_creature, SPELL_BANISH, CAST_TRIGGERED);
-            m_bBanished = true;
+            // damage = 0;
+            // DoCastSpellIfCan(m_creature, SPELL_BANISH, CAST_TRIGGERED);
+            // m_bBanished = true;
 
             DoScriptText(SAY_SATH_DEATH, m_creature);
 
+            /*
             if (!m_pInstance)
                 return;
 
@@ -430,26 +454,33 @@ struct MANGOS_DLL_DECL boss_sathrovarrAI : public ScriptedAI
                     pKalecgosAI->m_bUncorrupted = true;
                 }
             }
+            */
         }
     }
 
     void KilledUnit(Unit* victim)
     {
         DoScriptText(urand(0, 1) ? SAY_SATH_SLAY1 : SAY_SATH_SLAY2, m_creature);
+
+        if(!m_creature->SelectHostileTarget())
+            m_creature->AI()->EnterEvadeMode();
     }
 
     void UpdateAI(const uint32 diff)
     {
-        if (!m_creature->getVictim() || !m_creature->SelectHostileTarget() || m_bBanished)
+        if (!m_creature->getVictim() || !m_creature->SelectHostileTarget() /* || m_bBanished */)
             return;
 
+        // Crazed rage na 10%
         if (!m_bEnraged && m_creature->GetHealthPercent() < 10.0f)
         {
+            /*
             if (Creature* pKalecgos = m_creature->GetMap()->GetCreature(m_pInstance->GetData64(DATA_KALECGOS_DRAGON)))
             {
                 if (pKalecgos->isAlive())
                     pKalecgos->CastSpell(pKalecgos, SPELL_CRAZED_RAGE, true);
             }
+            */
 
             m_creature->CastSpell(m_creature, SPELL_CRAZED_RAGE, true);
             m_bEnraged = true;
@@ -485,6 +516,7 @@ struct MANGOS_DLL_DECL boss_sathrovarrAI : public ScriptedAI
     }
 };
 
+/*
 struct MANGOS_DLL_DECL boss_kalecgos_humanoidAI : public ScriptedAI
 {
     boss_kalecgos_humanoidAI(Creature* pCreature) : ScriptedAI(pCreature)
@@ -510,7 +542,7 @@ struct MANGOS_DLL_DECL boss_kalecgos_humanoidAI : public ScriptedAI
         HasYelled10Percent = false;
         HasYelled20Percent = false;
 
-        m_creature->CastSpell(m_creature, SPELL_SPECTRAL_INVIS, true);
+        // m_creature->CastSpell(m_creature, SPELL_SPECTRAL_INVIS, true);
     }
 
     void Aggro(Unit* who)
@@ -532,9 +564,9 @@ struct MANGOS_DLL_DECL boss_kalecgos_humanoidAI : public ScriptedAI
         {
             if (m_pInstance)
             {
-                /*Player* pPlayer = m_creature->GetMap()->GetPlayer(m_pInstance->GetData64(DATA_RANDOM_SPECTRAL_PLAYER));
+                Player* pPlayer = m_creature->GetMap()->GetPlayer(m_pInstance->GetData64(DATA_RANDOM_SPECTRAL_PLAYER));
                 if (pPlayer)
-                    DoCastSpellIfCan(pPlayer, SPELL_REVITALIZE);*/
+                    DoCastSpellIfCan(pPlayer, SPELL_REVITALIZE);
                 RevitalizeTimer = 30000;
             }
         }else RevitalizeTimer -= diff;
@@ -558,10 +590,15 @@ struct MANGOS_DLL_DECL boss_kalecgos_humanoidAI : public ScriptedAI
         }
     }
 };
+*/
 
 bool GOUse_go_spectral_rift(Player* pPlayer, GameObject* pGo)
 {
-    SendToInnerVeil(pPlayer);
+    InstanceData *pInstance = pGo->GetInstanceData();
+
+    if(pInstance && pInstance->GetData(TYPE_KALECGOS) == DONE)
+        SendToInnerVeil(pPlayer);
+
     /*
     if (pGo->GetGoType() != GAMEOBJECT_TYPE_GOOBER)
         return true;
@@ -625,10 +662,12 @@ CreatureAI* GetAI_boss_sathrovarr(Creature* pCreature)
     return new boss_sathrovarrAI(pCreature);
 }
 
+/*
 CreatureAI* GetAI_boss_kalecgos_humanoid(Creature* pCreature)
 {
     return new boss_kalecgos_humanoidAI(pCreature);
 }
+*/
 
 void AddSC_boss_kalecgos()
 {
@@ -644,10 +683,12 @@ void AddSC_boss_kalecgos()
     newscript->Name = "boss_sathrovarr";
     newscript->RegisterSelf();
 
+    /*
     newscript = new Script;
     newscript->GetAI = &GetAI_boss_kalecgos_humanoid;
     newscript->Name = "boss_kalecgos_humanoid";
     newscript->RegisterSelf();
+    */
 
     newscript = new Script;
     newscript->pGOUse = &GOUse_go_spectral_rift;

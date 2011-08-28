@@ -555,8 +555,6 @@ bool AreaTrigger_at_sunwell_plateau(Player* pPlayer, AreaTriggerEntry const* pAt
         if (pPlayer->isGameMaster() || pPlayer->isDead())
             return false;
 
-        error_log("############### TRIGGERED ##################");
-
         InstanceData* pInstance = pPlayer->GetInstanceData();
 
         if (pInstance && pInstance->GetData(TYPE_EREDAR_TWINS) == NOT_STARTED)

@@ -764,6 +764,7 @@ ChatCommand * ChatHandler::getCommandTable()
         { "flymount",       SECURITY_VIP,            false, &ChatHandler::HandleFlyMountCommand,            "", NULL },
         { "mmap",           SECURITY_GAMEMASTER,     false, NULL,                                           "", mmapCommandTable },
         { "setvip",         SECURITY_DEVELOPER,      false, &ChatHandler::HandleSetVIPCommmand,             "", NULL },
+        { "pridajvip",      SECURITY_DEVELOPER,      false, &ChatHandler::HandlePridajVIPCommmand,          "", NULL },
 
         { NULL,             0,                       false, NULL,                                           "", NULL }
     };

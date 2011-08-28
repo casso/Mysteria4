@@ -575,6 +575,8 @@ class ChatHandler
         bool HandleFlyMountCommand(char* args);
         bool HandleMmapPathCommand(char* args);
         bool HandleSetVIPCommmand(char* args);
+        void dajVipBonus(Player *target);
+        bool HandlePridajVIPCommmand(char* args);
 
         bool HandleMmapLocCommand(char* args);
         bool HandleMmapLoadedTilesCommand(char* args);

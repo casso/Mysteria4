@@ -1068,6 +1068,27 @@ bool ChatHandler::HandleMmapTestArea(char* args)
     return false;
 }
 
+void ChatHandler::dajVipBonus(Player *target)
+{
+    char param[15];
+
+    // 100 000g 00s 00c
+    strcpy(param, "1000000000");
+    if(!HandleModifyMoneyCommand(param))
+        SendSysMessage("Chyba pri penazi");
+
+    // 4 x 21876 - Primal Mooncloth bag
+    strcpy(param, "21876 4");
+    if(!HandleAddItemCommand(param))
+        SendSysMessage("Chyba pri pridavani bagov");
+
+    // 70 level
+    HandleCharacterLevel(target, target->GetGUID(), target->getLevel(), 70);
+
+    SendSysMessage("VIP vybavene");
+
+}
+
 bool ChatHandler::HandleSetVIPCommmand(char* args)
 {
     Player *target = getSelectedPlayer();
@@ -1104,25 +1125,54 @@ bool ChatHandler::HandleSetVIPCommmand(char* args)
         return false;
     }
 
-    char param[15];
-
-    // 100 000g 00s 00c
-    strcpy(param, "1000000000");
-    if(!HandleModifyMoneyCommand(param))
-        SendSysMessage("Chyba pri penazi");
-
-    // 4 x 21876 - Primal Mooncloth bag
-    strcpy(param, "21876 4");
-    if(!HandleAddItemCommand(param))
-        SendSysMessage("Chyba pri pridavani bagov");
-
-    // 70 level
-    HandleCharacterLevel(target, target->GetGUID(), target->getLevel(), 70);
+    dajVipBonus(target);
 
     // Zaznam do db
     LoginDatabase.PExecute("UPDATE account SET VIP_char_comment='%s' WHERE id = %u", target->GetName(), target->GetSession()->GetAccountId());
 
-    SendSysMessage("VIP vybavene");
+    return true;
+}
+
+bool ChatHandler::HandlePridajVIPCommmand(char* args)
+{
+    Player *target = getSelectedPlayer();
+    if (!target || target->GetTypeId() != TYPEID_PLAYER)
+    {
+        SendSysMessage(LANG_PLAYER_NOT_FOUND);
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    if(target->GetSession()->GetSecurity() != SECURITY_VIP)
+    {
+        SendSysMessage("Target nie je VIP");
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    QueryResult* result = LoginDatabase.PQuery("SELECT VIP_char_comment FROM account WHERE id = %u", target->GetSession()->GetAccountId());
+    if(result)
+    {
+        Field* fields = result->Fetch();
+        if(fields[0].IsNULL())
+        {
+            SendSysMessage("Hrac este nema vybavene ziadne VIP.");
+            SetSentErrorMessage(true);
+            return false;
+        }        
+        delete result;
+    }
+    else
+    {
+        SendSysMessage("Internal error. Toto by sa stat nemalo.");
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    dajVipBonus(target);
+
+    // Zaznam do db
+    LoginDatabase.PExecute("UPDATE account SET VIP_char_comment=CONCAT(VIP_char_comment, ' ', '%s') WHERE id = %u", target->GetName(), target->GetSession()->GetAccountId());
 
     return true;
 }
