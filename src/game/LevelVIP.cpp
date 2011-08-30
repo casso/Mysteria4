@@ -317,9 +317,9 @@ bool ChatHandler::HandleFlyMountCommand(char* /*args*/)
 
     switch(chr->GetAreaId())
     {
-        case 1637: // orgrimmar
-        case 1519: // stormwind
-        case 3487: // silvermoon
+        //case 1637: // orgrimmar
+        //case 1519: // stormwind
+        //case 3487: // silvermoon
         case 168:  // Tirisfal glades sea
         case 1256: // Azshara sea
         case 4080: // ioqd

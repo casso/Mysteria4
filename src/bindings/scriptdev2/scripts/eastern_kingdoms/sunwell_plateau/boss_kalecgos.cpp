@@ -395,6 +395,7 @@ struct MANGOS_DLL_DECL boss_sathrovarrAI : public ScriptedAI
     uint32 ShadowBoltVolleyTimer;
     // bool m_bBanished;
     bool m_bEnraged;
+    bool doInstantKill;
 
     void Reset()
     {
@@ -405,6 +406,7 @@ struct MANGOS_DLL_DECL boss_sathrovarrAI : public ScriptedAI
 
         // m_bBanished = false;
         m_bEnraged  = false;
+        doInstantKill = true;
 
         // m_creature->CastSpell(m_creature, SPELL_SPECTRAL_INVIS, true);
     }
@@ -470,6 +472,17 @@ struct MANGOS_DLL_DECL boss_sathrovarrAI : public ScriptedAI
     {
         if (!m_creature->getVictim() || !m_creature->SelectHostileTarget() /* || m_bBanished */)
             return;
+
+        // Ak nedali kalecgosa, instantne zabija (na hackerov...)
+        if(doInstantKill)
+        {
+            if(m_pInstance && m_pInstance->GetData(TYPE_KALECGOS) == DONE)
+            {
+                doInstantKill = false;
+            }
+            else
+                DoCastSpellIfCan(m_creature->getVictim(), 5);
+        }
 
         // Crazed rage na 10%
         if (!m_bEnraged && m_creature->GetHealthPercent() < 10.0f)

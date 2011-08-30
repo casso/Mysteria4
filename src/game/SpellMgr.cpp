@@ -1620,7 +1620,11 @@ bool SpellMgr::IsNoStackSpellDueToSpell(uint32 spellId_1, uint32 spellId_2) cons
 {
     // Jedna instancia spellu 2x >> False
     if(spellId_1 == spellId_2)
+    {
+        //sLog.outString("IsNoStackSpellDueToSpell: same spell_id %u == %u", spellId_1, spellId_2);
+
         return false;
+    }
 
     SpellEntry const *spellInfo_1 = sSpellStore.LookupEntry(spellId_1);
     SpellEntry const *spellInfo_2 = sSpellStore.LookupEntry(spellId_2);
@@ -3254,7 +3258,8 @@ SpellCastResult SpellMgr::GetSpellAllowedInLocationError(SpellEntry const *spell
                         player->TeleportTo(530, 9079.92f, -7193.23f, 55.61f, 5.946f);
                         return SPELL_CAST_OK;
                     }
-                    return SPELL_FAILED_REQUIRES_AREA;
+                    //return SPELL_FAILED_REQUIRES_AREA;
+                    return SPELL_CAST_OK;
 
                 case 1519: // Stormwind
                     if(player->GetTeam() == HORDE)
@@ -3263,7 +3268,9 @@ SpellCastResult SpellMgr::GetSpellAllowedInLocationError(SpellEntry const *spell
                         player->TeleportTo(0, -9617.06f, -288.95f, 57.31f, 1.235f);
                         return SPELL_CAST_OK;
                     }
-                    return SPELL_FAILED_REQUIRES_AREA;
+                    //return SPELL_FAILED_REQUIRES_AREA;
+                    return SPELL_CAST_OK;
+
                 // GH positions
                 case 168:  // Tirisfal glades sea
                 case 1256: // Azshara sea
