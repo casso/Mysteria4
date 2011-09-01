@@ -1,0 +1,1 @@
+ALTER TABLE `dbc_spell` ADD `Dispel` INT(11) UNSIGNED DEFAULT NULL NULL AFTER `AttributesEx6` ;

@@ -192,7 +192,7 @@ struct MANGOS_DLL_DECL boss_onyxiaAI : public ScriptedAI
 
     void JustSummoned(Creature* pSummoned)
     {
-        pSummoned->GetMotionMaster()->MovePoint(0, afSpawnLocations[3][0], afSpawnLocations[3][1], afSpawnLocations[3][2]);
+        pSummoned->GetMotionMaster()->MovePoint(0, afSpawnLocations[3][0], afSpawnLocations[3][1], afSpawnLocations[3][2], false);
         pSummoned->SetInCombatWithZone();
 
         if (pSummoned->GetEntry() == NPC_ONYXIA_WHELP)
@@ -316,7 +316,7 @@ struct MANGOS_DLL_DECL boss_onyxiaAI : public ScriptedAI
                     m_creature->AddSplineFlag(SPLINEFLAG_FLYING);
 
                     if (m_pPointData)
-                        m_creature->GetMotionMaster()->MovePoint(m_pPointData->uiLocId, m_pPointData->fX, m_pPointData->fY, m_pPointData->fZ);
+                        m_creature->GetMotionMaster()->MovePoint(m_pPointData->uiLocId, m_pPointData->fX, m_pPointData->fY, m_pPointData->fZ, false);
 
                     // TODO - this might not be the correct place to set this setting
                     if (m_pInstance)
@@ -371,7 +371,7 @@ struct MANGOS_DLL_DECL boss_onyxiaAI : public ScriptedAI
                     }
 
                     if (m_pPointData = GetMoveData())
-                        m_creature->GetMotionMaster()->MovePoint(m_pPointData->uiLocId, m_pPointData->fX, m_pPointData->fY, m_pPointData->fZ);
+                        m_creature->GetMotionMaster()->MovePoint(m_pPointData->uiLocId, m_pPointData->fX, m_pPointData->fY, m_pPointData->fZ, false);
                 }
                 else
                     m_uiMovementTimer -= uiDiff;

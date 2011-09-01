@@ -128,6 +128,7 @@ struct LocationsXY
     uint32 id;
 };
 
+/*
 // Movement coordinates
 static LocationsXY MoveLoc[]=
 {
@@ -137,6 +138,7 @@ static LocationsXY MoveLoc[]=
     {1462.899f, 536.334f, 40.5f},   //left - 3
     {1537.197f, 522.199f, 40.5f},   // left - 4
 };
+*/
 
 /*######
 ## boss_felmyst
@@ -273,55 +275,7 @@ struct MANGOS_DLL_DECL boss_felmystAI : public ScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-        if (m_uiPhase == PHASE_IDLE)
-        {
-            // make boss visible & Transform after brutallus is defeated
-            if (m_pInstance && /* m_pInstance->GetData(TYPE_BRUTALLUS) == DONE && */ m_pInstance->GetData(TYPE_FELMYST) == NOT_STARTED)
-            {
-                if (m_uiEncounterCheckTimer < uiDiff && !m_bHasChecked)
-                {
-                    //m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
-                    DoScriptText(YELL_REBIRTH, m_creature);
-// need to figure out how the graphic and brutal blood graphics and ect work ere
-                   // DoCast(m_creature, SPELL_TRANSFORM_TRIGGER);
-                   // DoCast(m_creature, SPELL_TRANSFORM_VISUAL);
-                    DoCast(m_creature, SPELL_TRANSFORM_FELMYST);
-                    if (Creature* pMadrigosa = m_pInstance->instance->GetCreature(m_pInstance->GetData64(DATA_MADRIGOSA)))
-                        pMadrigosa->ForcedDespawn();
-                    m_bHasChecked = true;
-                    // start flying
-                    m_creature->SetLevitate(true);
-                    m_creature->SetUInt32Value(UNIT_FIELD_BYTES_0, 50331648);
-                    m_creature->SetUInt32Value(UNIT_FIELD_BYTES_1, 50331648);
-                    m_uiLastPointId = urand(0, 4);
-                    m_creature->GetMotionMaster()->MovePoint(1, MoveLoc[m_uiLastPointId].x, MoveLoc[m_uiLastPointId].y, MoveLoc[m_uiLastPointId].z);
-                    m_uiMovemetnTimer = 60000;
-                }
-                else m_uiEncounterCheckTimer -= uiDiff;
-            }
-
-            if (m_uiMovemetnTimer < uiDiff && m_bHasChecked)
-            {
-				m_creature->SetLevitate(true);
-                m_creature->SetUInt32Value(UNIT_FIELD_BYTES_0, 50331648);
-                m_creature->SetUInt32Value(UNIT_FIELD_BYTES_1, 50331648);
-                // movement
-                if (m_uiLastPointId < 2)
-                    m_uiLastPointId = urand(2, 4);
-                else if (m_uiLastPointId > 2)
-                    m_uiLastPointId = urand(0, 2);
-                else while (m_uiLastPointId == 2)
-                    m_uiLastPointId = urand(0, 4);
-                m_creature->GetMotionMaster()->MovePoint(1, MoveLoc[m_uiLastPointId].x, MoveLoc[m_uiLastPointId].y, MoveLoc[m_uiLastPointId].z);
-                m_uiMovemetnTimer = 60000;
-            }
-            else m_uiMovemetnTimer -= uiDiff;
-        }
-
-        if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
-
-// Ground Phase
+        // Ground Phase
         if (m_uiPhase == PHASE_GROUND)
         {
             m_creature->SetLevitate(false);

@@ -1620,11 +1620,7 @@ bool SpellMgr::IsNoStackSpellDueToSpell(uint32 spellId_1, uint32 spellId_2) cons
 {
     // Jedna instancia spellu 2x >> False
     if(spellId_1 == spellId_2)
-    {
-        //sLog.outString("IsNoStackSpellDueToSpell: same spell_id %u == %u", spellId_1, spellId_2);
-
         return false;
-    }
 
     SpellEntry const *spellInfo_1 = sSpellStore.LookupEntry(spellId_1);
     SpellEntry const *spellInfo_2 = sSpellStore.LookupEntry(spellId_2);

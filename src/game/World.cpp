@@ -2189,8 +2189,8 @@ bool World::configNoReload(bool reload, eConfigBoolValues index, char const* fie
 
 void World::CustomizeDBCData(void)
 {
-    // Spell.DBC                                       0        1                 2              3                  4                  5                  6           7             8              9              10             11             12
-    QueryResult* result = WorldDatabase.PQuery("SELECT SpellID, CastingTimeIndex, DurationIndex, EffectBasePoints0, EffectBasePoints1, EffectBasePoints2, Attributes, AttributesEx, AttributesEx2, AttributesEx3, AttributesEx4, AttributesEx5, AttributesEx6 FROM dbc_spell");
+    // Spell.DBC                                       0        1                 2              3                  4                  5                  6           7             8              9              10             11             12             13
+    QueryResult* result = WorldDatabase.PQuery("SELECT SpellID, CastingTimeIndex, DurationIndex, EffectBasePoints0, EffectBasePoints1, EffectBasePoints2, Attributes, AttributesEx, AttributesEx2, AttributesEx3, AttributesEx4, AttributesEx5, AttributesEx6, Dispel FROM dbc_spell");
     if(result)
     {
         do
@@ -2225,6 +2225,8 @@ void World::CustomizeDBCData(void)
                 spellEntry->AttributesEx5 = fields[11].GetInt32();
             if(!fields[12].IsNULL())
                 spellEntry->AttributesEx6 = fields[12].GetInt32();
+            if(!fields[13].IsNULL())
+                spellEntry->Dispel = fields[13].GetInt32();
         }
         while(result->NextRow());
 
