@@ -765,7 +765,7 @@ ChatCommand * ChatHandler::getCommandTable()
         { "mmap",           SECURITY_GAMEMASTER,     false, NULL,                                           "", mmapCommandTable },
         { "setvip",         SECURITY_DEVELOPER,      false, &ChatHandler::HandleSetVIPCommmand,             "", NULL },
         { "pridajvip",      SECURITY_DEVELOPER,      false, &ChatHandler::HandlePridajVIPCommmand,          "", NULL },
-        { "setgh",          SECURITY_DEVELOPER,      false, &ChatHandler::HandleSetGHCommand,               "", NULL },
+        { "setgh",          SECURITY_DEVELOPER,      true,  &ChatHandler::HandleSetGHCommand,               "", NULL },
 
         { NULL,             0,                       false, NULL,                                           "", NULL }
     };

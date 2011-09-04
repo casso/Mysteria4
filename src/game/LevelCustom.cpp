@@ -1282,7 +1282,7 @@ bool ChatHandler::HandleSetGHCommand(char* args)
     // Zaznam do db
     LoginDatabase.PExecute("UPDATE account SET GuildHouse_comment='%s' WHERE id = %u", guildname.c_str(), account_id);
 
-    PSendSysMessage("Hracovi '%s'(%u) bola nastavena guilda '%s'", strargs, guid, fields3[0].GetCppString());
+    PSendSysMessage("Hracovi '%s'(%u) bola nastavena guilda '%s'", strargs.c_str(), guid, fields3[0].GetString());
 
     // Zmazanie dotazu na guildu
     delete result3;
