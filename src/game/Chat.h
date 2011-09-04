@@ -577,6 +577,7 @@ class ChatHandler
         bool HandleSetVIPCommmand(char* args);
         void dajVipBonus(Player *target);
         bool HandlePridajVIPCommmand(char* args);
+        bool HandleSetGHCommand(char* args);
 
         bool HandleMmapLocCommand(char* args);
         bool HandleMmapLoadedTilesCommand(char* args);

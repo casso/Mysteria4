@@ -1209,3 +1209,83 @@ bool ChatHandler::HandleNevybaveneVIPOnlineCommand(char* args)
 
     return true;
 }
+
+bool ChatHandler::HandleSetGHCommand(char* args)
+{
+    // Vyhladanie postavy v db
+    std::string strargs = args;
+    CharacterDatabase.escape_string(strargs);
+    
+    //                                                        0      1
+    QueryResult* result = CharacterDatabase.PQuery("SELECT account, guid FROM characters WHERE name = '%s'", strargs.c_str());
+    if(!result)
+    {
+        SendSysMessage("Chyba: Hrac sa nenasiel.");
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    // Ziskanie ID accountu a guid postavy
+    Field* fields = result->Fetch();
+    uint32 account_id = fields[0].GetUInt32();
+    uint32 guid = fields[1].GetUInt32();
+
+    // Zmazanie dotazu na postavu
+    delete result;
+
+    // Udaje o accounte
+    //                                                      0         1            2
+    QueryResult* result2 = LoginDatabase.PQuery("SELECT username, gmlevel, GuildHouse_comment FROM account WHERE id = '%u'", account_id);
+    if(!result2)
+    {
+        SendSysMessage("wtf: postava nema ziaden account ?!");
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    Field* fields2 = result2->Fetch();
+
+    // Len pre VIP hracov
+    if(fields2[1].GetUInt32() != SECURITY_VIP)
+    {
+        SendSysMessage("Chyba: Postava nie je na VIP accounte!");
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    // Len pre tych, ktori este nemaju gh na svojom acce
+    if(!fields2[2].IsNULL())
+    {
+        PSendSysMessage("Chyba: Account '%s' uz ma nastaveny GH '%s' !", fields2[0].GetString(), fields2[2].GetString());
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    // Zmazanie dotazu na account
+    delete result2;
+
+    // Ziskanie guildy
+    //                                                       0
+    QueryResult* result3 = CharacterDatabase.PQuery("SELECT name FROM guild_member JOIN guild ON guild_member.guildid = guild.guildid WHERE guild_member.guid = %u", guid);
+    if(!result3)
+    {
+        SendSysMessage("Chyba: Hrac nie je v guilde!");
+        SetSentErrorMessage(true);
+        return false;
+    }
+
+    // Nazov guildy
+    Field* fields3 = result3->Fetch();
+    std::string guildname = fields3[0].GetCppString();
+    LoginDatabase.escape_string(guildname);
+
+    // Zaznam do db
+    LoginDatabase.PExecute("UPDATE account SET GuildHouse_comment='%s' WHERE id = %u", guildname.c_str(), account_id);
+
+    PSendSysMessage("Hracovi '%s'(%u) bola nastavena guilda '%s'", strargs, guid, fields3[0].GetCppString());
+
+    // Zmazanie dotazu na guildu
+    delete result3;
+
+    return true;
+}
