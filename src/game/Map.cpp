@@ -1373,6 +1373,15 @@ bool DungeonMap::CanEnter(Player *player)
         return false;
     }
 
+    // Scriptnute instancie mozu zablokovat vstup ak sa zabija boss
+    InstanceData *i_data = GetInstanceData();
+    if(i_data && i_data->IsEncounterInProgress())
+    {
+        DEBUG_LOG("MAP: Player '%s' can't enter instance '%s' while an encounter is in progress.", player->GetName(), GetMapName());
+        player->SendTransferAborted(GetId(), TRANSFER_ABORT_ZONE_IN_COMBAT);
+        return false;
+    }
+
     return Map::CanEnter(player);
 }
 

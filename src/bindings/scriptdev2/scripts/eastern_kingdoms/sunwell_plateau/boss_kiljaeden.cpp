@@ -332,11 +332,11 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
         {
             kalecc->SetVisibility(VISIBILITY_OFF);
             kalecc->DealDamage(kalecc,kalecc->GetHealth(),NULL,DIRECT_DAMAGE,SPELL_SCHOOL_MASK_NORMAL,NULL,false);
-                kalecc->ForcedDespawn();
+            kalecc->ForcedDespawn();
         }
         else
         {
-            error_log("KJ::Reset : Kalecgos not found.");
+            //error_log("KJ::Reset() : Kalecgos not found.");
         }
 
         for(unsigned int i = 0 ; i < 3 ; i++)
@@ -425,7 +425,7 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
             }
             else
             {
-                error_log("KJ::DealDamage : Dracek not found.");
+                //error_log("KJ::DealDamage : Dracek not found.");
             }
         }
     }
@@ -443,7 +443,7 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
             }
             else
             {
-                error_log("KJ::DamageTaken : Dracek not found.");
+                //error_log("KJ::DamageTaken : Dracek not found.");
             }
         }
     }
@@ -673,6 +673,7 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
         */
 
         //Phase4
+        /*
         if((m_uiAramageddonTimer < diff) && m_bPhase4)
         {
             uint8 h=3;
@@ -688,6 +689,7 @@ struct MANGOS_DLL_DECL boss_kiljadenAI : public Scripted_NoMovementAI
             }
             m_uiAramageddonTimer = 14000;
         }else m_uiAramageddonTimer -= diff;
+        */
 
         if(m_uiDarknessExplosionTimer < diff && m_bDarknessOfSoulsCasting)
         {
@@ -965,7 +967,7 @@ struct MANGOS_DLL_DECL mob_orbAI : public Scripted_NoMovementAI
             }
             else
             {
-                error_log("KJ mob_orb::DamageDeal : Dracek not found.");
+                //error_log("KJ mob_orb::DamageDeal : Dracek not found.");
             }
         }
     }
@@ -983,7 +985,7 @@ struct MANGOS_DLL_DECL mob_orbAI : public Scripted_NoMovementAI
             }
             else
             {
-                error_log("KJ mob_orb::DamageTaken : Dracek not found.");
+                //error_log("KJ mob_orb::DamageTaken : Dracek not found.");
             }
         }
     }
@@ -1395,9 +1397,10 @@ bool GossipSelect_dragon(Player* pPlayer, Creature* pCreature, uint32 uiSender, 
                 pPlayer->CLOSE_GOSSIP_MENU();
                 return true;
             case GOSSIP_ACTION_INFO_DEF+2:
-                pPlayer->CastSpell(pPlayer, SPELL_REVITALIZE, true);
+                pCreature->CastSpell(pPlayer, SPELL_REVITALIZE, true);
                 pPlayer->CLOSE_GOSSIP_MENU();
                 return true;
+            /*
             case GOSSIP_ACTION_INFO_DEF+3:
                 pPlayer->CastSpell(pPlayer, SPELL_HASTE, true);
                 pPlayer->CLOSE_GOSSIP_MENU();
@@ -1408,6 +1411,7 @@ bool GossipSelect_dragon(Player* pPlayer, Creature* pCreature, uint32 uiSender, 
                 return true;
             case GOSSIP_ACTION_INFO_DEF+5:
                 pPlayer->CLOSE_GOSSIP_MENU();
+            */
         }
     }
     return true;
