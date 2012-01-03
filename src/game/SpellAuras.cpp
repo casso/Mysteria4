@@ -1997,7 +1997,7 @@ void Aura::TriggerSpell()
                     case 14300: // Immolation Trap aura Rank 4
                     case 14301: // Immolation Trap aura Rank 5
                     case 27024: // Immolation Trap aura Rank 6
-                        if (GetCaster()->GetTypeId() == TYPEID_PLAYER)
+                        if (GetCaster() && GetCaster()->GetTypeId() == TYPEID_PLAYER)
                         {
                             float f_chance = 0;
                             Unit::AuraList const& auraTriggerSpell = GetCaster()->GetAurasByType(SPELL_AURA_PROC_TRIGGER_SPELL);

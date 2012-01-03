@@ -1024,7 +1024,7 @@ void BattleGroundQueue::Update(BattleGroundTypeId bgTypeId, BattleGroundBracketI
                         continue;
 
                     // Porovnanie IP adries a teamov
-                    if(plr1->GetSession()->GetRemoteAddress().compare(plr2->GetSession()->GetRemoteAddress()) == 0 &&
+                    if (plr1 && plr2 && plr1->GetSession()->GetRemoteAddress().compare(plr2->GetSession()->GetRemoteAddress()) == 0 &&
                          plr1->GetArenaTeamId(slot) != plr2->GetArenaTeamId(slot) )
                     {
                         arena->setPossibleWintrade();
